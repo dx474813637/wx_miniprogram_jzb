@@ -1,0 +1,1 @@
+<view class="data-v-1d8061e8"><view class="item-card data-v-1d8061e8"><q-a-user-profile vue-id="36ba937a-1" isFollow="{{true}}" class="data-v-1d8061e8" bind:__l="__l"></q-a-user-profile></view><view class="item-card-sub data-v-1d8061e8"><view class="sub-item data-v-1d8061e8">{{''+$root.f0+' 关注了你'}}</view></view></view>

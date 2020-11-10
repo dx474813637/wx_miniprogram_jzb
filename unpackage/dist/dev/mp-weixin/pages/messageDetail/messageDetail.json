@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "msg-detail-like": "/components/msgDetailLike/msgDetailLike",
+    "msg-detail-feed": "/components/msgDetailFeed/msgDetailFeed",
+    "msg-detail-follow": "/components/msgDetailFollow/msgDetailFollow"
+  }
+}

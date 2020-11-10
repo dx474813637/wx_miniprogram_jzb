@@ -1,0 +1,4 @@
+<view class="zan data-v-693f72d8"><q-a-user-profile vue-id="82a12da4-1" isFollow="{{true}}" class="data-v-693f72d8" bind:__l="__l"></q-a-user-profile><view class="sub data-v-693f72d8">{{''+$root.f0+' 赞了你的回复：'}}</view><navigator class="reply-title data-v-693f72d8" url="/pages/qaDetail/qaDetail">内容内容内容内容内容内容内容
+		内容内容内容内容内容内容内容
+		内容内容内容内容内容内容内容
+		内容内容内容内容内容内容内容</navigator></view>

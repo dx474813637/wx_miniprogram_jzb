@@ -1,0 +1,140 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index"
+		}
+	    ,{
+            "path" : "pages/userList/userList"
+        }
+        ,{
+            "path" : "pages/news/news"
+        }
+        ,{
+            "path" : "pages/data/data"
+        }
+        ,{
+            "path" : "pages/personal/personal"
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/qFeed/qFeed",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/qaDetail/qaDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/homePage/homePage",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/rzApply/rzApply",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/follow/follow",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/update/update",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/messageList/messageList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/messageDetail/messageDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/exchangDetail/exchangDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/edm/edm",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/invite/invite",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/score/score",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/send/send",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/cf/cf",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/jd/jd",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/jdDetail/jdDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/wxAuthorize/wxAuthorize",
+            "style" : {
+				"navigationStyle": "custom",
+				"disableScroll": true
+			}
+        }
+        ,{
+            "path" : "pages/dataItem/dataItem",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/fs/fs",
+            "style" : {}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "电商圈",
+		"navigationBarBackgroundColor": "#007aff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"list": [
+			{
+				"pagePath": "pages/news/news"
+			},
+			{
+				"pagePath": "pages/userList/userList"
+			},
+			{
+				"pagePath": "pages/index/index"
+			},
+			{
+				"pagePath": "pages/data/data"
+			},
+			{
+				"pagePath": "pages/personal/personal"
+			}
+		]
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

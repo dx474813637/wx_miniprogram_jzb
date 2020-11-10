@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "tab-bar": "/components/tabBar/tabBar",
+    "search-bar": "/components/searchBar/searchBar",
+    "qa-list": "/components/QAList/QAList",
+    "rz-select-modal": "/components/rzSelectModal/rzSelectModal"
+  }
+}

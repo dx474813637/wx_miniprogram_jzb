@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-read-more": "/uview-ui/components/u-read-more/u-read-more",
+    "q-a-user-profile": "/components/QAUserProfile/QAUserProfile",
+    "q-a-item-tools": "/components/QAListItemTools/QAListItemTools"
+  }
+}

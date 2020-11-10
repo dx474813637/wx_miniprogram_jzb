@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "q-a-detail-list": "/components/QADetailList/QADetailList",
+    "q-a-user-profile": "/components/QAUserProfile/QAUserProfile",
+    "q-a-reply": "/components/QAReply/QAReply",
+    "rz-select-modal": "/components/rzSelectModal/rzSelectModal",
+    "share-modal": "/components/shareModal/shareModal"
+  }
+}

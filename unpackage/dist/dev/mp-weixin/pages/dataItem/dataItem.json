@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "data-nav": "/components/dataNav/dataNav",
+    "data-list-trz": "/components/DataListTrz/DataListTrz",
+    "data-list-djs": "/components/DataListDjs/DataListDjs"
+  }
+}

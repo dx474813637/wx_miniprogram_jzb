@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-read-more": "/uview-ui/components/u-read-more/u-read-more",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "q-a-list": "/components/QAList/QAList"
+  }
+}

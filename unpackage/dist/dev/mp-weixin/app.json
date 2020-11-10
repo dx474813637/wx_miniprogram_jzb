@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/userList/userList",
+    "pages/news/news",
+    "pages/data/data",
+    "pages/personal/personal",
+    "pages/search/search",
+    "pages/qFeed/qFeed",
+    "pages/qaDetail/qaDetail",
+    "pages/homePage/homePage",
+    "pages/rzApply/rzApply",
+    "pages/follow/follow",
+    "pages/update/update",
+    "pages/messageList/messageList",
+    "pages/messageDetail/messageDetail",
+    "pages/exchangDetail/exchangDetail",
+    "pages/edm/edm",
+    "pages/invite/invite",
+    "pages/score/score",
+    "pages/send/send",
+    "pages/cf/cf",
+    "pages/jd/jd",
+    "pages/jdDetail/jdDetail",
+    "pages/wxAuthorize/wxAuthorize",
+    "pages/dataItem/dataItem",
+    "pages/fs/fs"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "电商圈",
+    "navigationBarBackgroundColor": "#007aff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/news/news"
+      },
+      {
+        "pagePath": "pages/userList/userList"
+      },
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/data/data"
+      },
+      {
+        "pagePath": "pages/personal/personal"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap75.json"
+}
