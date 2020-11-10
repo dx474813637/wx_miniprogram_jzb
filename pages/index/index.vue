@@ -105,6 +105,7 @@
 		},
 		onLoad() {
 			this.renderList()
+			//update
 		},
 		methods: {
 			handleNavigator(index) {
