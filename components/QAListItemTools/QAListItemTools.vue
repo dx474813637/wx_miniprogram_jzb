@@ -21,13 +21,10 @@
 			</template>
 			<template v-else>
 				<navigator :url="url" class="tools-item">
-					<view>
-						<u-icon name="chat" size="38"></u-icon>{{ansNum}}
-					</view>
+						<u-icon name="chat" size="38"></u-icon>
+						<text class="num">{{ansNum}}</text>
 				</navigator>
-				<navigator :url="url" class="tools-item ans-btn">
-					{{isQ? '解答' : '留言' }}
-				</navigator>
+				<navigator :url="url" class="tools-item ans-btn">评论</navigator>
 			</template>
 			
 		</view>
@@ -136,14 +133,17 @@
 </script>
 
 <style scoped lang="scss">
-
+	.num {
+		margin-left: 6rpx;
+	}
 	.item-footer-tools {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		height: 45px;
-		font-size: 16px;
+		height: 90rpx;
+		font-size: 28rpx;
 		color: #666;
+		
 	}
 	.tools-item {
 		display: flex;
@@ -155,11 +155,11 @@
 	.ans-btn {
 		background-color: $jzb-theme-color;
 		color: #fff;
-		width: 60px;
-		height: 30px;
-		line-height: 30px;
+		width: 120rpx;
+		height: 60rpx;
+		line-height: 60rpx;
 		justify-content: center;
-		border-radius: 5px;
-		font-size: 14px;
+		border-radius: 10rpx;
+		font-size: 28rpx;
 	}
 </style>

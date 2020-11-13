@@ -92,13 +92,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uGrid: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 310))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-grid/u-grid */ "uview-ui/components/u-grid/u-grid").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid/u-grid.vue */ 323))
   },
   uGridItem: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 317))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-grid-item/u-grid-item */ "uview-ui/components/u-grid-item/u-grid-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-grid-item/u-grid-item.vue */ 330))
   },
   uIcon: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 324))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 337))
   }
 }
 var render = function() {
@@ -138,7 +138,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 263));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 276));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -220,9 +220,17 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     handleToData: function handleToData(index) {
       console.log(index);
-      uni.navigateTo({
-        url: '/pages/dataItem/dataItem?value=' + this.navList[index].value });
+      var v = this.navList[index].value;
+      if (v == 'trz' || v == 'djs') {
+        uni.navigateTo({
+          url: '/pages/dataItem/dataItem?value=' + this.navList[index].value });
 
+      } else
+      if (v == 'cb' || v == 'xsb') {
+        uni.navigateTo({
+          url: '/pages/dataNavCell/dataNavCell?value=' + this.navList[index].value });
+
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -165,18 +165,7 @@
 		async onLoad(opt) {
 			if(opt.id) {
 				this.id = opt.id
-				let res = await this.getUser()
-				let {field, follow_me, my_follow, list, questions, answer} = res.data
-				this.field = field
-				this.follow_me = follow_me
-				this.my_follow = my_follow
-				this.list = list
-				this.questions = questions
-				this.answer = answer
-				console.log(list.intro)
-				this.$nextTick(() => {
-					this.$refs.uReadMore.init();
-				})
+				this.renderInit()
 				// console.log(res)
 				
 			}
@@ -197,6 +186,20 @@
 			async getUser() {
 				return await this.$https.get('/Home/Jzbxcx/user_auth_detail', {params: {id: this.id}})
 			},
+			async renderInit() {
+				let res = await this.getUser()
+				let {field, follow_me, my_follow, list, questions, answer, follow} = res.data
+				this.field = field
+				this.follow_me = follow_me
+				this.my_follow = my_follow
+				this.list = list
+				this.eyeFlag = follow
+				this.questions = questions
+				this.answer = answer
+				this.$nextTick(() => {
+					this.$refs.uReadMore.init();
+				})
+			},
 			async followUser() {
 				return await this.$https.get('/Home/Jzbxcx/follow_user', {params: {id: this.id}})
 			},
@@ -204,23 +207,22 @@
 				return await this.$https.get('/Home/Jzbxcx/follow_cancel', {params: {id: this.id}})
 			},
 			async handleEyeFlag() {
+				let res
 				
-				uni.showLoading({
-					title: '正在处理中...',
-					mask: true
-				})
 				if(!this.eyeFlag) {
-					await this.followUser()
+					res = await this.followUser()
 				}else {
-					await this.cancelFollowUser()
+					res = await this.cancelFollowUser()
 				}
-				uni.hideLoading()
-				this.eyeFlag = !this.eyeFlag 
-				uni.showToast({
-					title: this.eyeFlag ? '关注成功' : '取消关注成功',
-					duration: 1000,
-					icon: 'success'
-				})
+				if(res.data.code == 1) {
+					this.eyeFlag = 1 - this.eyeFlag
+					uni.showToast({
+						title: this.eyeFlag ? '关注成功' : '取消关注成功',
+						duration: 1000,
+						icon: 'success'
+					})
+				}
+				
 				
 			},
 			tabsChange(index) {

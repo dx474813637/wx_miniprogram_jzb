@@ -2,6 +2,7 @@
   "component": true,
   "usingComponents": {
     "u-read-more": "/uview-ui/components/u-read-more/u-read-more",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
     "q-a-user-profile": "/components/QAUserProfile/QAUserProfile",
     "q-a-item-tools": "/components/QAListItemTools/QAListItemTools"
   }

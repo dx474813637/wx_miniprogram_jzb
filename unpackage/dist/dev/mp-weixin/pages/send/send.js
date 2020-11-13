@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uSteps: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-steps/u-steps */ "uview-ui/components/u-steps/u-steps").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-steps/u-steps.vue */ 482))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-steps/u-steps */ "uview-ui/components/u-steps/u-steps").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-steps/u-steps.vue */ 495))
   }
 }
 var render = function() {
@@ -134,7 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));
 
 
 
@@ -172,8 +172,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-
-var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var sendStepOne = function sendStepOne() {Promise.all(/*! require.ensure | components/sendStepOne/sendStepOne */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/sendStepOne/sendStepOne")]).then((function () {return resolve(__webpack_require__(/*! @/components/sendStepOne/sendStepOne.vue */ 489));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var sendStepTwo = function sendStepTwo() {__webpack_require__.e(/*! require.ensure | components/sendStepTwo/sendStepTwo */ "components/sendStepTwo/sendStepTwo").then((function () {return resolve(__webpack_require__(/*! @/components/sendStepTwo/sendStepTwo.vue */ 496));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var sendStepThree = function sendStepThree() {__webpack_require__.e(/*! require.ensure | components/sendStepThree/sendStepThree */ "components/sendStepThree/sendStepThree").then((function () {return resolve(__webpack_require__(/*! @/components/sendStepThree/sendStepThree.vue */ 503));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var sendStepFour = function sendStepFour() {Promise.all(/*! require.ensure | components/sendStepFour/sendStepFour */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/sendStepFour/sendStepFour")]).then((function () {return resolve(__webpack_require__(/*! @/components/sendStepFour/sendStepFour.vue */ 510));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _vuex = __webpack_require__(/*! vuex */ 27);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var sendStepOne = function sendStepOne() {__webpack_require__.e(/*! require.ensure | components/sendStepOne/sendStepOne */ "components/sendStepOne/sendStepOne").then((function () {return resolve(__webpack_require__(/*! @/components/sendStepOne/sendStepOne.vue */ 502));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var sendStepTwo = function sendStepTwo() {__webpack_require__.e(/*! require.ensure | components/sendStepTwo/sendStepTwo */ "components/sendStepTwo/sendStepTwo").then((function () {return resolve(__webpack_require__(/*! @/components/sendStepTwo/sendStepTwo.vue */ 509));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var sendStepThree = function sendStepThree() {__webpack_require__.e(/*! require.ensure | components/sendStepThree/sendStepThree */ "components/sendStepThree/sendStepThree").then((function () {return resolve(__webpack_require__(/*! @/components/sendStepThree/sendStepThree.vue */ 516));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var sendStepFour = function sendStepFour() {__webpack_require__.e(/*! require.ensure | components/sendStepFour/sendStepFour */ "components/sendStepFour/sendStepFour").then((function () {return resolve(__webpack_require__(/*! @/components/sendStepFour/sendStepFour.vue */ 523));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -184,7 +183,6 @@ var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumera
       id: '',
       current: 0,
       kw: "",
-      kwSearchList: [],
       numList: [
       {
         name: '提问题' },
@@ -200,10 +198,10 @@ var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumera
   },
   watch: {
     keywordsArr: function keywordsArr(newV) {
-      this.form.keyword = newV.join(',');
+      this.$set(this.form, 'keyword', newV.join(','));
     },
     id: function id(newV) {
-      console.log(newV);
+      // console.log(newV)
       if (newV) {
         this.$https.get('/Home/Jzbxcx/questions_detail?id=' + this.id).
         then(function (res) {
@@ -213,15 +211,13 @@ var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumera
     },
     kw: function kw(newV) {
       if (newV) {
-        this.$https.get('/Home/Jzbxcx/keywords_user?id=' + this.id).
-        then(function (res) {
-          console.log(res);
-        });
+        this.searchKwUser(newV);
+
       }
     } },
 
   onLoad: function onLoad(opt) {
-    console.log(opt);
+    // console.log(opt)
     if (opt.id) {
       this.id = opt.id;
     }
@@ -239,6 +235,10 @@ var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumera
     sendStepFour: sendStepFour },
 
   methods: {
+    searchKwUser: function searchKwUser(newV) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + newV));case 2:res = _context.sent;
+                _this.list = res.data.list;case 4:case "end":return _context.stop();}}}, _callee);}))();
+    },
     handleChangeStep: function handleChangeStep(num, obj) {
 
       this.current = num;

@@ -18,7 +18,8 @@
 					:name="authorInfo.name"
 					:label="authorInfo.auth_status == 2 ? authorInfo.type : '未认证'"
 					:sub="authorInfo.title || authorInfo.company"
-					:isFollow="authorInfo.isFollow"
+					:isFollow="author_follow"
+					@follow-event="handleFollow"
 				></q-a-user-profile>
 			</view>
 			
@@ -26,7 +27,13 @@
 				{{qList.intro}}
 			</view>
 			<view class="a-btn">
-				<u-button :custom-style="customStyle" type="primary" :plain="true" @click="handleReplyBtn" shape="circle">我来解答</u-button>
+				<u-button 
+					:custom-style="customStyle" 
+					type="primary" 
+					:plain="true" 
+					@click="handleReplyBtn" 
+					shape="circle"
+				>评论</u-button>
 			</view>
 		</view>
 		<template v-if="qList.url">
@@ -40,23 +47,48 @@
 			</view>
 		</template> 
 		
-		
-		<view class="qa-wrap">
-			<view class="qa-title">
-				<u-icon name="chat-fill" size="40"></u-icon><text class="qa-title-t">提问解答</text>
+		<!-- 邀请回复区 -->
+		<template v-if="answerList && answerList.length > 0">
+			<view class="qa-wrap">
+				<view class="qa-title">
+					<u-icon name="chat-fill" size="40"></u-icon><text class="qa-title-t">特邀解读</text>
+				</view>
+				<q-a-detail-list
+					:isAnswer="true"
+					:list="answerList"
+				></q-a-detail-list>
 			</view>
-			<q-a-detail-list></q-a-detail-list>
-		</view>
+		</template>
+		
+		<!-- 评论回复区 -->
+		<!-- <template v-if="replyList && replyList.length > 0"> -->
+			<view class="qa-wrap">
+				<view class="qa-title">
+					<u-icon name="chat-fill" size="40"></u-icon><text class="qa-title-t">话题评论</text>
+				</view>
+				<q-a-detail-list
+					:isAnswer="false"
+					:list="replyList"
+				></q-a-detail-list>
+			</view>
+		<!-- </template> -->
+		
 		
 		<view class="q-a-detail-footer">
 			<view class="footer-item" @click="handleReplyBtn">
-				<u-icon name="chat" size="40"></u-icon><text>解答</text>
+				<u-icon name="chat" size="34"></u-icon><text>评论</text>
 			</view>
-			<view class="footer-item">
-				<u-icon name="star" size="40"></u-icon><text>28</text>
+			<view class="footer-item" @click="handleCollection">
+				<template v-if="!collection">
+					<u-icon name="star" size="34"></u-icon><text>收藏</text>
+				</template>
+				<template v-else>
+					<u-icon name="star-fill" size="34"></u-icon><text>已收藏</text>
+				</template>
+				
 			</view>
 			<view class="footer-item" @click="handleShareBtn">
-				<u-icon name="zhuanfa" size="40"></u-icon><text>分享</text>
+				<u-icon name="zhuanfa" size="34"></u-icon><text>分享</text>
 			</view>
 		</view>
 		
@@ -66,6 +98,7 @@
 		></share-modal>
 		<q-a-reply
 			:show="replyShow"
+			:rep-person="repPerson"
 			@change-flag="handleShowReply"
 			@reply-event="handleReply"
 		></q-a-reply>
@@ -92,13 +125,15 @@
 				qList: {},
 				authorInfo: {},
 				answerList: [],
-				answerNum: 0,
+				replyList: [],
+				author_follow: 0,
 				customStyle: {
 					fontWeight: 'bold'
 				},
 				replyShow: false,
 				shareShow: false,
 				rzModalShow: false,
+				collection: 0
 				
 			}
 		},
@@ -110,7 +145,7 @@
 			shareModal
 		},
 		onLoad(opt) {
-			console.log(opt)
+			// console.log(opt)
 			if(opt.id) {
 				this.uid = opt.id
 			}
@@ -121,14 +156,52 @@
 			}
 			this.getData()
 		},
+		computed: {
+			answerNum() {
+				return this.answerList.length
+			},
+			repPerson() {
+				return this.qList.title || this.authorInfo.name
+			}
+		},
 		methods: {
 			async getData() {
 				let api = this.detailApi
 				let res = await this.$https.get(api, {params: {id: this.uid}})
 				this.qList = res.data.list
 				this.authorInfo = res.data.user_info
-				this.answerList = res.data.answer
-				this.answerNum = res.data.answer_num
+				this.author_follow = res.data.follow
+				this.collection = res.data.collection
+				// this.answerNum = res.data.answer_num
+				if(this.type == 1) {
+					this.replyList = res.data.reply_list
+				}
+				else if(this.type == 0) {
+					this.replyList = res.data.comment
+					this.answerList = res.data.answer
+				}
+			},
+			async followUser(userid) {
+				return await this.$https.get('/Home/Jzbxcx/follow_user', {params: {id: userid}})
+			},
+			async cancelFollowUser(userid) {
+				return await this.$https.get('/Home/Jzbxcx/follow_cancel', {params: {id: userid}})
+			},
+			async handleFollow(obj) {
+				let res
+				if(obj.isFollow) {
+					res = await this.cancelFollowUser(obj.userid)
+				}else {
+					res = await this.followUser(obj.userid)
+				}
+				if(res.data.code == 1) {
+					await this.getData()
+					uni.showToast({
+						title: (obj.isFollow? '取消关注' : '关注成功'),
+						icon: 'success',
+						duration: 1000
+					})
+				}
 			},
 			handleReplyBtn() {
 				if(this.$store.state.infoAuthorize.auth_status == '2') {
@@ -149,8 +222,41 @@
 			},
 			async handleReply(intro) {
 				// console.log(intro)	
+				uni.showLoading({
+					title: '评论提交中...',
+					mask: true
+				})
 				let res = await this.$https.get(this.replyApi, {params: {id: this.uid, intro: intro, title: 'reply_title'}})
+				if(res.data.code == 1) {
+					await this.getData()
+					uni.showToast({
+						title: '评论成功',
+						icon: 'success',
+						duration: 1000
+					})
+				}
+				uni.hideLoading()
+			},
+			async collectionEvent(api) {
+				return await this.$https.get(api, {params: {
+					id: this.uid,
+					cate: this.type == 1? 2 : 1
+				}})
+			},
+			async handleCollection() {
+				let api 
+				if(this.collection == 1) api = '/Home/Jzbxcx/cancel_collection'
+				else api = '/Home/Jzbxcx/add_collection'
 				
+				let res = await this.collectionEvent(api)
+				if(res.data.code == 1) {
+					this.collection = 1 - this.collection
+					uni.showToast({
+						title: this.collection ? '收藏成功' : '取消收藏',
+						icon: 'success',
+						duration: 1000
+					})
+				}
 			}
 		}
 	}
@@ -208,8 +314,8 @@
 	}
 	
 	.q-content {
-		line-height: 60rpx;
-		font-size: 36rpx;
+		line-height: 55rpx;
+		font-size: 28rpx;
 		margin-bottom: 50rpx;
 		white-space: pre-wrap;
 	}
@@ -231,7 +337,7 @@
 		color: $jzb-theme-color;
 	}
 	.footer-item {
-		font-size: 34rpx;
+		font-size: 28rpx;
 	}
 	.footer-item text {
 		margin-left: 10rpx;

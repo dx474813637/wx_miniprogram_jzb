@@ -13,7 +13,7 @@
 				<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="title">{{item.title}}</navigator>
 			</template>
 			<template v-if="isIndexList">
-				<view class="user-info" :class="{'author': item.title}">
+				<navigator :url="`/pages/homePage/homePage?id=${item.poster}`" class="user-info" :class="{'author': item.title}">
 					<view class="user-avatar">
 						<image :src="item.pic"></image>
 					</view>
@@ -24,7 +24,7 @@
 						</view>
 						<view class="user-profile-sub">{{item.auth_title || item.company}}</view>
 					</view>
-				</view>
+				</navigator>
 			</template>
 			
 			<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="user-content">
@@ -66,7 +66,7 @@
 					:isQ="item.end_time ? true : false"
 					:isAuthor="item.title ? true : false"
 					:goods="item.info.goods"
-					:ansNum="item.reply_num"
+					:ansNum="Number(item.reply_num) + (item.comment_num ? Number(item.comment_num) : 0)"
 				></q-a-item-tools>
 			</template>
 		</view>
@@ -237,8 +237,8 @@
 	.title {
 		font-weight: bold;
 		font-size: 34rpx;
-		line-height: 70rpx;
-		margin-bottom: 10rpx;
+		line-height: 50rpx;
+		margin-bottom: 15rpx;
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;

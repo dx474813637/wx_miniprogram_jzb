@@ -52,24 +52,24 @@
   width: 100%;
 }
 .list.data-v-c454de34 {
-  background-color: #fff;
-  padding: 0 20rpx 20rpx;
+  background-color: #f8f8f8;
+  padding: 0 20rpx 15rpx;
   height: 100%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
 .list-item.data-v-c454de34 {
-  padding: 10rpx;
-  margin-bottom: 30rpx;
-  background-color: #f8f8f8;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  background-color: #FFFFFF;
   -webkit-border-radius: 10rpx;
           border-radius: 10rpx;
 }
 .title.data-v-c454de34 {
   color: #007aff;
-  font-weight: bold;
   line-height: 50rpx;
-  font-size: 30rpx;
+  font-size: 28rpx;
+  margin-bottom: 10rpx;
 }
 .post-date.data-v-c454de34 {
   color: #999;

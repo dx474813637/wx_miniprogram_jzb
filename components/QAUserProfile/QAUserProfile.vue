@@ -11,8 +11,8 @@
 			<view class="user-profile-sub">{{sub}}</view>
 		</navigator>
 		<view class="q-user-item">
-			<u-button v-show="!isFollow" type="primary" size="mini" shape="circle">关注ta</u-button>
-			<u-button v-show="isFollow" type="default" size="mini" :plain="true" shape="circle">已关注</u-button>
+			<u-button v-if="!isFollow" type="primary" size="mini" shape="circle" @click="handleEyeFlag(isFollow)">关注ta</u-button>
+			<u-button v-else type="default" size="mini" :plain="true" shape="circle" @click="handleEyeFlag(isFollow)">已关注</u-button>
 	
 		</view>
 	</view>
@@ -61,6 +61,11 @@
 			userHomePath() {
 				return `/pages/homePage/homePage?id=${this.userid}`
 			}
+		},
+		methods: {
+			handleEyeFlag(isFollow) {
+				this.$emit('follow-event', {isFollow, userid: this.userid})
+			}
 		}
 	}
 </script>
@@ -80,8 +85,8 @@
 		margin-bottom: 10rpx;
 	}
 	.user-avatar {
-		width: 90rpx;
-		height: 90rpx;
+		width: 80rpx;
+		height: 80rpx;
 		overflow: hidden;
 		border-radius: 50%;
 		margin-right: 20rpx;
@@ -100,11 +105,11 @@
 	.user-profile-item {
 		display: flex;
 		align-items: center;
-		margin-bottom: 10rpx;
+		margin-bottom: 5rpx;
 	}
 	.user-name {
 		font-weight: bold;
-		font-size: 34rpx;
+		font-size: 30rpx;
 		margin-right: 10rpx;
 	}
 	.user-label {
@@ -112,15 +117,15 @@
 		color: $jzb-theme-color;
 		display: inline-block;
 		font-size: 24rpx;
-		padding: 2rpx 16rpx;
+		padding: 0rpx 16rpx;
 		border-radius: 6rpx;
-		font-weight: bold;
+		// font-weight: bold;
 		margin-right: 10rpx;
 		border: 2rpx solid #54c9ff;
 	}
 	.user-profile-sub {
 		color: #999;
-		font-size: 26rpx;
+		font-size: 24rpx;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;

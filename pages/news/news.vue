@@ -24,14 +24,16 @@
 					scroll-y
 					@scrolltolower="handleScrollLower(index)"
 				>
-					<view class="list-item" v-for="(ele, i) in item.list" :key="i">
-						<view class="title">
-							<navigator url="">{{ele.title}}</navigator>
-						</view>
+					<navigator :url="`/pages/newsDetail/newsDetail?id=${ele.id}`"
+						class="list-item" 
+						v-for="(ele, i) in item.list" 
+						:key="i"
+					>
+						<view class="title">{{ele.title}}</view>
 						<view class="post-date">
 							{{ele.post_date}}
 						</view>
-					</view>
+					</navigator> 
 					<view class="loading">
 						<u-loading :show="item.loading" size="40" mode="circle"></u-loading>
 					</view>
@@ -53,6 +55,11 @@
 			return {
 				current: 0,
 				tabsList: [
+					{
+						name: '最新',
+						type: 'lm',
+						value: ''
+					},
 					{
 						name: '新零售',
 						type: 'lm',
@@ -146,7 +153,7 @@
 			handleChange(index) {
 				if(!this.list[index]) this.getData(index)
 			},
-			getData(index) {
+			async getData(index) {
 				if(!this.list[index]) {
 					uni.showLoading({
 						title: '加载中'
@@ -154,22 +161,28 @@
 					this.list.splice(index, 1, {list: []})
 				}
 				let curData = this.list[index].list
-				this.$https.get(this.wzApi[this.tabsList[index].type], {
+				this.list[index].p ? '' : this.list[index].p = 1
+				// this.wzApi[this.tabsList[index].type]
+				let res = await this.$https.get('/Home/Jzbxcx/news_list', {
 					params: {
-						p: 1,
-						n: curData.length + 10,
-						terms: this.tabsList[index].value
+						p: this.list[index].p,
+						cid: this.tabsList[index].value
+						// n: curData.length + 10,
+						// terms: this.tabsList[index].value
 					}
 				})
-				.then(res => {
-					this.$set(this.list[index], 'list', res.data.list)
-					this.$set(this.list[index], 'loading', false)
-					uni.hideLoading();
-					// console.log(this.list)
-				})
+				if(curData && curData.length > 0) {
+					this.list[index].list = [].concat(...curData, ...res.data.list)
+				}else {
+					this.list[index].list = res.data.list
+				}
+				// this.$set(this.list[index], 'list', res.data.list)
+				this.$set(this.list[index], 'loading', false)
+				uni.hideLoading();
 			},
 			handleScrollLower(index) {
 				if(this.list[index].loading) return
+				this.list[index].p ++
 				this.$set(this.list[index], 'loading', true)
 				this.getData(index)
 			}
@@ -200,22 +213,23 @@
 		width: 100%;
 	}
 	.list {
-		background-color: #fff;
-		padding: 0 20rpx 20rpx;
+		background-color: #f8f8f8;
+		padding: 0 20rpx 15rpx;
 		height: 100%;
 		box-sizing: border-box;
 	}
 	.list-item {
-		padding: 10rpx;
-		margin-bottom: 30rpx;
-		background-color: #f8f8f8;
+		padding: 20rpx;
+		margin-bottom: 20rpx;
+		background-color: #FFFFFF;
 		border-radius: 10rpx;
 	}
 	.title {
 		color: $jzb-theme-color;
-		font-weight: bold;
+		// font-weight: bold;
 		line-height: 50rpx;
-		font-size: 30rpx;
+		font-size: 28rpx;
+		margin-bottom: 10rpx;
 	}
 	.post-date {
 		color: #999;

@@ -94,10 +94,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uTabs: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 256))
+    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 269))
   },
   uLoading: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 303))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 316))
   }
 }
 var render = function() {
@@ -137,7 +137,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 263));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 276));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
 
 
 
@@ -192,6 +194,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       current: 0,
       tabsList: [
+      {
+        name: '最新',
+        type: 'lm',
+        value: '' },
+
       {
         name: '新零售',
         type: 'lm',
@@ -285,30 +292,36 @@ __webpack_require__.r(__webpack_exports__);
     handleChange: function handleChange(index) {
       if (!this.list[index]) this.getData(index);
     },
-    getData: function getData(index) {var _this = this;
-      if (!this.list[index]) {
-        uni.showLoading({
-          title: '加载中' });
+    getData: function getData(index) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var curData, res, _ref;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                if (!_this.list[index]) {
+                  uni.showLoading({
+                    title: '加载中' });
 
-        this.list.splice(index, 1, { list: [] });
-      }
-      var curData = this.list[index].list;
-      this.$https.get(this.wzApi[this.tabsList[index].type], {
-        params: {
-          p: 1,
-          n: curData.length + 10,
-          terms: this.tabsList[index].value } }).
+                  _this.list.splice(index, 1, { list: [] });
+                }
+                curData = _this.list[index].list;
+                _this.list[index].p ? '' : _this.list[index].p = 1;
+                // this.wzApi[this.tabsList[index].type]
+                _context.next = 5;return _this.$https.get('/Home/Jzbxcx/news_list', {
+                  params: {
+                    p: _this.list[index].p,
+                    cid: _this.tabsList[index].value
+                    // n: curData.length + 10,
+                    // terms: this.tabsList[index].value
+                  } });case 5:res = _context.sent;
 
-
-      then(function (res) {
-        _this.$set(_this.list[index], 'list', res.data.list);
-        _this.$set(_this.list[index], 'loading', false);
-        uni.hideLoading();
-        // console.log(this.list)
-      });
+                if (curData && curData.length > 0) {
+                  _this.list[index].list = (_ref = []).concat.apply(_ref, _toConsumableArray(curData).concat(_toConsumableArray(res.data.list)));
+                } else {
+                  _this.list[index].list = res.data.list;
+                }
+                // this.$set(this.list[index], 'list', res.data.list)
+                _this.$set(_this.list[index], 'loading', false);
+                uni.hideLoading();case 9:case "end":return _context.stop();}}}, _callee);}))();
     },
     handleScrollLower: function handleScrollLower(index) {
       if (this.list[index].loading) return;
+      this.list[index].p++;
       this.$set(this.list[index], 'loading', true);
       this.getData(index);
     } } };exports.default = _default;

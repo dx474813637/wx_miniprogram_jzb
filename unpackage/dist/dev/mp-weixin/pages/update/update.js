@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uTabs: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 256))
+    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 269))
   }
 }
 var render = function() {
@@ -134,7 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var updateList = function updateList() {__webpack_require__.e(/*! require.ensure | components/updateList/updateList */ "components/updateList/updateList").then((function () {return resolve(__webpack_require__(/*! @/components/updateList/updateList.vue */ 426));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var updateList = function updateList() {__webpack_require__.e(/*! require.ensure | components/updateList/updateList */ "components/updateList/updateList").then((function () {return resolve(__webpack_require__(/*! @/components/updateList/updateList.vue */ 439));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -166,65 +166,9 @@ __webpack_require__.r(__webpack_exports__);
         name: '我的点赞',
         type: 'dz' },
 
-      // {
-      // 	name: '我的提问',
-      // 	type: 'q'
-      // },
-      // {
-      // 	name: '我的解答',
-      // 	type: 'a'
-      // },
       {
         name: '我的留言',
         type: 'f' }],
-
-
-      dzList: [
-      {
-        isQuestion: false,
-        isAuthor: false,
-        info: {
-          avatar: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-          name: '网经社',
-          label: '专家',
-          sub: '浙江省杭州市某某公司CEO',
-          post_date: '2020-10-13 06:52:07',
-          content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容' },
-
-        q: {
-          title: '问题所在问题所在问题所在' } },
-
-
-      {
-        isQuestion: false,
-        isAuthor: true,
-        info: {
-          avatar: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-          name: '网经社',
-          label: '专家',
-          sub: '浙江省杭州市某某公司CEO',
-          post_date: '2020-10-13 06:52:07',
-          content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容' },
-
-        q: {
-          title: '问题所在问题所在问题所在' } },
-
-
-      {
-        isQuestion: true,
-        isAuthor: true,
-        info: {
-          title: '问题所在问题所在问题所在',
-          avatar: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-          name: '网经社',
-          label: '专家',
-          sub: '浙江省杭州市某某公司CEO',
-          post_date: '2020-10-13 06:52:07',
-          content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容' },
-
-        q: {
-          title: '问题所在问题所在问题所在' } }],
-
 
 
       list: [] };
@@ -237,20 +181,7 @@ __webpack_require__.r(__webpack_exports__);
     updateList: updateList },
 
   methods: {
-    getData: function getData(type) {var _this = this;
-      console.log(type);
-      uni.showLoading({
-        title: '加载中',
-        success: function success() {
-          setTimeout(function () {
-            if (type == 'dz') _this.$set(_this.navList[_this.current], 'data', _this.dzList.filter(function (ele) {return !ele.isAuthor;}));
-            // if(type == 'q' ) this.$set(this.navList[this.current], 'data', this.dzList.filter(ele => ele.isQuestion))
-            if (type == 'a') _this.$set(_this.navList[_this.current], 'data', []);
-            if (type == 'f') _this.$set(_this.navList[_this.current], 'data', []);
-            console.log(_this.navList);
-            uni.hideLoading();
-          }, 1500);
-        } });
+    getData: function getData(type) {
 
     },
     change: function change(index) {
@@ -260,7 +191,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
     } } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

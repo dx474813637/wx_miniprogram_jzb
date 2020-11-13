@@ -94,16 +94,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uButton: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 331))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 344))
   },
   uIcon: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 324))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 337))
   },
   uReadMore: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 366))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 379))
   },
   uTabs: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 256))
+    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 269))
   }
 }
 var render = function() {
@@ -153,7 +153,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var QAList = function QAList() {__webpack_require__.e(/*! require.ensure | components/QAList/QAList */ "components/QAList/QAList").then((function () {return resolve(__webpack_require__(/*! @/components/QAList/QAList.vue */ 275));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var QAList = function QAList() {__webpack_require__.e(/*! require.ensure | components/QAList/QAList */ "components/QAList/QAList").then((function () {return resolve(__webpack_require__(/*! @/components/QAList/QAList.vue */ 288));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -317,24 +317,13 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     QAList: QAList },
 
-  onLoad: function onLoad(opt) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res, _res$data, field, follow_me, my_follow, list, questions, answer;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
-              opt.id) {_context.next = 14;break;}
-              _this.id = opt.id;_context.next = 4;return (
-                _this.getUser());case 4:res = _context.sent;_res$data =
-              res.data, field = _res$data.field, follow_me = _res$data.follow_me, my_follow = _res$data.my_follow, list = _res$data.list, questions = _res$data.questions, answer = _res$data.answer;
-              _this.field = field;
-              _this.follow_me = follow_me;
-              _this.my_follow = my_follow;
-              _this.list = list;
-              _this.questions = questions;
-              _this.answer = answer;
-              console.log(list.intro);
-              _this.$nextTick(function () {
-                _this.$refs.uReadMore.init();
-              });
-              // console.log(res)
-            case 14:case "end":return _context.stop();}}}, _callee);}))();
+  onLoad: function onLoad(opt) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+              if (opt.id) {
+                _this.id = opt.id;
+                _this.renderInit();
+                // console.log(res)
 
+              }case 1:case "end":return _context.stop();}}}, _callee);}))();
   },
   computed: {
     dataList: function dataList() {
@@ -352,29 +341,42 @@ __webpack_require__.r(__webpack_exports__);
     getUser: function getUser() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   _this2.$https.get('/Home/Jzbxcx/user_auth_detail', { params: { id: _this2.id } }));case 2:return _context2.abrupt("return", _context2.sent);case 3:case "end":return _context2.stop();}}}, _callee2);}))();
     },
-    followUser: function followUser() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-                  _this3.$https.get('/Home/Jzbxcx/follow_user', { params: { id: _this3.id } }));case 2:return _context3.abrupt("return", _context3.sent);case 3:case "end":return _context3.stop();}}}, _callee3);}))();
+    renderInit: function renderInit() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var res, _res$data, field, follow_me, my_follow, list, questions, answer, follow;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this3.getUser());case 2:res = _context3.sent;_res$data =
+                res.data, field = _res$data.field, follow_me = _res$data.follow_me, my_follow = _res$data.my_follow, list = _res$data.list, questions = _res$data.questions, answer = _res$data.answer, follow = _res$data.follow;
+                _this3.field = field;
+                _this3.follow_me = follow_me;
+                _this3.my_follow = my_follow;
+                _this3.list = list;
+                _this3.eyeFlag = follow;
+                _this3.questions = questions;
+                _this3.answer = answer;
+                _this3.$nextTick(function () {
+                  _this3.$refs.uReadMore.init();
+                });case 12:case "end":return _context3.stop();}}}, _callee3);}))();
     },
-    cancelFollowUser: function cancelFollowUser() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
-                  _this4.$https.get('/Home/Jzbxcx/follow_cancel', { params: { id: _this4.id } }));case 2:return _context4.abrupt("return", _context4.sent);case 3:case "end":return _context4.stop();}}}, _callee4);}))();
+    followUser: function followUser() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                  _this4.$https.get('/Home/Jzbxcx/follow_user', { params: { id: _this4.id } }));case 2:return _context4.abrupt("return", _context4.sent);case 3:case "end":return _context4.stop();}}}, _callee4);}))();
     },
-    handleEyeFlag: function handleEyeFlag() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+    cancelFollowUser: function cancelFollowUser() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+                  _this5.$https.get('/Home/Jzbxcx/follow_cancel', { params: { id: _this5.id } }));case 2:return _context5.abrupt("return", _context5.sent);case 3:case "end":return _context5.stop();}}}, _callee5);}))();
+    },
+    handleEyeFlag: function handleEyeFlag() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var res;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:if (
 
-                uni.showLoading({
-                  title: '正在处理中...',
-                  mask: true });if (
 
-                _this5.eyeFlag) {_context5.next = 6;break;}_context5.next = 4;return (
-                  _this5.followUser());case 4:_context5.next = 8;break;case 6:_context5.next = 8;return (
+                _this6.eyeFlag) {_context6.next = 6;break;}_context6.next = 3;return (
+                  _this6.followUser());case 3:res = _context6.sent;_context6.next = 9;break;case 6:_context6.next = 8;return (
 
-                  _this5.cancelFollowUser());case 8:
+                  _this6.cancelFollowUser());case 8:res = _context6.sent;case 9:
 
-                uni.hideLoading();
-                _this5.eyeFlag = !_this5.eyeFlag;
-                uni.showToast({
-                  title: _this5.eyeFlag ? '关注成功' : '取消关注成功',
-                  duration: 1000,
-                  icon: 'success' });case 11:case "end":return _context5.stop();}}}, _callee5);}))();
+                if (res.data.code == 1) {
+                  _this6.eyeFlag = 1 - _this6.eyeFlag;
+                  uni.showToast({
+                    title: _this6.eyeFlag ? '关注成功' : '取消关注成功',
+                    duration: 1000,
+                    icon: 'success' });
+
+                }case 10:case "end":return _context6.stop();}}}, _callee6);}))();
 
 
     },

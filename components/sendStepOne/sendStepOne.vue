@@ -11,7 +11,7 @@
 					<u-input v-model="form.title" />
 				</u-form-item>
 				<u-form-item  :label="infoAuthorize.type == 0 ? '采访问题提纲' : '话题观点'" prop="intro" required>
-					<u-input height="350" v-model="form.intro" type="textarea" />
+					<u-input height="350" v-model="form.intro" type="textarea" :maxlength="-1" />
 				</u-form-item>
 				<kw-select
 					:keywordsArr="keywordsArr"

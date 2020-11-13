@@ -164,8 +164,8 @@
 .title.data-v-7f1b0c84 {
   font-weight: bold;
   font-size: 34rpx;
-  line-height: 70rpx;
-  margin-bottom: 10rpx;
+  line-height: 50rpx;
+  margin-bottom: 15rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

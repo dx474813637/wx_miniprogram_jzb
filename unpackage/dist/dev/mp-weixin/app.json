@@ -24,7 +24,10 @@
     "pages/jdDetail/jdDetail",
     "pages/wxAuthorize/wxAuthorize",
     "pages/dataItem/dataItem",
-    "pages/fs/fs"
+    "pages/fs/fs",
+    "pages/dataNavCell/dataNavCell",
+    "pages/newsDetail/newsDetail",
+    "pages/collection/collection"
   ],
   "subPackages": [],
   "window": {
@@ -52,6 +55,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap75.json"
+  "usingComponents": {}
 }

@@ -1,54 +1,35 @@
 <template>
 	<view class="list">
-		<view class="list-item">
-			<view class="user-row">
-				<q-a-user-profile></q-a-user-profile>
-			</view>
-			<view class="qa-content">
-				<u-read-more ref="uReadMore">
-					<rich-text :nodes="content"></rich-text>
-				</u-read-more>
-			</view>
-			<view class="content-sub">
-				<view class="post-time">
-					{{'2020-10-8 8:28:17' | timeFilter}}
-				</view>
-			</view>
-			
-			<view class="qa-reply">
-				<view class="qa-reply-item">
-					<text>李四</text>回复<text>张三</text>：收到您的回复，致谢！收到您的回复，致谢！收到您的回复，致到您的回复，致谢！收到您的回复，致谢！收到您的回复，致谢！
-				</view>
-				<view class="qa-reply-item">
-					<text>张三</text>回复<text>李四</text>：收到您的回复，致谢！收到您的回复，致谢！收到您的回复，致到您的回复，致谢！收到您的回复，致谢！收到您的回复，致谢！
-				</view>
-				<view class="qa-reply-footer">
-					<navigator url="/pages/search/search">共2条回复></navigator>
-				</view>
-			</view>
-			
-			<q-a-item-tools
-				:isAuthor="false"
-				:goods="10"
-			></q-a-item-tools>
-		</view>
-		
-			<view class="list-item">
+		<template v-if="list && list.length > 0">
+			<view class="list-item"
+				v-for="(item, index) in list"
+				:key="index"
+			>
 				<view class="user-row">
-					<q-a-user-profile></q-a-user-profile>
-				</view>
-				<view class="qa-content">
-					<u-read-more ref="uReadMore">
-						<rich-text :nodes="content"></rich-text>
-					</u-read-more>
+					<q-a-user-profile
+						:userid="item.poster"
+						:avatar="item.pic"
+						:name="item.name"
+						:label="item.type"
+						:sub="item.auth_title || item.company"
+						:isFollow="false"
+					></q-a-user-profile>
 				</view>
 				<view class="content-sub">
 					<view class="post-time">
-						{{'2020-10-9 8:28:17' | timeFilter}}
+						{{item.uptime | timeFilter}}
 					</view>
 				</view>
+				<view class="qa-content">
+					<u-read-more 
+						ref="uReadMore"
+						toggle
+					>
+						<view class="r-content">{{item.intro}}</view>
+					</u-read-more>
+				</view>
 				
-				<view class="qa-reply">
+				<!-- <view class="qa-reply">
 					<view class="qa-reply-item">
 						<text>李四</text>回复<text>张三</text>：收到您的回复，致谢！收到您的回复，致谢！收到您的回复，致到您的回复，致谢！收到您的回复，致谢！收到您的回复，致谢！
 					</view>
@@ -58,13 +39,21 @@
 					<view class="qa-reply-footer">
 						<navigator url="/pages/search/search">共2条回复></navigator>
 					</view>
-				</view>
-				
+				</view> -->
+					
 				<q-a-item-tools
 					:isAuthor="false"
 					:goods="10"
 				></q-a-item-tools>
 			</view>
+			
+		</template>
+		<template v-else>
+			<view>
+				<u-empty text="暂无评论" mode="message"></u-empty>
+			</view>
+		</template>
+			
 	</view>
 </template>
 
@@ -73,18 +62,29 @@
 	import QAItemTools from '@/components/QAListItemTools/QAListItemTools.vue';
 	
 	export default {
+		props: {
+			list: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			},
+			isAnswer: {
+				type: Boolean,
+				default: false
+			}
+		},
 		data() {
 			return {
-				content: `内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容
-					内容内容内容内容内容内容内容内容内容内容内容内容`
 			};
+		},
+		watch: {
+			list(newV) {
+				// console.log(this)
+				this.$nextTick(() => {
+					this.$refs.uReadMore.forEach(ele => ele.init());
+				})
+			}
 		},
 		components: {
 			QAUserProfile,
@@ -94,6 +94,12 @@
 </script>
 
 <style scoped lang="scss">
+	
+	.r-content {
+		line-height: 50rpx;
+		font-size: 28rpx;
+		white-space: pre-wrap;
+	}
 	.qa-reply {
 		background-color: $jzb-bg-color;
 		padding: 15rpx;
@@ -123,7 +129,7 @@
 		border-bottom: 2rpx solid #f2f2f2;
 	}
 	.user-row {
-		margin-bottom: 20rpx;
+		margin-bottom: 10rpx;
 	}
 	.qa-content {
 		font-size: 36rpx;

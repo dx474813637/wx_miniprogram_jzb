@@ -16,11 +16,10 @@
 		</template>
 		<template v-if="current == 1">
 			<send-step-two
-				
+				:list="list"
 				@change-step="handleChangeStep"
 			></send-step-two>
 		</template>
-		<!-- :list="kwSearchList" -->
 		<template v-if="current == 2">
 			<send-step-three
 				@change-step="handleChangeStep"
@@ -48,7 +47,6 @@
 				id: '',
 				current: 0,
 				kw: "",
-				kwSearchList: [],
 				numList: [
 					{
 						name: '提问题'
@@ -64,10 +62,10 @@
 		}, 
 		watch: {
 			keywordsArr(newV) {
-				this.form.keyword = newV.join(',')
+				this.$set(this.form, 'keyword', newV.join(','))
 			},
 			id(newV) {
-				console.log(newV)
+				// console.log(newV)
 				if(newV) {
 					this.$https.get('/Home/Jzbxcx/questions_detail?id=' + this.id)
 					.then(res => {
@@ -77,15 +75,13 @@
 			},
 			kw(newV) {
 				if(newV) {
-					this.$https.get('/Home/Jzbxcx/keywords_user?id=' + this.id)
-					.then(res => {
-						console.log(res)
-					})
+					this.searchKwUser(newV)
+					
 				}
 			}
 		},
 		onLoad(opt) {
-			console.log(opt)
+			// console.log(opt)
 			if(opt.id) {
 				this.id = opt.id
 			}
@@ -103,6 +99,10 @@
 			sendStepFour
 		},
 		methods: {
+			async searchKwUser(newV) {
+				let res = await this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + newV)
+				this.list = res.data.list
+			},
 			handleChangeStep(num, obj) {
 				
 				this.current = num

@@ -26,6 +26,9 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.num.data-v-05525dba {
+  margin-left: 6rpx;
+}
 .item-footer-tools.data-v-05525dba {
   display: -webkit-box;
   display: -webkit-flex;
@@ -36,8 +39,8 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  height: 45px;
-  font-size: 16px;
+  height: 90rpx;
+  font-size: 28rpx;
   color: #666;
 }
 .tools-item.data-v-05525dba {
@@ -54,14 +57,14 @@
 .ans-btn.data-v-05525dba {
   background-color: #007aff;
   color: #fff;
-  width: 60px;
-  height: 30px;
-  line-height: 30px;
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
-  -webkit-border-radius: 5px;
-          border-radius: 5px;
-  font-size: 14px;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
+  font-size: 28rpx;
 }
 

@@ -81,8 +81,8 @@
   padding: 20rpx;
 }
 .q-content.data-v-048df0b4 {
-  line-height: 60rpx;
-  font-size: 36rpx;
+  line-height: 55rpx;
+  font-size: 28rpx;
   margin-bottom: 50rpx;
   white-space: pre-wrap;
 }
@@ -109,7 +109,7 @@
   color: #007aff;
 }
 .footer-item.data-v-048df0b4 {
-  font-size: 34rpx;
+  font-size: 28rpx;
 }
 .footer-item text.data-v-048df0b4 {
   margin-left: 10rpx;

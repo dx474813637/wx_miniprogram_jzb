@@ -62,16 +62,30 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/homePage/homePage",
-					"pathName": "pages/homePage/homePage",
-					"query": "id=1",
+					"name": "pages/follow/follow",
+					"pathName": "pages/follow/follow",
+					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/follow/follow",
-					"pathName": "pages/follow/follow",
-					"query": "id=1",
+					"name": "pages/news/news",
+					"pathName": "pages/news/news",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "pages/newsDetail/newsDetail",
+					"pathName": "pages/newsDetail/newsDetail",
+					"query": "id=6576769",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/collection/collection",
+					"pathName": "pages/collection/collection",
+					"query": "id=6576769",
 					"scene": null
 				}
 			]

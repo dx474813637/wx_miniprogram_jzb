@@ -34,71 +34,41 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex';
 	import QAUserProfile from '@/components/QAUserProfile/QAUserProfile.vue'
 	export default {
 		props: {
-			// list: {
-			// 	type: Array,
-			// 	default: () => {
-			// 		return []
-					
-			// 	}
-			// }
+			list: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			}
 		},
 		data() {
 			return {
-				list: [
-					{	
-						name: '网经社0',
-						label: '专家',
-						sub: '浙江省杭州市某某某公司1',
-						isFollow: true,
-						intro: `内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-						`,
-						kwLabel: ['标签标签1', '标签2', '标签标3', '标签4', '标签4', '标签4', '标签5'],
-						checked: false
-					},
-					{	
-						name: '网经社1',
-						label: '专家',
-						sub: '浙江省杭州市某某某公司2',
-						isFollow: false,
-						intro: `内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-						`,
-						kwLabel: ['标签4', '标签21', '标签32', '标签42', '标签5'],
-						checked: false
-					},
-					{	
-						name: '网经社2',
-						label: '专家',
-						sub: '浙江省杭州市某某某公司2',
-						isFollow: false,
-						intro: `内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-								内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
-						`,
-						kwLabel: ['标签4', '标签21', '标签32', '标签42', '标签5'],
-						checked: false
-					},
-				]
 			};
+		},
+		computed: {
+			...mapState(['infoAuthorize'])
 		},
 		components: {
 			QAUserProfile
 		},
+		watch: {
+			list(newV) {
+				console.log(newV)
+			}
+		},
 		methods: {
 			handleFindZJ() {
+				
 				this.$emit('change-step', 2)
+			},
+			handleReturnIndex() {
+				uni.switchTab({
+				    url: '/pages/index/index'
+				});
 			}
 		}
 	}

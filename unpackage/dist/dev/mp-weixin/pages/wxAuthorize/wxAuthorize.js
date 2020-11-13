@@ -94,28 +94,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uButton: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 331))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 344))
   },
   uIcon: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 324))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 337))
   },
   uForm: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-form/u-form */ "uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-form/u-form.vue */ 373))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-form/u-form */ "uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-form/u-form.vue */ 386))
   },
   uFormItem: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-form-item/u-form-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-form-item/u-form-item")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-form-item/u-form-item.vue */ 380))
+    return Promise.all(/*! import() | uview-ui/components/u-form-item/u-form-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-form-item/u-form-item")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-form-item/u-form-item.vue */ 393))
   },
   uInput: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 398))
+    return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 411))
   },
   uCountDown: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-count-down/u-count-down */ "uview-ui/components/u-count-down/u-count-down").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-count-down/u-count-down.vue */ 531))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-count-down/u-count-down */ "uview-ui/components/u-count-down/u-count-down").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-count-down/u-count-down.vue */ 544))
   },
   uCheckbox: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-checkbox/u-checkbox */ "uview-ui/components/u-checkbox/u-checkbox").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-checkbox/u-checkbox.vue */ 405))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-checkbox/u-checkbox */ "uview-ui/components/u-checkbox/u-checkbox").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-checkbox/u-checkbox.vue */ 418))
   },
   uModal: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 412))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 425))
   }
 }
 var render = function() {
@@ -155,7 +155,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var dtBg = function dtBg() {__webpack_require__.e(/*! require.ensure | components/dtBg/dtBg */ "components/dtBg/dtBg").then((function () {return resolve(__webpack_require__(/*! @/components/dtBg/dtBg.vue */ 538));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var dtBg = function dtBg() {__webpack_require__.e(/*! require.ensure | components/dtBg/dtBg */ "components/dtBg/dtBg").then((function () {return resolve(__webpack_require__(/*! @/components/dtBg/dtBg.vue */ 551));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -354,24 +354,51 @@ __webpack_require__.r(__webpack_exports__);
                   _this5.$https.get('/Home/Jzbxcx/check_phone_code', { params: { phone: _this5.form.phone, code: _this5.form.code } }));case 2:res = _context3.sent;return _context3.abrupt("return",
                 res);case 4:case "end":return _context3.stop();}}}, _callee3);}))();
     },
+    getUserInfo: function getUserInfo() {
+      uni.login({
+        provider: 'weixin',
+        success: function success(r) {
+          console.log(r);
+          wx.getUserInfo({
+            withCredentials: true,
+            success: function success(res) {
+              console.log(res);
+              // var userInfo = res.userInfo
+              // var nickName = userInfo.nickName
+              // var avatarUrl = userInfo.avatarUrl
+              // var gender = userInfo.gender //性别 0：未知、1：男、2：女
+              // var province = userInfo.province
+              // var city = userInfo.city
+              // var country = userInfo.country
+
+            },
+            fail: function fail(err) {
+              console.log(err);
+            } });
+
+        } });
+
+    },
     handleGetUserInfo: function handleGetUserInfo(e) {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _e$detail, rawData, signature, iv, encryptedData, errMsg, userInfo, loginRes, res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+                // console.log(e)
                 uni.showLoading({
                   title: '授权中',
                   mask: true });_e$detail =
 
                 e.detail, rawData = _e$detail.rawData, signature = _e$detail.signature, iv = _e$detail.iv, encryptedData = _e$detail.encryptedData, errMsg = _e$detail.errMsg, userInfo = _e$detail.userInfo;if (!(
-                errMsg == 'getUserInfo:ok')) {_context4.next = 13;break;}_context4.next = 5;return (
+                errMsg == 'getUserInfo:ok')) {_context4.next = 14;break;}_context4.next = 5;return (
 
                   uni.login({
-                    provider: 'weixin' }));case 5:loginRes = _context4.sent;_context4.next = 8;return (
+                    provider: 'weixin' }));case 5:loginRes = _context4.sent;
 
+                console.log(loginRes);_context4.next = 9;return (
                   _this6.$https.get('/Home/Jzbxcx/login_wx', {
                     params: {
-                      code: loginRes.code,
+                      code: loginRes[1].code,
                       rawData: rawData,
                       signature: signature,
                       iv: iv,
-                      encryptedData: encryptedData } }));case 8:res = _context4.sent;
+                      encryptedData: encryptedData } }));case 9:res = _context4.sent;
 
 
 
@@ -380,7 +407,7 @@ __webpack_require__.r(__webpack_exports__);
                 uni.reLaunch({
                   url: getApp().globalData.prePagePath });
 
-                console.log(res);case 13:case "end":return _context4.stop();}}}, _callee4);}))();
+                console.log(res);case 14:case "end":return _context4.stop();}}}, _callee4);}))();
 
 
 

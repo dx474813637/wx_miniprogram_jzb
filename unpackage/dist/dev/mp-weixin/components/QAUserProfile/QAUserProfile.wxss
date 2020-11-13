@@ -44,8 +44,8 @@
   margin-bottom: 10rpx;
 }
 .user-avatar.data-v-025f9ba2 {
-  width: 90rpx;
-  height: 90rpx;
+  width: 80rpx;
+  height: 80rpx;
   overflow: hidden;
   -webkit-border-radius: 50%;
           border-radius: 50%;
@@ -71,11 +71,11 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  margin-bottom: 10rpx;
+  margin-bottom: 5rpx;
 }
 .user-name.data-v-025f9ba2 {
   font-weight: bold;
-  font-size: 34rpx;
+  font-size: 30rpx;
   margin-right: 10rpx;
 }
 .user-label.data-v-025f9ba2 {
@@ -83,16 +83,15 @@
   color: #007aff;
   display: inline-block;
   font-size: 24rpx;
-  padding: 2rpx 16rpx;
+  padding: 0rpx 16rpx;
   -webkit-border-radius: 6rpx;
           border-radius: 6rpx;
-  font-weight: bold;
   margin-right: 10rpx;
   border: 2rpx solid #54c9ff;
 }
 .user-profile-sub.data-v-025f9ba2 {
   color: #999;
-  font-size: 26rpx;
+  font-size: 24rpx;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

@@ -101,6 +101,18 @@
             "path" : "pages/fs/fs",
             "style" : {}
         }
+        ,{
+            "path" : "pages/dataNavCell/dataNavCell",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/newsDetail/newsDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/collection/collection",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

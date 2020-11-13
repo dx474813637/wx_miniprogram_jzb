@@ -11,17 +11,19 @@
 			</u-tabs>
 		</view>
 		<view class="list">
-			<template v-if="current != 2">
+			<template v-if="current != 0">
 				<view 
 					class="list-item" 
 					v-for="(item, index) in list"
 					:key="index"
 				>	
 					<q-a-user-profile
+						:userid="item.id"
 						:name="item.name"
-						:label="item.label"
-						:sub="item.sub"
-						:isFollow="item.isFollow"
+						:avatar="item.pic"
+						:label="item.type"
+						:sub="item.auth_title || item.company"
+						:isFollow="item.follow"
 					></q-a-user-profile>
 				</view>
 			</template>
@@ -32,17 +34,17 @@
 					v-for="(item, index) in list"
 					:key="index"
 				>
+					<view class="item-sub">
+						<view class="author-info">
+							<image class="author-pic" :src="item.pic" mode=""></image>
+							<text class="author-name">{{item.name}}</text>
+						</view>
+						<view class="post-date">
+							{{item.uptime | timeFilter}}
+						</view>
+					</view>
 					<view class="item-title">
 						{{item.title}}
-					</view>
-					<view class="item-sub">
-						<view class="post-date">
-							{{item.postTime | timeFilter}}
-						</view>
-						<view class="feed-num">
-							<u-icon name="chat"></u-icon>
-							<text>{{item.feedNum}}</text>
-						</view>
 					</view>
 				</navigator>
 			</template>
@@ -53,35 +55,19 @@
 
 <script>
 	import QAUserProfile from '@/components/QAUserProfile/QAUserProfile.vue'
+	
 	export default {
 		data() {
 			return {
 				current: 0,
 				navList: [{
+					name: '关注动态'
+				},{
 					name: '我关注的人'
 				},{
 					name: '关注我的人'
-				},{
-					name: '我关注的贴子'
 				},],
-				
-			}
-		},
-		computed: {
-			list() {
-				let type = this.current
-				if(type == 0) {
-					return this.data.filter(ele => {
-						return ele.isFollow
-					})
-				}else if(type == 1) {
-					return this.data.filter(ele => {
-						return ele.followMe
-					})
-				}else {
-					return this.qaList
-				}
-				
+				list: []
 			}
 		},
 		onLoad() {
@@ -100,16 +86,47 @@
 				this.current = index
 			},
 			async renderList(index) {
-				let res = await this.getData()
+				let res
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
+				res = await this.getData()
+				this.list = res.data.list
+				uni.hideLoading()
 			},
 			async getData () {
-				return await this.$https.get('/Home/Jzbxcx/follow_list', {params: {p: 1}})
+				this.list = []
+				if(this.current == 0) {
+					return await this.$https.get('/Home/Jzbxcx/follow_viewpoint_list', {params: {p: 1}})
+				}
+				else if(this.current == 1) {
+					return await this.$https.get('/Home/Jzbxcx/follow_list', {params: {p: 1}})
+				}
+				else if(this.current == 2) {
+					
+				}
+				
 			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.author-info {
+		display: flex;
+		align-items: center;
+	}
+	.author-pic {
+		width: 50rpx;
+		height: 50rpx;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+	.author-name {
+		color: #000;
+		margin-left: 10rpx;
+	}
 	.tabs-w {
 		position: fixed;
 		top: 0;
@@ -121,9 +138,9 @@
 		background-color: #fff;
 	}
 	.list-item {
-		margin-bottom: 50rpx;
+		margin-bottom: 30rpx;
 		border-bottom: 1rpx solid #f8f8f8;
-		padding-bottom: 30rpx;
+		padding-bottom: 40rpx;
 	}
 	.item-title {
 		background-color: #f8f8f8;
@@ -131,11 +148,12 @@
 		line-height: 50rpx;
 		border-radius: 8rpx;
 		color: #666;
-		font-weight: bold;
+		// font-weight: bold;
 	}
 	.item-sub {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		padding: 10rpx;
 		color: #999;
 	}

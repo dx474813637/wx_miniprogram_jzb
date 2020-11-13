@@ -80,9 +80,17 @@
 		methods: {
 			handleToData(index) {
 				console.log(index)
-				uni.navigateTo({
-					url: '/pages/dataItem/dataItem?value=' + this.navList[index].value
-				})
+				let v = this.navList[index].value
+				if( v == 'trz' || v == 'djs') {
+					uni.navigateTo({
+						url: '/pages/dataItem/dataItem?value=' + this.navList[index].value
+					})
+				}
+				else if(v == 'cb' || v == 'xsb') {
+					uni.navigateTo({
+						url: '/pages/dataNavCell/dataNavCell?value=' + this.navList[index].value
+					})
+				}
 			}
 		}
 	}

@@ -11,7 +11,7 @@
 	    >
 	      <view class="dyContent">
 	        <template v-if="!phoneReg">
-	        	<u-button type="primary" open-type="getUserInfo" @getuserinfo="handleGetUserInfo" :custom-style="btnStyle">
+	        	<u-button type="primary" open-type='getUserInfo' :custom-style="btnStyle">
 	        		<u-icon name="weixin-fill" color="#fff" size="40"></u-icon>
 	        		<text class="text">微信授权</text>
 	        	</u-button>
@@ -197,7 +197,33 @@
 				let res = await this.$https.get('/Home/Jzbxcx/check_phone_code', {params: {phone: this.form.phone, code: this.form.code}})
 				return res
 			},
+			getUserInfo () {
+				uni.login({
+					provider: 'weixin',
+					success: r => {
+						console.log(r)
+						wx.getUserInfo({
+							withCredentials:true,
+						  success: function(res) {
+							  console.log(res)
+						    // var userInfo = res.userInfo
+						    // var nickName = userInfo.nickName
+						    // var avatarUrl = userInfo.avatarUrl
+						    // var gender = userInfo.gender //性别 0：未知、1：男、2：女
+						    // var province = userInfo.province
+						    // var city = userInfo.city
+						    // var country = userInfo.country
+							
+						  },
+						  fail: err => {
+							  console.log(err)
+						  }
+						})
+					}
+				})
+			},
 			async handleGetUserInfo(e) {
+				// console.log(e)
 				uni.showLoading({
 				    title: '授权中',
 					mask: true
@@ -208,9 +234,10 @@
 					let loginRes = await uni.login({
 						provider: 'weixin',
 					})
+					console.log(loginRes)
 					let res = await this.$https.get('/Home/Jzbxcx/login_wx', {
 						params: {
-							code: loginRes.code,
+							code: loginRes[1].code,
 							rawData: rawData,
 							signature: signature,
 							iv: iv,

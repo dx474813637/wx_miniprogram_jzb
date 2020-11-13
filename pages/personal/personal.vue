@@ -58,9 +58,12 @@
 					</u-cell-item>
 					
 					<u-cell-item  title="关注" hover-class="cell-hover-class" @click="handleToPage('follow')">
-						<u-icon name="heart-fill" class="cell-icon" size="40" color="#dd524d" slot="icon"></u-icon>
+						<u-icon name="eye-fill" class="cell-icon" size="40" color="#ff5500" slot="icon"></u-icon>
 					</u-cell-item>
 					<u-cell-item  title="动态" hover-class="cell-hover-class" @click="handleToPage('update')">
+						<u-icon name="heart-fill" class="cell-icon" size="40" color="#dd524d" slot="icon"></u-icon>
+					</u-cell-item>
+					<u-cell-item  title="收藏" hover-class="cell-hover-class" @click="handleToPage('collection')">
 						<u-icon name="star-fill" class="cell-icon" size="40" color="#f90" slot="icon"></u-icon>
 					</u-cell-item>
 					<u-cell-item  title="消息" hover-class="cell-hover-class" @click="handleToPage('messageList')">
