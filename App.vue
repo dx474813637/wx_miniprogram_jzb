@@ -20,6 +20,7 @@
 	page {
 		background-color: #f8f8f8;
 		height: 100%;
+		word-break: break-all;
 	}
 	
 	.cell-hover-class {

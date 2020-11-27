@@ -17,7 +17,7 @@
 		<view class="content">
 			<u-tabs 
 				name="cate_name" 
-				bar-width="60"
+				:show-bar="false"
 				inactive-color="#999"
 				:list="tabs" 
 				:is-scroll="false" 
@@ -26,7 +26,9 @@
 			></u-tabs>
 			<qa-list
 				:type="current"
+				:end-flag="endFlag[current]"
 				:list="dataList"
+				:loading="loading"
 			></qa-list>
 		</view>
 		<view class="add-btn" @click="handleSend">
@@ -52,6 +54,7 @@
 			return {
 				current: 0,
 				rzModalShow: false,
+				loading: false,
 				tabs: [
 					{
 						name: '记者提问'
@@ -78,7 +81,8 @@
 				dataList: [],
 				qData: [],
 				vData: [],
-				allData: []
+				p: [1, 1],
+				endFlag: [false, false]
 			}
 		},
 		components: {
@@ -88,10 +92,11 @@
 			rzSelectModal
 		},
 		computed: {
-			...mapState(['infoAuthorize']),
+			...mapState(['infoAuthorize', 'phoneReg']),
 		},
 		watch: {
 			current(newV) {
+				this.dataList = []
 				if(newV == 0 && this.qData.length > 0) {
 					this.dataList = this.qData
 					return
@@ -103,9 +108,28 @@
 				this.renderList()
 			}
 		},
+		async onPullDownRefresh() {
+			console.log('down')
+			this.p = [1, 1]
+			this.endFlag = [false, false]
+			await this.renderList()
+			uni.stopPullDownRefresh()
+		},
+		onReachBottom() {
+			if(this.endFlag[this.current]) return
+			this.p.splice(this.current, 1, this.p[this.current]+1)
+			this.renderList()
+			console.log('reach')
+		},
 		onLoad() {
 			this.renderList()
-			//update
+		},
+		onShow(){
+			if(uni.getStorageSync('indexRefresh')) {
+				uni.startPullDownRefresh()
+				uni.removeStorageSync('indexRefresh')
+			}
+			
 		},
 		methods: {
 			handleNavigator(index) {
@@ -118,15 +142,26 @@
 				// this.renderList()
 			},
 			async renderList() {
+				this.loading = true
 				let res
+				let p = this.p[this.current]
 				if(this.current == 0) {
-					res = await this.$https.get('/Home/Jzbxcx/questions_list')
-					this.dataList = this.qData = (res.data.list || [])
+					res = await this.$https.get('/Home/Jzbxcx/questions_list', {params: {p}})
+					this.qData = p == 1 ? res.data.list : this.qData.concat(...res.data.list)
+					this.dataList = this.qData
 				}
 				else if(this.current == 1) {
-					res = await this.$https.get('/Home/Jzbxcx/viewpoint_list')
-					this.dataList = this.vData = (res.data.list || [])
+					res = await this.$https.get('/Home/Jzbxcx/viewpoint_list', {params: {p}})
+					this.vData = p == 1 ? res.data.list : this.vData.concat(...res.data.list)
+					this.dataList = this.vData
 				}
+				if(res.data.pages == p) {
+					this.endFlag.splice(this.current, 1, true)
+				}
+				this.$nextTick(() => {
+					this.loading = false
+				})
+				
 				 
 				
 			},
@@ -134,6 +169,12 @@
 				this.rzModalShow = !this.rzModalShow
 			},
 			handleSend() {
+				if(!this.phoneReg) {
+					uni.navigateTo({
+						url: '/pages/wxAuthorize/wxAuthorize?phone=1'
+					})
+					return
+				}
 				if(this.infoAuthorize.auth_status == 2) {
 					uni.navigateTo({
 						url: '/pages/send/send?type=' + this.infoAuthorize.type,

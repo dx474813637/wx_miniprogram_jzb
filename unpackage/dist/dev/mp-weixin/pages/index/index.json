@@ -1,4 +1,6 @@
 {
+  "onReachBottomDistance": 300,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
     "u-tabs": "/uview-ui/components/u-tabs/u-tabs",

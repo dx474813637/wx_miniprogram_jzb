@@ -94,13 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uTabs: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 269))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-tabs/u-tabs */ "uview-ui/components/u-tabs/u-tabs").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 279))
   },
   uCellGroup: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 302))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 312))
   },
   uCellItem: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 309))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 319))
   }
 }
 var render = function() {
@@ -140,7 +140,16 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var searchBar = function searchBar() {__webpack_require__.e(/*! require.ensure | components/searchBar/searchBar */ "components/searchBar/searchBar").then((function () {return resolve(__webpack_require__(/*! @/components/searchBar/searchBar.vue */ 281));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 276));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var searchBar = function searchBar() {__webpack_require__.e(/*! require.ensure | components/searchBar/searchBar */ "components/searchBar/searchBar").then((function () {return resolve(__webpack_require__(/*! @/components/searchBar/searchBar.vue */ 291));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 286));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
 
 
 
@@ -224,6 +233,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
       {
         name: '产业',
+
+
         value: 2 },
 
       {
@@ -251,72 +262,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         name: '公关' }],
 
 
-      dataList: [
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-        name: '网经社',
-        sub: '杭州某某某公司杭州某某某公司',
-        label: '专家',
-        score: 4.5,
-        count: 50 },
-
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a42f77ef17e2.png',
-        name: '网经社',
-        sub: '杭州某某某公司',
-        label: '专家',
-        score: 4.5,
-        count: 50 },
-
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/attached/2018/07/12/5b471b720cb95.png',
-        name: '网经社',
-        sub: '杭州某某某公司',
-        label: '公关',
-        score: 4.5,
-        count: 50 },
-
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/attached/2018/12/13/5c11ca9a3ac90.jpg',
-        name: '网经社',
-        sub: '杭州某某某公司',
-        label: '专家',
-        score: 4.5,
-        count: 50 },
-
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-        name: '网经社',
-        sub: '杭州某某某公司杭州某某某公司',
-        label: '专家',
-        score: 4.5,
-        count: 50 },
-
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a42f77ef17e2.png',
-        name: '网经社',
-        sub: '杭州某某某公司',
-        label: '专家',
-        score: 4.5,
-        count: 50 },
-
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/attached/2018/07/12/5b471b720cb95.png',
-        name: '网经社',
-        sub: '杭州某某某公司',
-        label: '公关',
-        score: 4.5,
-        count: 50 },
-
-      {
-        avatorUrl: 'https://www.100ec.cn/Public/attached/2018/12/13/5c11ca9a3ac90.jpg',
-        name: '网经社',
-        sub: '杭州某某某公司',
-        label: '专家',
-        score: 4.5,
-        count: 50 }] };
-
-
+      dataList: [],
+      p: 1 };
 
   },
   components: {
@@ -324,18 +271,31 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     searchBar: searchBar },
 
   onLoad: function onLoad() {
-    this.$https.get('/Home/Jzbxcx/user_auth_list', { params: { cid: 1, p: 1 } }).
-    then(function (res) {
-      console.log(res);
-    });
+    this.renderList(this.tabsCurrent + 1);
   },
   methods: {
+    renderList: function renderList(index) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var params, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                uni.showLoading({
+                  title: '加载中',
+                  mask: true });
+
+
+                params = { p: _this.p, cid: index };_context.next = 4;return (
+                  _this.getData(params));case 4:res = _context.sent;
+                _this.dataList = res.data.list;
+                uni.hideLoading();case 7:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    getData: function getData(params) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$https.get('/Home/Jzbxcx/user_auth_list', { params: params }));case 2:return _context2.abrupt("return", _context2.sent);case 3:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
     handleNavClick: function handleNavClick(index) {
       this.current = index;
     },
     handleTabsChange: function handleTabsChange(index) {
       this.tabsCurrent = index;
+      this.renderList(index + 1);
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

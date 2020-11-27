@@ -28,7 +28,7 @@
 /* jzb颜色 */
 .sub.data-v-e334c14c {
   color: #999;
-  margin-bottom: 30rpx;
+  text-align: center;
 }
 .djs.data-v-e334c14c {
   text-align: center;
@@ -92,5 +92,6 @@
 }
 .slot-content.data-v-e334c14c {
   padding: 20rpx;
+  white-space: pre-wrap;
 }
 

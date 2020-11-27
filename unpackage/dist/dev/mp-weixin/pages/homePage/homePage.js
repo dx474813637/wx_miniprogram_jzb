@@ -94,16 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uButton: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 344))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 354))
   },
   uIcon: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 337))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 347))
   },
   uReadMore: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 379))
-  },
-  uTabs: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 269))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-read-more/u-read-more */ "uview-ui/components/u-read-more/u-read-more").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-read-more/u-read-more.vue */ 396))
   }
 }
 var render = function() {
@@ -153,7 +150,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var QAList = function QAList() {__webpack_require__.e(/*! require.ensure | components/QAList/QAList */ "components/QAList/QAList").then((function () {return resolve(__webpack_require__(/*! @/components/QAList/QAList.vue */ 288));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));
 
 
 
@@ -253,38 +250,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
+var _vuex = __webpack_require__(/*! vuex */ 27);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var QAList = function QAList() {__webpack_require__.e(/*! require.ensure | components/QAList/QAList */ "components/QAList/QAList").then((function () {return resolve(__webpack_require__(/*! @/components/QAList/QAList.vue */ 298));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   data: function data() {
     return {
       id: '',
-      tabsCurrent: 0,
-      tabsList: [
-      {
-        name: 'Ta的提问',
-        isAuthor: true,
-        isQuestion: true },
-
-
-      {
-        name: 'Ta的解读',
-        isAuthor: false,
-        isQuestion: true },
-
-      {
-        name: 'Ta的发声',
-        isAuthor: true,
-        isQuestion: false },
-
-      {
-        name: 'Ta的留言',
-        isAuthor: false,
-        isQuestion: false }],
-
-
       eyeFlag: false,
       shadowStyle: {
         backgroundColor: 'none' },
@@ -311,31 +281,33 @@ __webpack_require__.r(__webpack_exports__);
       my_follow: [],
       list: {},
       questions: [],
-      answer: [] };
+      answer: [],
+      isAnswer: 0,
+      score: 0 };
 
   },
   components: {
     QAList: QAList },
 
   onLoad: function onLoad(opt) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-              if (opt.id) {
-                _this.id = opt.id;
-                _this.renderInit();
-                // console.log(res)
 
-              }case 1:case "end":return _context.stop();}}}, _callee);}))();
+              uni.showLoading({
+                title: '加载中',
+                mask: true });if (!
+
+              opt.id) {_context.next = 5;break;}
+              _this.id = opt.id;_context.next = 5;return (
+                _this.renderInit());case 5:
+
+
+
+              uni.hideLoading();case 6:case "end":return _context.stop();}}}, _callee);}))();
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({},
+  (0, _vuex.mapState)(['phoneReg', 'infoAuthorize'])), {}, {
     dataList: function dataList() {
-      return [];
-      var arr = this.qaData;
-      var isA = this.tabsList[this.tabsCurrent].isAuthor;
-      var isQ = this.tabsList[this.tabsCurrent].isQuestion;
-      return arr.filter(function (ele) {
-        return (isA ? ele.isAuthor : !ele.isAuthor) && (isQ ? ele.isQuestion : !ele.isQuestion);
-      });
-
-    } },
+      return this.list.type == 0 ? this.questions : this.answer;
+    } }),
 
   methods: {
     getUser: function getUser() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
@@ -350,10 +322,15 @@ __webpack_require__.r(__webpack_exports__);
                 _this3.list = list;
                 _this3.eyeFlag = follow;
                 _this3.questions = questions;
-                _this3.answer = answer;
+                _this3.answer = answer.filter(function (ele) {return ele.zt == 2;});
+                _this3.isAnswer = _this3.list.type;
+                _this3.score = Math.floor(_this3.answer.reduce(function (sum, cur) {
+                  return sum + Number(cur[!_this3.isAnswer ? 'score_questions' : 'score_answer']);
+                }, 0) / _this3.answer.length * 10) / 10;
+
                 _this3.$nextTick(function () {
                   _this3.$refs.uReadMore.init();
-                });case 12:case "end":return _context3.stop();}}}, _callee3);}))();
+                });case 14:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     followUser: function followUser() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
                   _this4.$https.get('/Home/Jzbxcx/follow_user', { params: { id: _this4.id } }));case 2:return _context4.abrupt("return", _context4.sent);case 3:case "end":return _context4.stop();}}}, _callee4);}))();

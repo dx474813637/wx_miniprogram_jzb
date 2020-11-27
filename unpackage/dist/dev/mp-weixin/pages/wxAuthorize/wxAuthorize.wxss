@@ -26,6 +26,46 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.title.data-v-5e50a4d0 {
+  font-weight: bold;
+  text-align: center;
+  font-size: 38rpx;
+  line-height: 80rpx;
+  margin: 30rpx;
+}
+.acontent.data-v-5e50a4d0 {
+  color: #fff;
+  width: 100%;
+}
+.content.data-v-5e50a4d0 {
+  font-size: 32rpx;
+  margin-bottom: 120rpx;
+}
+.content-item.data-v-5e50a4d0 {
+  line-height: 60rpx;
+  margin-bottom: 10rpx;
+}
+.content-ans.data-v-5e50a4d0 {
+  padding: 10rpx 20rpx;
+  position: relative;
+}
+.content-ans.data-v-5e50a4d0:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 35rpx;
+  width: 10rpx;
+  height: 10rpx;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  background-color: #fff;
+}
+.authorize-btn.data-v-5e50a4d0 {
+  border: 0;
+  background-color: #aa55ff;
+  color: #fff;
+  font-size: 32rpx;
+}
 .xy.data-v-5e50a4d0 {
   display: -webkit-box;
   display: -webkit-flex;

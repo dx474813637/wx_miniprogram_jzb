@@ -1,34 +1,38 @@
 <template>
 	<view>
-		<view class="send-info">
+		<!-- <view class="send-info">
 			<u-icon name="checkmark-circle-fill" color="#007aff"></u-icon>
 			<text>成功发送</text>
-		</view>
+		</view> -->
 		<view class="list-w">
-			<view class="list-item" v-for="(item, index) in list" :key="index">
+			<view class="list-item" v-for="(item, index) in userList" :key="index">
 				<view class="header">
 					<view class="header-item">
-						<u-checkbox v-model="item.checked"></u-checkbox>
+						<u-checkbox 
+							:value="item.checked" 
+							:name="index"
+							@change="checkboxChange"
+						></u-checkbox>
 					</view>
 					<view class="header-item info">
 						<q-a-user-profile
-							:isFollow="item.isFollow"
+							:userid="item.auth_poster"
+							:avatar="item.pic"
+							:name="item.auth_name"
+							:label="item.type"
+							:sub="item.auth_title || item.company"
+							:isFollow="item.follow"
 						></q-a-user-profile>
 					</view>
 				</view>
 				<view class="content">
-					{{item.intro}}
-				</view>
-				<view class="label">
-					<view class="label-item" v-for="(ele, i) in item.kwLabel" :key="i">
-						{{ele}}
-					</view>
+					{{item.auth_intro}}
 				</view>
 			</view>
 		</view>
 		
 		<view class="main">	
-			<u-button type="primary" @click="handleFindZJ">下一步</u-button>
+			<u-button type="primary" @click="handleFindZJ">提交</u-button>
 		</view>	
 	</view>
 </template>
@@ -43,32 +47,72 @@
 				default: () => {
 					return []
 				}
+			},
+			isSecond: {
+				type: Boolean,
+				default: false
+			},
+			maxNum: {
+				type: Number | String,
+				default: 3
 			}
 		},
 		data() {
 			return {
+				userList: [],
+				uid: '',
 			};
 		},
 		computed: {
-			...mapState(['infoAuthorize'])
+			...mapState(['infoAuthorize']),
+			checkedNum() {
+				return this.userList.filter(ele => ele.checked).length
+			}
+		},
+		created() {
+			this.userList = this.list
 		},
 		components: {
 			QAUserProfile
 		},
 		watch: {
 			list(newV) {
-				console.log(newV)
+				this.userList = newV
 			}
 		},
 		methods: {
+			setUid() {
+				let arr = []
+				this.userList.forEach(ele => {
+					if(ele.checked) {
+						arr.push(ele.auth_poster)
+					}
+				})
+				this.uid = arr.join(',')
+				// console.log(this.uid)
+			},
 			handleFindZJ() {
-				
-				this.$emit('change-step', 2)
+				this.setUid()
+				this.$emit('change-step', 2, {uid: this.uid, newInvite: this.isSecond})
 			},
 			handleReturnIndex() {
+				uni.setStorageSync('indexRefresh', true)
 				uni.switchTab({
-				    url: '/pages/index/index'
+				    url: '/pages/index/index',
 				});
+			},
+			checkboxChange(e) {
+				if(this.checkedNum == this.maxNum && !e.value) {
+					uni.showToast({
+						title: `最多选择${this.maxNum}位用户`,
+						duration: 1000,
+						icon: 'none'
+					})
+					return
+				}
+				this.$set(this.userList[e.name], 'checked', !this.userList[e.name].checked)
+				
+				
 			}
 		}
 	}
@@ -104,9 +148,9 @@
 	}
 	.content {
 		padding-left: 50rpx;
-		margin: 20rpx auto;
+		margin: 10rpx auto 20rpx;
 		line-height: 50rpx;
-		font-size: 32rpx;
+		font-size: 28rpx;
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;

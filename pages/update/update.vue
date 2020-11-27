@@ -27,32 +27,43 @@
 				current: 0,
 				navList: [
 					{
-						name: '我的点赞',
-						type: 'dz',
+						name: '关注动态',
+						type: 'dt',
+						api: '/Home/Jzbxcx/follow_viewpoint_list'
 					},
 					{
 						name: '我的留言',
 						type: 'f'
 					},
 				],
-				list: []
+				list: [],
+				p: 1
 			}
 		},
-		onShow() {
-			this.getData('dz')
+		onLoad() {
+			this.change(this.current)
 		},
 		components: {
 			updateList
 		},
 		methods: {
-			getData (type) {
-				
+			async renderData (index) {
+				uni.showLoading({
+					title: '加载中',
+					mask: true
+				})
+				let res = await this.getData(this.navList[index].api)
+				this.list = res.data.list
+				uni.hideLoading()
+			},
+			async getData(api) {
+				return await this.$https.get(api, {params: {p: this.p}})
 			},
 			change (index) {
-				this.current = index
-				if(!this.navList[index].data) {
-					this.getData(this.navList[index].type)
-				}
+				this.current = index;
+				this.p = 1
+				this.renderData(index)
+				
 				
 			}
 		}

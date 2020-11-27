@@ -9,6 +9,7 @@ const store = new Vuex.Store({
 		phone: '0',
 		phoneReg: false,
 		infoAuthorize: '', //obj.type 0:记者，1:专家，2：公关
+		goodStr: '[点赞]',
 		httpHeader: {
 			appid: '10000',
 			appsecret: '21a85v+eATCMI1ZYFaYcU7LyARmK9ig+vsjOfhw1JyjKDasGJBF0PWM',
@@ -68,7 +69,6 @@ const store = new Vuex.Store({
 		},
 		updateInfoAuthorize(state, list) {
 			state.infoAuthorize = list
-			console.log(list)
 		},
 		checkPhoneReg(state, phoneReg) {
 			state.phoneReg = phoneReg

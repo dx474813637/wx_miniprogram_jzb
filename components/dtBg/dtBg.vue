@@ -44,7 +44,7 @@
 			//小圆颜色，为数组时，会随机分配给小圆，自行测试
 			circleColor: {
 				type: [Array, String],
-				default: "rgba(255,255,255,0.1)",
+				default: "rgba(85, 170, 255, 0.5)",
 			},
 			//小圆的颜色混合模式，写css3 mixBlendMode参数
 			circleMode: {

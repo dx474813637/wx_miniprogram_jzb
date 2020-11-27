@@ -94,16 +94,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uButton: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 344))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 354))
   },
   uCellGroup: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 302))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 312))
   },
   uCellItem: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 309))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 319))
   },
   uIcon: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 337))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 347))
   }
 }
 var render = function() {
@@ -236,7 +236,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 276));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var rzSelectModal = function rzSelectModal() {__webpack_require__.e(/*! require.ensure | components/rzSelectModal/rzSelectModal */ "components/rzSelectModal/rzSelectModal").then((function () {return resolve(__webpack_require__(/*! @/components/rzSelectModal/rzSelectModal.vue */ 295));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _common = __webpack_require__(/*! @/static/js/common.js */ 8);
+var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var tabBar = function tabBar() {Promise.all(/*! require.ensure | components/tabBar/tabBar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabBar/tabBar")]).then((function () {return resolve(__webpack_require__(/*! @/components/tabBar/tabBar.vue */ 286));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var rzSelectModal = function rzSelectModal() {__webpack_require__.e(/*! require.ensure | components/rzSelectModal/rzSelectModal */ "components/rzSelectModal/rzSelectModal").then((function () {return resolve(__webpack_require__(/*! @/components/rzSelectModal/rzSelectModal.vue */ 305));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 {
@@ -245,15 +246,17 @@ var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumera
       rzModalShow: false };
 
   },
-  onLoad: function onLoad() {
-    // console.log(this.$store.state.authorize)
+  onShow: function onShow() {
+    if (this.infoAuthorize.auth_status != 2 && this.phoneReg) {
+      (0, _common.getuserauthinfo)();
+    }
   },
   components: {
     tabBar: tabBar,
     rzSelectModal: rzSelectModal },
 
   computed: _objectSpread(_objectSpread({},
-  (0, _vuex.mapState)(['infoAuthorize'])), {}, {
+  (0, _vuex.mapState)(['infoAuthorize', 'phoneReg'])), {}, {
     phoneRegFlag: function phoneRegFlag() {
       return !this.$store.state.phoneReg;
     },
@@ -263,20 +266,19 @@ var _vuex = __webpack_require__(/*! vuex */ 27);function ownKeys(object, enumera
       if (this.infoAuthorize.type == 2) return '公关';
     },
     infoAuthorStatus: function infoAuthorStatus() {
-      if (this.infoAuthorize.auth_status == 0) {
-        if (this.infoAuthorize.auth_date) {
-          return '等待认证';
-        }
-        return '未认证';
+      if (this.infoAuthorize.auth_status == 0 && this.infoAuthorize.auth_date) {
+        return '等待认证';
       }
       if (this.infoAuthorize.auth_status == 1) return '等待认证';
       if (this.infoAuthorize.auth_status == 2) return '认证成功';
       if (this.infoAuthorize.auth_status == 3) return '认证失败';
+      return '未认证';
     } }),
 
 
   methods: {
     handleShowRzBox: function handleShowRzBox() {
+      if (!this.phoneReg) return;
       if (this.infoAuthorize.auth_status == 2) return;
       this.rzModalShow = !this.rzModalShow;
     },

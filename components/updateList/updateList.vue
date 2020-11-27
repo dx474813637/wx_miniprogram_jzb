@@ -5,35 +5,26 @@
 				v-for="(item, index) in list"
 				:key="index"
 			>	
-				<template v-if="item.isQuestion">
-					<navigator url="/pages/qaDetail/qaDetail" class="title">{{item.info.title}}</navigator>
-				</template>
-				<template v-if="!item.isQuestion">
-					<navigator url="/pages/homePage/homePage" class="user-info author">
-						<view class="user-avatar">
-							<image :src="item.info.avatar"></image>
+				<navigator :url="`/pages/homePage/homePage?id=${item.auth_poster}`" class="user-info author">
+					<view class="user-avatar">
+						<image :src="item.pic"></image>
+					</view>
+					<view class="user-profile">
+						<view class="user-profile-item">
+							<view class="user-name">{{item.name}}</view>
+							<view class="user-label">{{item.type | typeToLabel}}</view>
 						</view>
-						<view class="user-profile">
-							<view class="user-profile-item">
-								<view class="user-name">{{item.info.name}}</view>
-								<view class="user-label">{{item.info.label}}</view>
-							</view>
-							<view class="user-profile-sub">{{item.info.sub}}</view>
-						</view>
-					</navigator>
-				</template>
-				<navigator url="/pages/qaDetail/qaDetail" class="user-content">
-					<view class="content">{{item.info.content}}</view>
-					<view class="post-time">{{item.info.post_date | timeFilter}}</view>
+						<view class="post-time">更新于{{item.uptime | timeFilter}}</view>
+					</view>
 				</navigator>
-				<template v-if="!item.isQuestion">
-					<navigator url="/pages/qaDetail/qaDetail" class="a-to-q-wrap">
-						<view class="q-info">
-							<text class="q-label">{{item.isQuestion? '提问' : '发声'}}</text>
-							<text class="q-title">{{item.q.title}}</text>
-						</view>
-					</navigator>
-				</template>
+				<navigator :url="`/pages/qaDetail/qaDetail?type=1&id=${item.id}`">
+					<view class="q-title">
+						{{item.title}}
+					</view>
+					<view class="user-content">
+						<view class="content">{{item.intro}}</view>
+					</view>
+				</navigator>
 				
 			</view>
 
@@ -89,25 +80,27 @@
 		margin-right: 10px;
 	}
 	.author .user-avatar {
-		width: 30px;
-		height: 30px;
+		width: 50rpx;
+		height: 50rpx;
 	}
 	.user-avatar image {
 		width: 100%;
 		height: 100%;
 	}
 	.author .user-profile {
+		flex: 1;
+		width: 100%;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 	}
 	.user-profile-item {
 		display: flex;
 		align-items: center;
-		margin-bottom: 5px;
 	}
 	.user-name {
 		font-weight: bold;
-		font-size: 17px;
+		font-size: 30rpx;
 		margin-right: 5px;
 	}
 	.user-label {
@@ -117,7 +110,7 @@
 		font-size: 12px;
 		padding: 1px 8px;
 		border-radius: 3px;
-		font-weight: bold;
+		// font-weight: bold;
 		margin-right: 5px;
 		border: 1px solid #54c9ff;
 	}
@@ -130,65 +123,57 @@
 	
 	}
 	.content {
-		font-size: 17px;
+		font-size: 28rpx;
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 3;
+		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 		color: #666;
-		line-height: 25px;
-		padding: 5px 0px;
+		line-height: 50rpx;
+		margin-bottom: 10rpx;
+		white-space: pre-wrap;
 	}
 	.post-time {
 		color: #999;
-		font-size: 13px;
+		font-size: 24rpx;
 		// margin-bottom: 10px;
 	}
 	.a-to-q-wrap {
 		background-color: #f5f5f5;
-		padding: 10px;
-		border-radius: 3px;
-		margin-top: 10px;
+		padding: 20rpx;
+		border-radius: 6rpx;
+		margin-top: 20rpx;
 	}
 	.q-user-profile {
 		display: flex;
 		align-items: center;
-		margin-bottom: 10px;
+		margin-bottom: 20rpx;
 	}
 	.q-user-profile .user-profile-sub {
 		flex: 1
 	}
 	.q-user-profile .q-ans-num {
 		color: #999;
-		font-size: 12px;
+		font-size: 24rpx;
 	}
 	.q-label {
 		background-color: #f90;
 		color: #fff;
 		display: inline-block;
-		font-size: 12px;
-		padding: 1px 8px;
-		border-radius: 3px;
-		margin-right: 5px;
+		font-size: 24rpx;
+		padding: 2rpx 16rpx;
+		border-radius: 6rpx;
+		margin-right: 10rpx;
 	}
 	.q-title {
-		color: #666;
-		line-height: 25px;
-	}
-	.title {
+		line-height: 50rpx;
 		font-weight: bold;
-		font-size: 18px;
-		line-height: 35px;
-		// margin-bottom: 5px;
-		overflow : hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
+		font-size: 32rpx;
+		margin-bottom: 10rpx;
 	}
 	.q-ans-icon {
 		color: #999;
-		margin-right: 3px;
+		margin-right: 6rpx;
 	}
 </style>

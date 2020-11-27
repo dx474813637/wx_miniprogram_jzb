@@ -21,7 +21,16 @@
 			</scroll-view>
 			<view class="main-right-list">
 				<view class="list-label">
-					<u-tabs :list="tabsList" height="60" font-size="26" bar-height="4" bar-width="60" :is-scroll="false" :current="tabsCurrent" @change="handleTabsChange"></u-tabs>
+					<u-tabs 
+						:list="tabsList" 
+						height="60" 
+						font-size="26" 
+						bar-height="4" 
+						bar-width="60" 
+						:is-scroll="false" 
+						:current="tabsCurrent" 
+						@change="handleTabsChange"
+					></u-tabs>
 				</view>
 				<scroll-view class="list-box" scroll-y>
 					<view class="list">
@@ -29,25 +38,25 @@
 							<navigator 
 								v-for="(item, index) in dataList"
 								:key="index"
-								url="/pages/homePage/homePage?id=1"
+								:url="`/pages/homePage/homePage?id=${item.id}`"
 							>
 								<u-cell-item
 									:arrow="false"
 								>
-									<view class="cell-title" slot="title">
-										<text class="name">{{item.name}}</text>
-										<text class="sub" >{{item.sub}}</text>
-									</view>
 									<image 
 										class="cell-avator"
 										slot="icon" 
-										:src="item.avatorUrl" 
+										:src="item.pic" 
 									/>
+									<view class="cell-title" slot="title">
+										<text class="name">{{item.name}}</text>
+										<!-- <text class="sub" >{{item.sub}}</text> -->
+									</view>
 									<view class="cell-label" slot="label">
-										<text class="label-item">评分：<text class="label-color">{{item.score}}</text></text>
+										<text class="label-item" >{{item.title}}</text>
+										<!-- <text class="label-item">评分：<text class="label-color">{{item.score}}</text></text>
 										<text class="label-item">采访次数：<text class="label-color">{{item.count}}</text></text>
-										
-										
+										 -->
 										
 									</view>
 								</u-cell-item>
@@ -82,6 +91,8 @@
 					},
 					{
 						name: '产业',
+						
+						
 						value: 2
 					},
 					{
@@ -109,72 +120,8 @@
 						name: '公关',
 					}
 				],
-				dataList: [
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-						name: '网经社',
-						sub: '杭州某某某公司杭州某某某公司',
-						label: '专家',
-						score: 4.5,
-						count: 50
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a42f77ef17e2.png',
-						name: '网经社',
-						sub: '杭州某某某公司',
-						label: '专家',
-						score: 4.5,
-						count: 50
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2018/07/12/5b471b720cb95.png',
-						name: '网经社',
-						sub: '杭州某某某公司',
-						label: '公关',
-						score: 4.5,
-						count: 50
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2018/12/13/5c11ca9a3ac90.jpg',
-						name: '网经社',
-						sub: '杭州某某某公司',
-						label: '专家',
-						score: 4.5,
-						count: 50
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-						name: '网经社',
-						sub: '杭州某某某公司杭州某某某公司',
-						label: '专家',
-						score: 4.5,
-						count: 50
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a42f77ef17e2.png',
-						name: '网经社',
-						sub: '杭州某某某公司',
-						label: '专家',
-						score: 4.5,
-						count: 50
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2018/07/12/5b471b720cb95.png',
-						name: '网经社',
-						sub: '杭州某某某公司',
-						label: '公关',
-						score: 4.5,
-						count: 50
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2018/12/13/5c11ca9a3ac90.jpg',
-						name: '网经社',
-						sub: '杭州某某某公司',
-						label: '专家',
-						score: 4.5,
-						count: 50
-					}
-				]
+				dataList: [],
+				p: 1
 			}
 		},
 		components: {
@@ -182,17 +129,29 @@
 			searchBar
 		},
 		onLoad() {
-			this.$https.get('/Home/Jzbxcx/user_auth_list', {params: {cid: 1, p: 1}})
-			.then(res => {
-				console.log(res)
-			})
+			this.renderList(this.tabsCurrent + 1)
 		},
 		methods: {
+			async renderList(index) {
+				uni.showLoading({
+					title: '加载中',
+					mask: true
+				})
+				let params
+				params = {p: this.p, cid: index}
+				let res = await this.getData(params)
+				this.dataList = res.data.list
+				uni.hideLoading()
+			},
+			async getData(params) {
+				return await this.$https.get('/Home/Jzbxcx/user_auth_list', {params})
+			},
 			handleNavClick(index) {
 				this.current = index
 			},
 			handleTabsChange(index) {
 				this.tabsCurrent = index
+				this.renderList(index + 1)
 			},
 			
 		}

@@ -33,4 +33,7 @@
 .tag-class.data-v-2cc90304 {
   margin-right: 15rpx;
 }
+.kw-right.data-v-2cc90304 {
+  min-height: 200rpx;
+}
 

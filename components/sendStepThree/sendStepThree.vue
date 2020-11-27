@@ -1,61 +1,57 @@
 <template>
 	<view>
-		<view class="fanhui-w">
-			
-			<template v-if="time != 0">
+		<template v-if="!isTimeLimit && qData.list.zt != 1">
+			<view class="fanhui-w">
+				<view class="sub">
+					补充邀请人数还剩：{{maxNum}}人
+				</view>
 				<view class="djs">
-					<u-count-down 
-						:timestamp="time" 
+					<!-- <u-count-down 
+						:timestamp="qData.list.timeC" 
 						separator="zh" 
 						:show-days="false" 
 						:show-hours="false"
 						font-size="50"
-					></u-count-down>
+						@end="handleEndTimeCount"
+					></u-count-down> -->
+					<u-button type="primary" @click="handleUpStep">返回上一步</u-button>
 				</view>
-			</template>
-			<view class="sub">
-				自对专家发起问题邀请一小时后，若专家均无响应或者均拒绝可返回上一步重新选择专家（每次提问仅一次机会）
 			</view>
-			
-			<template v-if="time == 0">
-				<u-button type="primary" @click="handleUpStep">返回上一步，重新找专家</u-button>
-			</template>
-			
-		</view>
+		</template>
 		<view class="msg-w">
 			<u-cell-group>
 				<u-cell-item 
-					v-for="(item, index) in dataList"
+					v-for="(item, index) in qData.answer"
 					:key="index"
-					:value="item.time | timeFilter " 
+					:value="item.uptime | timeFilter " 
 					:arrow="false"
 					@click="handleSeeFeedDetail(index)"
 				>
 					<view class="cell-title" slot="title">
 						<text class="name">{{item.name}}</text>
-						<text class="label" :class="{'rz': item.label != '未认证'}">{{item.label}}</text>
+						<text class="label" :class="{'rz': item.auth_status == 2}">{{item.type | typeToLabel}}</text>
 					</view>
 					<view class="cell-label" slot="label">
-						<template v-if="item.status == 0">
+						<template v-if="item.zt == 0">
 							<u-icon name="info-circle-fill" color="#ccc" size="34"></u-icon>
 						</template>
-						<template v-if="item.status == 1">
+						<template v-if="item.zt == 1">
 							<u-icon name="checkmark-circle-fill" color="#f90" size="34"></u-icon>
 						</template>
-						<template v-if="item.status == 2">
+						<template v-if="item.zt == 3">
 							<u-icon name="close-circle-fill" color="#ff0000" size="34"></u-icon>
 						</template>
-						<template v-if="item.status == 3">
+						<template v-if="item.zt == 2">
 							<u-icon name="checkmark-circle-fill" color="#00aa00" size="34"></u-icon>
 						</template>
-						<text>{{msg[item.status]}}</text>
-						<text v-if="item.status == 2" class="error-color">[拒绝原因]</text>
-						<text v-if="item.status == 3" class="click-color">[点击查看回复]</text>
+						<text>{{msg[item.zt]}}</text>
+						<text v-if="item.zt == 3" class="error-color">[{{item.msg}}]</text>
+						<text v-if="item.zt == 2" class="click-color">[点击查看回复]</text>
 					</view>	
 					<image 
 						class="cell-avator"
 						slot="icon" 
-						:src="item.avatorUrl" 
+						:src="item.pic" 
 					/>
 				</u-cell-item>
 			</u-cell-group>
@@ -73,7 +69,7 @@
 			@confirm="handleCopy"
 		>
 			<view class="slot-content">
-				<rich-text :nodes="feed"></rich-text>
+				{{feed}}
 			</view>
 		</u-modal>
 	</view>
@@ -83,63 +79,52 @@
 	import QAUserProfile from '@/components/QAUserProfile/QAUserProfile.vue'
 	export default {
 		props: {
+			qid: {
+				type: Number | String,
+				default: 0
+			},
+			qData: {
+				type: Object,
+				default: function() {
+					return {}
+				}
+			},
+			maxNum: {
+				type: Number | String,
+				default: 3
+			}
 		},
 		data() {
 			return {
-				msg: ['待处理', '已接受，等待专家回复', '已拒绝', '已回复'],
-				dataList: [
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-						name: '网经社',
-						label: '记者',
-						status: 0, //0：待处理， 1：已处理
-						time: '2020-10-14 10:46:44'
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a42f77ef17e2.png',
-						name: '网经社',
-						label: '专家',
-						status: 1, //0：待处理， 1：已处理
-						time: '2020-10-13 10:46:44'
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2018/07/12/5b471b720cb95.png',
-						name: '网经社',
-						label: '公关',
-						status: 2, //0：待处理， 1：已处理
-						time: '2020-10-19 09:10:04'
-					}, 
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a4361390c6ba.png',
-						name: '网经社1',
-						label: '公关',
-						feed: `内容<br>内容1`,
-						status: 3, //0：待处理， 1：已处理
-						time: '2020-10-19 08:12:04'
-					}, 
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a4361390c6ba.png',
-						name: '网经社2',
-						label: '公关',
-						feed: `内容<br>内容2`,
-						status: 3, //0：待处理， 1：已处理
-						time: '2020-10-19 08:12:04'
-					}
-				],
+				msg: ['待处理', '已接受，等待专家回复', '已回复', '已拒绝'],
 				show: false,
 				feed: '',
-				time: 3600
+				time: 3600,
+				isTimeLimit: false
 			};
+		},
+		created() {
+			if(this.qData.list) {
+				this.isTimeLimit = this.qData.list.timeC < 0 ? true: false
+			}
+			
+		},
+		watch:{
+			qData(newV) {
+				if(newV.list.timeC < 0) {
+					this.isTimeLimit = true
+				}
+			}
 		},
 		components: {
 			QAUserProfile
 		},
 		methods: {
 			handleSeeFeedDetail(index) {
-				let data = this.dataList[index]
-				if(data.status == 3) {
+				let data = this.qData.answer[index]
+				if(data.zt == 2) {
 					this.show = true
-					this.feed = data.feed
+					this.feed = data.intro
 				}
 			},
 			handleCopy() {
@@ -149,10 +134,13 @@
 				});
 			},
 			handleUpStep() {
-				this.$emit('change-step', 1)
+				this.$emit('change-step', 1, {newInvite: true})
 			},
 			handleNextStep() {
 				this.$emit('change-step', 3)
+			},
+			handleEndTimeCount() {
+				this.isTimeLimit = false
 			}
 		}
 	}
@@ -162,7 +150,7 @@
 <style scoped lang="scss">
 	.sub {
 		color: #999;
-		margin-bottom: 30rpx;
+		text-align: center;
 	}
 	.djs {
 		text-align: center;
@@ -223,5 +211,6 @@
 	}
 	.slot-content {
 		padding: 20rpx;
+		white-space: pre-wrap;
 	}
 </style>

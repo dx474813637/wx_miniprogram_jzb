@@ -136,30 +136,36 @@
 		methods: {
 			confirm(res) {
 				this.$set(this.form, 'end_time', [res.year, res.month, res.day].join('-') + ' ' + [ res.hour, res.minute, res.second].join(':'))
-				console.log(this.form.end_time)
+				// console.log(this.form.end_time)
 			},
 			async handleFindZJ() {
 				let valid = await this.$refs.sendForm.validate();
 				if (valid) {
 					console.log('验证通过');
-					let res = await this.submitQuestion()
-					// console.log(res)
-					if(res.data.code != 1) return
+					// let res = await this.submitQuestion()
+					// // console.log(res)
+					// if(res.data.code != 1) {
+					// 	uni.showModal({
+					// 	    title: '提问失败',
+					// 	    content: res.data.msg,
+					// 		showCancel: false
+					// 	});
+					// 	return
+					// }
 					//下一步
-					this.$emit('change-step', 1, {id: res.data.id || 'ceshi', kw: this.form.keywords})
+					this.$emit('change-step', 1, {form: this.form})
 				} else {
 					console.log('验证失败');
 				}
 				console.log(this.form)
 			},
-			async submitQuestion() {
-				if(this.infoAuthorize.type == 0) {
-					return await this.$https.get('/Home/Jzbxcx/add_questions', {params: this.form})
-				}else {
-					return await this.$https.get('/Home/Jzbxcx/add_viewpoint', {params: this.form})
-				}
-				
-			},
+			// async submitQuestion() {
+			// 	if(this.infoAuthorize.type == 0) {
+			// 		return await this.$https.get('/Home/Jzbxcx/add_questions', {params: this.form})
+			// 	}else {
+			// 		return await this.$https.get('/Home/Jzbxcx/add_viewpoint', {params: this.form})
+			// 	}
+			// },
 			handleChangeKw(kw) {
 				this.keywordsArr.push(kw)
 			},

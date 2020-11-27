@@ -1,20 +1,30 @@
 <template>
 	<view>
 		
-		<view class="item-footer-tools">
+		<view class="item-footer-tools" :class="{'rep': !isAnswer && !isAuthor}">
 			<template v-if="!isAuthor">
-				<view class="tools-item" @click="handleGoodsBtn">
-					<u-icon name="thumb-up" size="38"></u-icon>
-					<text>{{goods > 0 ? goods : '点赞'}}</text>
-				</view>
-				<view class="tools-item" @click="handleReplyBtn">
-					<u-icon name="chat" size="38"></u-icon>
-					<text>回复</text>
-				</view>
-				<view class="tools-item" @click="handleShareBtn">
-					<u-icon name="zhuanfa" size="38"></u-icon>
-					<text>分享</text>
-				</view>
+				<template v-if="isAnswer">
+					<view class="tools-item" @click="handleGoodsBtn">
+						<template v-if="goods == 1">
+							<u-icon name="thumb-up-fill" size="38" color="#007aff"></u-icon>
+							<text class="icon-name">已赞</text>
+						</template>
+						<template v-else>
+							<u-icon name="thumb-up" size="38"></u-icon>
+							<text class="icon-name">点赞</text>
+						</template>
+						
+					</view>
+					<view class="tools-item" @click="handleReplyBtn">
+						<u-icon name="chat" size="38"></u-icon>
+						<text class="icon-name">回复</text>
+					</view>
+					<view class="tools-item" @click="handleShareBtn">
+						<u-icon name="zhuanfa" size="38"></u-icon>
+						<text class="icon-name">分享</text>
+					</view>
+				</template>
+				
 				<view class="tools-item" @click="handleMoreBtn">
 					<u-icon name="more-dot-fill" size="38"></u-icon>
 				</view>
@@ -40,6 +50,8 @@
 		></u-action-sheet>
 		<q-a-reply
 			:show="replyShow"
+			:repPerson="name"
+			@reply-event="handleReply"
 			@change-flag="handleReplyBtn"
 		></q-a-reply>
 	</view>
@@ -55,11 +67,19 @@
 				type: Number | String,
 				default: 0
 			},
+			qid: {
+				type: Number | String,
+				default: 0
+			},
+			aid: {
+				type: Number | String,
+				default: 0
+			},
 			type: {
 				type: Number | String,
 				default: 0
 			},
-			isQ: {
+			isAnswer: {
 				type: Boolean,
 				default: false
 			},
@@ -75,6 +95,14 @@
 				type: Number | String,
 				default: 0
 			},
+			name: {
+				type: String,
+				default: ''
+			},
+			reportInfo: {
+				type: String,
+				default: ''
+			},
 		},
 		data() {
 			return {
@@ -87,7 +115,7 @@
 					}
 				],
 				replyShow: false,
-				
+				replyApi: ''
 			};
 		},
 		computed: {
@@ -99,14 +127,39 @@
 			shareModal,
 			QAReply
 		},
+		created() {
+			this.replyApi = this.type == 1 ? '/Home/Jzbxcx/reply_viewpoint' : '/Home/Jzbxcx/add_questions_comment'
+		},
 		methods: {
 			
 			//点赞
-			handleGoodsBtn() {
-				uni.showToast({
-				    title: '已点赞',
-				    duration: 1000
-				});
+			async handleGoodsBtn() {
+				if(this.goods == 1) return
+				await this.handleReply(this.$store.state.goodStr)
+			},
+			async handleReply(intro) {
+				// console.log(intro)	
+				uni.showLoading({
+					title: '操作提交中...',
+					mask: true
+				})
+				let res = await this.$https.get(this.replyApi, {
+					params: {
+						id: this.qid, 
+						cate: this.aid, 
+						intro: intro, 
+						title: 'reply_a_title',
+					},
+				})
+				uni.hideLoading()
+				if(res.data.code == 1) {
+					uni.showToast({
+						title: '操作成功',
+						icon: 'success',
+						duration: 1000,
+					})
+					this.$emit('follow-event')
+				}
 			},
 			//回复
 			handleReplyBtn() {
@@ -123,10 +176,13 @@
 			getActionSheetIndex(index) {
 				if(index == 0) {
 					//举报
-					uni.navigateTo({
-						url: '/pages/qFeed/qFeed'
-					})
+					this.handleReportBtn()
 				}
+			},
+			handleReportBtn() {
+				uni.navigateTo({
+					url: `/pages/ideaFeed/ideaFeed?cate=${Number(this.type)+1}&tid=${this.qid}&uid=${this.uid}&reportInfo=${this.reportInfo}`
+				})
 			}
 		}
 	}
@@ -145,11 +201,14 @@
 		color: #666;
 		
 	}
+	.item-footer-tools.rep {
+		justify-content: flex-end;
+	}
 	.tools-item {
 		display: flex;
 		align-items: center;
 	}
-	.tools-item text{
+	.tools-item .icon-name{
 		margin-left: 5px;
 	}
 	.ans-btn {

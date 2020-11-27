@@ -94,10 +94,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uIcon: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 337))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 347))
   },
   uButton: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 344))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 354))
   }
 }
 var render = function() {
@@ -197,18 +197,24 @@ var _default =
 {
   data: function data() {
     return {
-      list: [] };
+      list: [],
+      customStyle: {
+        fontSize: '28rpx' } };
+
 
   },
-  onLoad: function onLoad() {
-    this.getList();
+  onShow: function onShow() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+              uni.showLoading({
+                title: '加载中' });_context.next = 3;return (
 
+                _this.getList());case 3:
+              uni.hideLoading();case 4:case "end":return _context.stop();}}}, _callee);}))();
   },
   methods: {
-    getList: function getList() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  _this.$https.get('/Home/Jzbxcx/my_questions_list'));case 2:res = _context.sent;
-                console.log(res);
-                _this.list = res.data.list;case 5:case "end":return _context.stop();}}}, _callee);}))();
+    getList: function getList() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$https.get('/Home/Jzbxcx/my_questions_list'));case 2:res = _context2.sent;
+                // console.log(res)
+                _this2.list = res.data.list;case 4:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     handleSeeStep: function handleSeeStep(index) {
       var id = this.list[index].id;
@@ -225,7 +231,7 @@ var _default =
     },
     handleSeeOrigin: function handleSeeOrigin(id) {
       uni.navigateTo({
-        url: '/pages/qaDetail/qaDetail?id=' + id });
+        url: "/pages/qaDetail/qaDetail?id=".concat(id, "&type=0") });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

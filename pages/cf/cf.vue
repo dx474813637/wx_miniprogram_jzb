@@ -3,7 +3,7 @@
 		<view class="w-name">
 			<view class="name-item">
 				<u-icon name="file-text-fill" color="#007aff" size="36"></u-icon>
-				<text>采访提问</text>
+				<text>我的采访提问</text>
 			</view>
 			<view class="name-item">
 				<navigator url="/pages/send/send">
@@ -42,10 +42,10 @@
 				</view>
 				<view class="item-footer">
 					<view class="footer-item">
-						<u-button type="primary" @click="handleSeeStep(index)">查看进度</u-button>
+						<u-button type="primary" :custom-style="customStyle" plain @click="handleSeeStep(index)">查看进度</u-button>
 					</view>
 					<view class="footer-item">
-						<u-button type="primary" @click="handleSeeOrigin(item.id)">查看原文</u-button>
+						<u-button type="primary" :custom-style="customStyle" plain @click="handleSeeOrigin(item.id)">查看原文</u-button>
 					</view>
 				</view>
 					
@@ -58,17 +58,23 @@
 	export default {
 		data() {
 			return {
-				list: []
+				list: [],
+				customStyle: {
+					fontSize: '28rpx'
+				}
 			}
 		},
-		onLoad() {
-			this.getList()
-			
+		async onShow() {
+			uni.showLoading({
+				title: '加载中',
+			})
+			await this.getList()
+			uni.hideLoading()
 		},
 		methods: {
 			async getList() {
 				let res = await this.$https.get('/Home/Jzbxcx/my_questions_list')
-				console.log(res)
+				// console.log(res)
 				this.list = res.data.list
 			},
 			handleSeeStep(index) {
@@ -86,7 +92,7 @@
 			},
 			handleSeeOrigin(id) {
 				uni.navigateTo({
-					url: '/pages/qaDetail/qaDetail?id=' + id
+					url: `/pages/qaDetail/qaDetail?id=${id}&type=0`
 				})
 			}
 		}
@@ -95,7 +101,8 @@
 
 <style scoped lang="scss">
 	.footer-item {
-		flex: 0 0 45%
+		flex: 0 0 45%;
+		font-size: 28rpx;
 	}
 	.item-footer {
 		display: flex;
@@ -109,7 +116,7 @@
 		margin-left: 10rpx;
 	}
 	.list-item {
-		padding: 50rpx 30rpx;
+		padding: 30rpx;
 		border-bottom: 1rpx solid #f8f8f8;
 	}
 	.item-sub {

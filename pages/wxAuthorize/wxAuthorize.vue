@@ -11,10 +11,31 @@
 	    >
 	      <view class="dyContent">
 	        <template v-if="!phoneReg">
-	        	<u-button type="primary" open-type='getUserInfo' :custom-style="btnStyle">
-	        		<u-icon name="weixin-fill" color="#fff" size="40"></u-icon>
-	        		<text class="text">微信授权</text>
-	        	</u-button>
+				<view class="acontent">
+					<view class="title">
+						微信信息授权页
+					</view>
+					<view class="content">
+						<view class="content-item content-title">
+							授权后，我可以获得什么？
+						</view>
+						<view class="content-item content-ans">
+							获取电商行业人士权威解读来自记者的热点话题采访。
+						</view>
+						<view class="content-item content-ans">
+							获取电商行业人士对热点事件的观点。
+						</view>
+						<view class="content-item content-ans">
+							获取一手电商圈内资讯，24小时无间断更新。
+						</view>
+						<view class="content-item content-ans">
+							获得本平台认证资格，认证通过后可与行业专家在线互动、参与话题采访、发布个人观点、获取电商数据等。
+						</view>
+					</view>
+					<button class="authorize-btn" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" >我要授权</button>
+				</view>
+				
+				
 	        </template>
 	        <template v-else>
 	        	<view class="box">
@@ -90,7 +111,7 @@
 				},
 				form: {
 					phone: '',
-					code: '444146'
+					code: ''
 				},
 				rules: {
 					phone: [
@@ -129,9 +150,9 @@
 				number: 12,
 				prePageUrl: '',
 				blur: 1, //小圆模糊值,0/不传则不模糊
-				bg: "background-image:linear-gradient(33deg, #5c3eee, #327cdd);", //背景颜色，可当style属性写任何样式，必须以;结尾
+				bg: "background-image:linear-gradient(33deg, #5237d6, #327cdd);", //背景颜色，可当style属性写任何样式，必须以;结尾
 				circleMode: "color-dodge", //css3 mixBlendMode参数
-				circleColor: "rgba(229, 255, 255, 0.2)", //移动的小圆颜色，为数组时，会随机分配给小圆
+				circleColor: "rgba(85, 170, 255, 0.2)", //移动的小圆颜色，为数组时，会随机分配给小圆
 			}
 		},
 		computed: {
@@ -154,6 +175,96 @@
 			if(this.phoneReg) this.$refs.uForm.setRules(this.rules);
 		},
 		methods: {
+			handleGetUserInfo () {
+				return new Promise((res, rej) => {
+					uni.getUserInfo({ success: r => res(r), 
+						fail: err => {
+							uni.hideLoading()
+							uni.showToast({
+								title: '授权失败，请重新授权',
+								duration: 1500,
+								icon: 'none'
+							})
+						}
+					})
+				})
+			},
+			handleLogin() {
+				return new Promise((res, rej) => {
+					uni.login({ success: r => res(r)})
+				})
+			},
+			async bindGetUserInfo() {
+				uni.showLoading({
+				    title: '授权中',
+					mask: true
+				});
+				let that = this;
+				uni.login({
+					success: function(res) {
+						let code = res.code; //获取code
+						uni.getUserInfo({
+							//得到rawData, signatrue, encryptData
+							success: function(data) {
+								let rawData = data.rawData;
+								let signature = data.signature;
+								let encryptedData = data.encryptedData;
+								let iv = data.iv;
+								that.$https
+									.get('/Home/Jzbxcx/login_wx', {
+										params: {
+											code: code,
+											rawData: rawData,
+											signature: signature,
+											iv: iv,
+											encryptedData: encryptedData
+										}
+									})
+									.then(function(response) {
+										//获取后操作
+										uni.hideLoading()
+										that.$store.commit('checkAuthorize', true)
+										uni.reLaunch({
+										    url: getApp().globalData.prePagePath
+										});
+									});
+							},
+							fail(err) {
+								
+								uni.hideLoading()
+								uni.showToast({
+									title: '授权失败，请重新授权',
+									duration: 1500,
+									icon: 'none'
+								})
+							}
+						});
+					}
+				});
+				// let loginRes = await this.handleLogin()
+				// // console.log(loginRes)
+				// let code = loginRes.code;
+				// let data = await this.handleGetUserInfo()
+				// // console.log(data)
+				// let {rawData, signature, iv, encryptedData, errMsg, userInfo} = data
+				// let res = await this.$https.get('/Home/Jzbxcx/login_wx', {
+				// 	params: {
+				// 		code: code,
+				// 		rawData: rawData,
+				// 		signature: signature,
+				// 		iv: iv,
+				// 		encryptedData: encryptedData
+				// 	}
+				// })
+				// // console.log(res)
+				
+				// uni.hideLoading()
+				// this.$store.commit('checkAuthorize', true)
+				// uni.reLaunch({
+				//     url: getApp().globalData.prePagePath
+				// });
+			   
+			},
 			handleXyFlag() {
 				this.xyFlag = !this.xyFlag
 			},
@@ -185,10 +296,25 @@
 					let checkRes = await this.checkPhoneCode()
 					console.log(checkRes)
 					// this.$store.commit('checkPhoneReg', true)
-					let res2 = await this.$getlogin()
-					uni.reLaunch({
-						url: '/pages/personal/personal'
-					})
+					if(checkRes.data.code == 1) {
+						let res2 = await this.$getlogin()
+						uni.reLaunch({
+							url: '/pages/personal/personal',
+							success:() => {
+								uni.showToast({
+									title: '注册成功',
+									duration: 1500,
+								})
+							}
+						})
+					}else {
+						uni.showToast({
+							title: '注册失败',
+							duration: 1500,
+							icon: 'none'
+						})
+					}
+					
 				} else {
 					console.log('验证失败');
 				}
@@ -197,69 +323,50 @@
 				let res = await this.$https.get('/Home/Jzbxcx/check_phone_code', {params: {phone: this.form.phone, code: this.form.code}})
 				return res
 			},
-			getUserInfo () {
-				uni.login({
-					provider: 'weixin',
-					success: r => {
-						console.log(r)
-						wx.getUserInfo({
-							withCredentials:true,
-						  success: function(res) {
-							  console.log(res)
-						    // var userInfo = res.userInfo
-						    // var nickName = userInfo.nickName
-						    // var avatarUrl = userInfo.avatarUrl
-						    // var gender = userInfo.gender //性别 0：未知、1：男、2：女
-						    // var province = userInfo.province
-						    // var city = userInfo.city
-						    // var country = userInfo.country
-							
-						  },
-						  fail: err => {
-							  console.log(err)
-						  }
-						})
-					}
-				})
-			},
-			async handleGetUserInfo(e) {
-				// console.log(e)
-				uni.showLoading({
-				    title: '授权中',
-					mask: true
-				});
-				let {rawData, signature, iv, encryptedData, errMsg, userInfo} = e.detail
-				if(errMsg == 'getUserInfo:ok' ) {
-					
-					let loginRes = await uni.login({
-						provider: 'weixin',
-					})
-					console.log(loginRes)
-					let res = await this.$https.get('/Home/Jzbxcx/login_wx', {
-						params: {
-							code: loginRes[1].code,
-							rawData: rawData,
-							signature: signature,
-							iv: iv,
-							encryptedData: encryptedData
-						}
-					})
-					
-					uni.hideLoading()
-					this.$store.commit('checkAuthorize', true)
-					uni.reLaunch({
-					    url: getApp().globalData.prePagePath
-					});
-					console.log(res)
-					
-				}
-				
-			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.title {
+		font-weight: bold;
+		text-align: center;
+		font-size: 38rpx;
+		line-height: 80rpx;
+		margin: 30rpx;
+	}
+	.acontent {
+		color: #fff;
+		width: 100%;
+	}
+	.content {
+		font-size: 32rpx;
+		margin-bottom: 120rpx;
+	}
+	.content-item {
+		line-height: 60rpx;
+		margin-bottom: 10rpx;
+	}
+	.content-ans {
+		padding: 10rpx 20rpx;
+		position: relative;
+	}
+	.content-ans:after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 35rpx;
+		width: 10rpx;
+		height: 10rpx;
+		border-radius: 50%;
+		background-color: #fff;
+	}
+	.authorize-btn {
+		border: 0;
+		background-color: #aa55ff;
+		color: #fff;
+		font-size: 32rpx;
+	}
 	.xy {
 		display: flex;
 		align-items: center;

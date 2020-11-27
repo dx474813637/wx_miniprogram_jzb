@@ -24,10 +24,10 @@
     "pages/jdDetail/jdDetail",
     "pages/wxAuthorize/wxAuthorize",
     "pages/dataItem/dataItem",
-    "pages/fs/fs",
     "pages/dataNavCell/dataNavCell",
     "pages/newsDetail/newsDetail",
-    "pages/collection/collection"
+    "pages/collection/collection",
+    "pages/ideaFeed/ideaFeed"
   ],
   "subPackages": [],
   "window": {
@@ -55,5 +55,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap88.json"
 }

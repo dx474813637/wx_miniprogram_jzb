@@ -38,7 +38,6 @@
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;
-  padding: 20rpx 0;
 }
 .sub-status.data-v-7955ebf4 {
   display: -webkit-box;
@@ -52,7 +51,7 @@
   margin-left: 10rpx;
 }
 .list-item.data-v-7955ebf4 {
-  padding: 50rpx 30rpx;
+  padding: 30rpx;
   border-bottom: 1rpx solid #f8f8f8;
 }
 .item-sub.data-v-7955ebf4 {

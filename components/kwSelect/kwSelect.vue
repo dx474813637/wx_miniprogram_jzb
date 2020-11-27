@@ -1,19 +1,22 @@
 <template>
 	<view>
 		<u-form-item label="领域（至多10个）" prop="keyword" required>
-			<u-tag class="tag-class" text="+ 新增" mode="dark" :type="keyAddTagBtn" shape="circle" @click="handleKeySelectChange" />
-			<u-tag 
-				v-for="(item, index) in arr"
-				:key="index"
-				:text="item" 
-				mode="light" 
-				type="primary" 
-				shape="circle" 
-				:closeable="true"
-				class="tag-class"
-				@click="handleDeleteKey(index)"
-				@close="handleDeleteKey(index)"
-			/>
+			<view class="kw-right">
+				<u-tag class="tag-class" text="+ 新增" mode="dark" :type="keyAddTagBtn" shape="circle" @click="handleKeySelectChange" />
+				<u-tag 
+					v-for="(item, index) in arr"
+					:key="index"
+					:text="item" 
+					mode="light" 
+					type="primary" 
+					shape="circle" 
+					:closeable="true"
+					class="tag-class"
+					@click="handleDeleteKey(index)"
+					@close="handleDeleteKey(index)"
+				/>
+			</view>
+			
 		</u-form-item>
 		
 		<u-select
@@ -93,7 +96,7 @@
 		},
 		watch: {
 			keywordsArr(newV) {
-				console.log(newV)
+				// console.log(newV)
 				this.arr = newV
 				if(newV.length == 10) {
 					this.keyAddTagBtn = 'info'
@@ -144,7 +147,7 @@
 				// this.arr.push(v)
 			},
 			handleDeleteKey(index) {
-				console.log(index)
+				// console.log(index)
 				this.$emit('delete-kw', index)
 				// this.arr.splice(index, 1)
 			}
@@ -159,5 +162,8 @@
 	}
 	.tag-class {
 		margin-right: 15rpx;
+	}
+	.kw-right {
+		min-height: 200rpx;
 	}
 </style>

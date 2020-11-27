@@ -1,24 +1,30 @@
 <template>
-	<view class="q-user">
-		<navigator :url="userHomePath" class="q-user-item user-avatar">
-			<image :src="avatar"></image>
-		</navigator>
-		<navigator :url="userHomePath" class="q-user-item user-profile">
-			<view class="user-profile-item">
-				<view class="user-name">{{name}}</view>
-				<view class="user-label">{{slabel}}</view>
-			</view>
-			<view class="user-profile-sub">{{sub}}</view>
-		</navigator>
-		<view class="q-user-item">
-			<u-button v-if="!isFollow" type="primary" size="mini" shape="circle" @click="handleEyeFlag(isFollow)">关注ta</u-button>
-			<u-button v-else type="default" size="mini" :plain="true" shape="circle" @click="handleEyeFlag(isFollow)">已关注</u-button>
-	
+	<view>
+		<view class="q-user u-skeleton">
+			<navigator :url="userHomePath" class="q-user-item user-avatar u-skeleton-circle">
+				<image :src="avatar" class="avatar-img"></image>
+			</navigator>
+			<navigator :url="userHomePath" class="q-user-item user-profile">
+				<view class="user-profile-item u-skeleton-fillet">
+					<view class="user-name">{{name}}</view>
+					<view class="user-label">{{slabel}}</view>
+				</view>
+				<view class="user-profile-sub u-skeleton-fillet">{{sub}}</view>
+			</navigator>
+			<template v-if="phoneReg && followBtn">
+				<view class="q-user-item">
+					<u-button v-if="!followStatus" type="primary" size="mini" shape="circle" @click="handleEyeFlag(followStatus)">关注ta</u-button>
+					<u-button v-else type="default" size="mini" :plain="true" shape="circle" @click="handleEyeFlag(followStatus)">已关注</u-button>
+					
+				</view>
+			</template>
 		</view>
 	</view>
+	
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		props: {
 			userid: {
@@ -44,13 +50,27 @@
 			isFollow: {
 				type: Boolean,
 				default: false
-			}
+			},
+			followBtn: {
+				type: Boolean,
+				default: true
+			},
 		},
 		data() {
 			return {
+				followStatus: false
 			};
 		},
+		created() {
+			this.followStatus = this.isFollow
+		},
+		watch: {
+			isFollow(newV) {
+				this.followStatus = newV
+			},
+		},
 		computed: {
+			...mapState(['phoneReg']),
 			slabel() {
 				let label = this.label
 				if(label == '未认证') return '未认证'
@@ -63,9 +83,32 @@
 			}
 		},
 		methods: {
-			handleEyeFlag(isFollow) {
-				this.$emit('follow-event', {isFollow, userid: this.userid})
-			}
+			async handleEyeFlag(isFollow) {
+				let res
+				if(isFollow) {
+					res = await this.cancelFollowUser(this.userid)
+				}else {
+					res = await this.followUser(this.userid)
+				}
+				if(res.data.code == 1) {
+					this.followStatus = !isFollow
+					uni.showToast({
+						title: (isFollow? '取消关注' : '关注成功'),
+						icon: 'success',
+						duration: 1000,
+					})
+					setTimeout(() => {
+						this.$emit('follow-event')
+					}, 1000)
+					
+				}
+			},
+			async followUser(userid) {
+				return await this.$https.get('/Home/Jzbxcx/follow_user', {params: {id: userid}})
+			},
+			async cancelFollowUser(userid) {
+				return await this.$https.get('/Home/Jzbxcx/follow_cancel', {params: {id: userid}})
+			},
 		}
 	}
 </script>
@@ -95,7 +138,7 @@
 		width: 60rpx;
 		height: 60rpx;
 	}
-	.user-avatar image {
+	.user-avatar .avatar-img {
 		width: 100%;
 		height: 100%;
 	}

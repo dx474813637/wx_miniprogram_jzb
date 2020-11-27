@@ -1,45 +1,65 @@
 <template>
 	<view class="qa-detail">
-		<view class="q-detail qa-wrap">
-			<view class="q-header">
-				<view class="q-title">
-					{{qList.title}}
-				</view>
-				<template v-if="qList.post_time||qList.uptime">
-					<view class="q-post-date">
-						{{ (qList.post_time||qList.uptime) | timeFilter}}
+		<view class="q-detail qa-wrap u-skeleton">
+			<view class="q-header ">
+				<skeleton
+				  :showAvatar="false"
+				  :loading="load"
+				  :titleWidth="100"
+				  :row="1"
+				>
+					<view class="q-title u-skeleton-fillet">
+						{{qList.title}}
 					</view>
-				</template>
+				
+					<template v-if="qList.post_time||qList.uptime">
+						<view class="q-post-date ">
+							<text class="u-skeleton-fillet">{{ (qList.post_time||qList.uptime) | timeFilter}}</text>
+						</view>
+					</template>
+				</skeleton>
 			</view>
-			<view class="q-user-card-wrap">
-				<q-a-user-profile
-					:userid="authorInfo.id"
-					:avatar="authorInfo.pic"
-					:name="authorInfo.name"
-					:label="authorInfo.auth_status == 2 ? authorInfo.type : '未认证'"
-					:sub="authorInfo.title || authorInfo.company"
-					:isFollow="author_follow"
-					@follow-event="handleFollow"
-				></q-a-user-profile>
-			</view>
+			<skeleton
+			  :loading="load"
+			  :row="1"
+			>
+				<view class="q-user-card-wrap ">
+					<q-a-user-profile
+						:userid="authorInfo.id"
+						:avatar="authorInfo.pic"
+						:name="authorInfo.name"
+						:label="authorInfo.auth_status == 2 ? authorInfo.type : '未认证'"
+						:sub="authorInfo.title || authorInfo.company"
+						:isFollow="author_follow"
+						:loading="load"
+						@follow-event="handleFollow"
+					></q-a-user-profile>
+				</view>
+			</skeleton>
 			
-			<view class="q-content">
-				{{qList.intro}}
-			</view>
-			<view class="a-btn">
-				<u-button 
-					:custom-style="customStyle" 
-					type="primary" 
-					:plain="true" 
-					@click="handleReplyBtn" 
-					shape="circle"
-				>评论</u-button>
-			</view>
+			<skeleton
+				:showAvatar="false"
+				:loading="load"
+				:row="3"
+			>
+				<view class="q-content">
+					{{qList.intro}}
+				</view>
+				<view class="a-btn">
+					<u-button 
+						:custom-style="customStyle" 
+						type="primary" 
+						:plain="true" 
+						@click="handleReplyBtn" 
+						shape="circle"
+					>评论</u-button>
+				</view>
+			</skeleton>
 		</view>
-		<template v-if="qList.url">
+		<template v-if="urlFlag">
 			<view class="qa-wrap">
 				<view class="qa-title">
-					<u-icon name="share" size="40"></u-icon><text class="qa-title-t">记者报道</text>
+					<u-icon name="share" size="36"></u-icon><text class="qa-title-t">记者报道</text>
 				</view>
 				<navigator class="qa-content" url="/pages/search/search">
 					{{qList.url}}
@@ -51,12 +71,21 @@
 		<template v-if="answerList && answerList.length > 0">
 			<view class="qa-wrap">
 				<view class="qa-title">
-					<u-icon name="chat-fill" size="40"></u-icon><text class="qa-title-t">特邀解读</text>
+					<u-icon name="chat-fill" size="36"></u-icon><text class="qa-title-t">特邀解读</text>
 				</view>
 				<q-a-detail-list
 					:isAnswer="true"
 					:list="answerList"
-				></q-a-detail-list>
+					:skLoading="load"
+					@follow-event="handleFollow"
+					@update-rep-list="handleUpdateRepList"
+				>	
+					<q-a-detail-list
+						:list="repList"
+						:isShowFollowBtn="false"
+						@follow-event="handleFollow"
+					></q-a-detail-list>
+				</q-a-detail-list>
 			</view>
 		</template>
 		
@@ -64,12 +93,21 @@
 		<!-- <template v-if="replyList && replyList.length > 0"> -->
 			<view class="qa-wrap">
 				<view class="qa-title">
-					<u-icon name="chat-fill" size="40"></u-icon><text class="qa-title-t">话题评论</text>
+					<u-icon name="chat-fill" size="36"></u-icon><text class="qa-title-t">话题留言</text>
 				</view>
-				<q-a-detail-list
-					:isAnswer="false"
-					:list="replyList"
-				></q-a-detail-list>
+				
+				<skeleton
+					:loading="load"
+					:row="3"
+				>
+					<q-a-detail-list
+						:type="type"
+						:isAnswer="false"
+						:list="replyList"
+						@tip-off="handleReportBtn"
+						:isShowFollowBtn="false"
+					></q-a-detail-list>
+				</skeleton>
 			</view>
 		<!-- </template> -->
 		
@@ -90,6 +128,9 @@
 			<view class="footer-item" @click="handleShareBtn">
 				<u-icon name="zhuanfa" size="34"></u-icon><text>分享</text>
 			</view>
+			<view class="footer-item report" @click="handleReportBtn">
+				<u-icon name="error-circle" size="34" color="#dc0000"></u-icon><text>举报</text>
+			</view>
 		</view>
 		
 		<share-modal
@@ -106,6 +147,7 @@
 			:show="rzModalShow"
 			@change-flag="handleShowRzBox"
 		></rz-select-modal>
+		<!-- <u-skeleton :loading="load" :animation="true" bgColor="#FFF"></u-skeleton> -->
 	</view>
 </template>
 
@@ -115,6 +157,7 @@
 	import QAReply from '@/components/QAReply/QAReply.vue'
 	import shareModal from '@/components/shareModal/shareModal.vue'
 	import rzSelectModal from '@/components/rzSelectModal/rzSelectModal.vue'
+	import Skeleton from '@/components/skeleton/index.vue'
 	export default {
 		data() {
 			return {
@@ -133,8 +176,10 @@
 				replyShow: false,
 				shareShow: false,
 				rzModalShow: false,
-				collection: 0
-				
+				collection: 0,
+				like: 0,
+				repList: '',
+				load: true
 			}
 		},
 		components: {
@@ -142,19 +187,24 @@
 			QAUserProfile,
 			QAReply,
 			rzSelectModal,
-			shareModal
+			shareModal,
+			Skeleton
 		},
-		onLoad(opt) {
+		async onLoad(opt) {
 			// console.log(opt)
 			if(opt.id) {
 				this.uid = opt.id
 			}
 			if(opt.type) {
-				this.type = opt.type
+				this.type = opt.type || 0
 				this.detailApi = this.type == 1 ? '/Home/Jzbxcx/viewpoint_detail' : '/Home/Jzbxcx/questions_detail'
 				this.replyApi = this.type == 1 ? '/Home/Jzbxcx/reply_viewpoint' : '/Home/Jzbxcx/add_questions_comment'
 			}
-			this.getData()
+			// await this.getData()
+			// uni.hideLoading()
+		},
+		async onShow() {
+			this.renderList()
 		},
 		computed: {
 			answerNum() {
@@ -162,12 +212,30 @@
 			},
 			repPerson() {
 				return this.qList.title || this.authorInfo.name
+			},
+			urlFlag() {
+				if(this.qList.url) {
+					if(this.qList.url.indexOf('原因') == 0) {
+						return false
+					}else {
+						return true
+					}
+				}
+				return false
 			}
 		},
 		methods: {
 			async getData() {
 				let api = this.detailApi
-				let res = await this.$https.get(api, {params: {id: this.uid}})
+				return await this.$https.get(api, {params: {id: this.uid}})
+
+			},
+			async renderList() {
+				uni.showLoading({
+					title: '加载中',
+					mask: true
+				})
+				let res = await this.getData()
 				this.qList = res.data.list
 				this.authorInfo = res.data.user_info
 				this.author_follow = res.data.follow
@@ -177,33 +245,33 @@
 					this.replyList = res.data.reply_list
 				}
 				else if(this.type == 0) {
-					this.replyList = res.data.comment
-					this.answerList = res.data.answer
+					this.replyList = res.data.comment.filter(ele => ele.cate == 0)
+					this.answerList = res.data.answer.filter(ele => ele.zt == 2)
+									.map(ele => {
+										let id = ele.id
+										let arr = res.data.comment.filter(item => item.cate == id)
+										ele.rList = arr
+										if(arr.length > 3) ele.showMoreRep = true
+										ele.goods = arr.filter(item => {
+											return item.intro == this.$store.state.goodStr && item.poster == this.$store.state.infoAuthorize.poster
+										}).length == 0 ? 0 : 1
+										return ele
+									})
 				}
-			},
-			async followUser(userid) {
-				return await this.$https.get('/Home/Jzbxcx/follow_user', {params: {id: userid}})
-			},
-			async cancelFollowUser(userid) {
-				return await this.$https.get('/Home/Jzbxcx/follow_cancel', {params: {id: userid}})
+				this.load = false
+				uni.hideLoading()
 			},
 			async handleFollow(obj) {
-				let res
-				if(obj.isFollow) {
-					res = await this.cancelFollowUser(obj.userid)
-				}else {
-					res = await this.followUser(obj.userid)
-				}
-				if(res.data.code == 1) {
-					await this.getData()
-					uni.showToast({
-						title: (obj.isFollow? '取消关注' : '关注成功'),
-						icon: 'success',
-						duration: 1000
-					})
-				}
+				this.renderList()
+				
 			},
 			handleReplyBtn() {
+				if(!this.$store.state.phoneReg) {
+					uni.navigateTo({
+						url: '/pages/wxAuthorize/wxAuthorize?phone=1'
+					})
+					return
+				}
 				if(this.$store.state.infoAuthorize.auth_status == '2') {
 					this.handleShowReply()
 				}else {
@@ -227,15 +295,17 @@
 					mask: true
 				})
 				let res = await this.$https.get(this.replyApi, {params: {id: this.uid, intro: intro, title: 'reply_title'}})
+				uni.hideLoading()
 				if(res.data.code == 1) {
-					await this.getData()
 					uni.showToast({
 						title: '评论成功',
 						icon: 'success',
-						duration: 1000
+						duration: 1000,
+					})
+					setTimeout(() => {
+						this.renderList()
 					})
 				}
-				uni.hideLoading()
 			},
 			async collectionEvent(api) {
 				return await this.$https.get(api, {params: {
@@ -257,6 +327,14 @@
 						duration: 1000
 					})
 				}
+			},
+			handleReportBtn() {
+				uni.navigateTo({
+					url: `/pages/ideaFeed/ideaFeed?cate=${Number(this.type)+1}&tid=${this.qList.id}`
+				})
+			},
+			handleUpdateRepList(list) {
+				this.repList = list
 			}
 		}
 	}
@@ -277,13 +355,14 @@
 	}
 	.q-title {
 		font-weight: bold;
-		font-size: 40rpx;
-		line-height: 70rpx;
+		font-size: 36rpx;
+		line-height: 50rpx;
+		margin-bottom: 20rpx;
 	}
 	.qa-title {
 		display: flex;
 		align-items: center;
-		font-size: 34rpx;
+		font-size: 30rpx;
 		font-weight: bold;
 		color: $jzb-theme-color;
 		height: 70rpx;
@@ -302,7 +381,7 @@
 	}
 	.q-post-date {
 		color: #999;
-		line-height: 60rpx;
+		// line-height: 50rpx;
 		margin-bottom: 20rpx;
 	}
 	.q-user-card-wrap {
@@ -339,7 +418,10 @@
 	.footer-item {
 		font-size: 28rpx;
 	}
+	.footer-item.report {
+		color: #dc0000;
+	}
 	.footer-item text {
-		margin-left: 10rpx;
+		margin-left: 5rpx;
 	}
 </style>

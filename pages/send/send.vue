@@ -16,18 +16,25 @@
 		</template>
 		<template v-if="current == 1">
 			<send-step-two
-				:list="list"
+				:list="userList"
+				:isSecond="isSecond"
+				:maxNum="maxNum"
 				@change-step="handleChangeStep"
 			></send-step-two>
 		</template>
 		<template v-if="current == 2">
 			<send-step-three
+				:qData="qData"
+				:maxNum="maxNum"
 				@change-step="handleChangeStep"
 			></send-step-three>
 		</template>
 		<template v-if="current == 3">
 			<send-step-four
+				:qid="id"
+				:qData="qData"
 				@change-step="handleChangeStep"
+				@end-q="handleEndQ(id)"
 			></send-step-four>
 		</template>
 		
@@ -47,6 +54,9 @@
 				id: '',
 				current: 0,
 				kw: "",
+				userList: [],
+				qData: {},
+				formInfo: {},
 				numList: [
 					{
 						name: '提问题'
@@ -58,6 +68,10 @@
 						name: '传稿子'
 					}, 
 				],
+				firstUid: '',
+				isSecond: false,
+				maxNum: 3
+				
 			}
 		}, 
 		watch: {
@@ -67,10 +81,7 @@
 			id(newV) {
 				// console.log(newV)
 				if(newV) {
-					this.$https.get('/Home/Jzbxcx/questions_detail?id=' + this.id)
-					.then(res => {
-						console.log(res)
-					})
+					this.handleEndQ(newV)
 				}
 			},
 			kw(newV) {
@@ -99,17 +110,119 @@
 			sendStepFour
 		},
 		methods: {
-			async searchKwUser(newV) {
-				let res = await this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + newV)
-				this.list = res.data.list
+			handleEndQ(qid) {
+				
+				this.$https.get('/Home/Jzbxcx/questions_detail?id=' + qid)
+				.then(res => {
+					if(!this.firstUid) {
+						this.firstUid = res.data.answer.map(ele => ele.poster)
+						this.isSecond = true
+					}
+					this.maxNum = this.maxNum - res.data.answer_num
+					let endTime = res.data.list.end_time.replace(/-/g,'/')
+					let timeC = Date.parse(new Date(endTime)) - Date.parse(new Date())
+					res.data.list.timeC = timeC / 1000
+					this.qData = res.data
+				})
 			},
-			handleChangeStep(num, obj) {
+			async searchKwUser(newV) {
+				uni.showLoading({
+					title: '匹配中...'
+				})
+				let res = await this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + newV)
+				this.userList = res.data.list.filter(ele => {
+					//不是记者 + 已认证身份 + 不是自己 + 不是头一次邀请的人
+					return ele.type != 0 && ele.auth_status == 2 && ele.auth_poster != this.$store.state.infoAuthorize.poster && !this.firstUid.includes(ele.auth_poster)
+				}).map(ele => {
+					ele.checked = false
+					return ele
+				})
+				uni.hideLoading()
+			},
+			async handleChangeStep(num, obj) {
+				if(obj && !obj.newInvite) {
+					if(num == 1) {
+						// this.id = obj.form.id
+						this.formInfo = obj.form
+						this.formInfo.keywords = obj.form.keywords
+						this.kw = obj.form.keywords
+						if(this.infoAuthorize.type != 0) {
+							this.submitViewpoint()
+							return 
+						}
+					}
+					if(num == 2) {
+						this.formInfo.uid = obj.uid
+						this.firstUid = obj.uid.split(',')
+						this.isSecond = true
+						this.submitQuestion()
+					}
+				}
+				else if(obj && obj.newInvite) {
+					if(num == 1) {
+						let kw = this.qData.keywords.map(ele => ele.keywords).reduce((accumulator, currentValue) => {
+							return accumulator + ',' + currentValue
+						})
+						this.searchKwUser(kw)
+					}
+					if(num == 2) {
+						obj.uid && this.newInvite(obj.uid)
+					}
+				}
 				
 				this.current = num
-				if(num == 1) {
-					this.id = obj.id
-					this.kw = obj.kw
+			},
+			async submitQuestion() {
+				uni.showLoading({
+					title: '发送中...',
+					mask: true
+				})
+				let res = await this.$https.get('/Home/Jzbxcx/add_questions', {params: this.formInfo})
+				uni.hideLoading()
+				if(res.data.code == 1) {
+					this.id = res.data.id
+					uni.showToast({
+						title: '发送成功！'
+					})
 				}
+			},
+			async newInvite(uid) {
+				uni.showLoading({
+					title: '发送中...',
+					mask: true
+				})
+				let res = await this.$https.get('/Home/Jzbxcx/add_questions_answer', {
+					params: {
+						id: this.id,
+						uid
+					},
+				})
+				uni.hideLoading()
+				if(res.data.code == 1) {
+					this.handleEndQ(this.id)
+					uni.showToast({
+						title: '发送成功！'
+					})
+				}
+			},
+			async submitViewpoint() {
+				uni.showLoading({
+					title: '发送中...',
+					mask: true
+				})
+				let res = await this.$https.get('/Home/Jzbxcx/add_viewpoint', {params: this.formInfo})
+				if(res.data.code == 1) {
+					uni.showToast({
+						title: '发送成功！'
+					})
+					this.handleReturnIndex()
+				}
+			},
+			handleReturnIndex() {
+				uni.setStorageSync('indexRefresh', true)
+				uni.switchTab({
+				    url: '/pages/index/index',
+				});
 			}
 		}
 	}

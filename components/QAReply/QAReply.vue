@@ -15,6 +15,7 @@
 					v-model="replyV" 
 					placeholder-class="t" 
 					cursor-spacing="170"
+					:maxlength="500"
 				/>
 			</view>
 			<view class="reply-bottom-w">
@@ -44,6 +45,10 @@
 			repPerson: {
 				type: String,
 				default: '网经社'
+			},
+			repInfo: {
+				type: String,
+				default: ''
 			}
 		},
 		data() {
@@ -59,6 +64,9 @@
 		watch: {
 			show(newV) {
 				this.flag = newV
+			},
+			repInfo(newV) {
+				this.replyV = newV
 			},
 			flag(newV) {
 				if(!newV) {

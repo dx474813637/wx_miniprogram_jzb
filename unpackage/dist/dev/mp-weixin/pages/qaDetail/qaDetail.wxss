@@ -39,8 +39,9 @@
 }
 .q-title.data-v-048df0b4 {
   font-weight: bold;
-  font-size: 40rpx;
-  line-height: 70rpx;
+  font-size: 36rpx;
+  line-height: 50rpx;
+  margin-bottom: 20rpx;
 }
 .qa-title.data-v-048df0b4 {
   display: -webkit-box;
@@ -49,7 +50,7 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  font-size: 34rpx;
+  font-size: 30rpx;
   font-weight: bold;
   color: #007aff;
   height: 70rpx;
@@ -69,7 +70,6 @@
 }
 .q-post-date.data-v-048df0b4 {
   color: #999;
-  line-height: 60rpx;
   margin-bottom: 20rpx;
 }
 .q-user-card-wrap.data-v-048df0b4 {
@@ -111,7 +111,10 @@
 .footer-item.data-v-048df0b4 {
   font-size: 28rpx;
 }
+.footer-item.report.data-v-048df0b4 {
+  color: #dc0000;
+}
 .footer-item text.data-v-048df0b4 {
-  margin-left: 10rpx;
+  margin-left: 5rpx;
 }
 

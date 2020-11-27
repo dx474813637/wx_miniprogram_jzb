@@ -55,7 +55,7 @@
   width: 60rpx;
   height: 60rpx;
 }
-.user-avatar image.data-v-025f9ba2 {
+.user-avatar .avatar-img.data-v-025f9ba2 {
   width: 100%;
   height: 100%;
 }

@@ -36,12 +36,13 @@ async function getloginwxauth (code) {
 async function getuserauthinfo () {
 	//请求user身份认证(auth_status)状态 0未认证 1等待认证 2认证成功 3认证失败
 	let res = await https.get('/Home/Jzbxcx/user_auth_info')
-	
+	console.log(res)
 	store.commit('updateInfoAuthorize', res.data.list)
 }
 async function getlogin () {
 	//请求user手机登陆状态
 	let res = await https.get('/Home/Jzbxcx/get_login')
+	console.log(res)
 	if(res.data.code == 2) {
 		uni.removeStorageSync('userid')
 		loginInit()

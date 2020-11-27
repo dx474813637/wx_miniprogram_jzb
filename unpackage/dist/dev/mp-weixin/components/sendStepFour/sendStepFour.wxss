@@ -26,6 +26,10 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.zhu.data-v-4615cbc4 {
+  color: #999;
+  padding: 20rpx 0;
+}
 .main2.data-v-4615cbc4 {
   margin-top: 60rpx;
 }
@@ -34,8 +38,25 @@
   padding: 30rpx;
   margin-bottom: 30rpx;
 }
+.f-w.data-v-4615cbc4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  padding: 20rpx 0;
+}
+.bw-item.data-v-4615cbc4 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 45%;
+          flex: 0 0 45%;
+  width: 45%;
+}
 .w-item.data-v-4615cbc4 {
   margin-bottom: 30rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f8f8f8;
 }
 .info-rate.data-v-4615cbc4 {
   display: -webkit-box;
@@ -44,9 +65,8 @@
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;
-}
-.info-rate .info.data-v-4615cbc4 {
-  font-weight: bold;
+  margin-top: 30rpx;
+  color: #666;
 }
 .w-t.data-v-4615cbc4 {
   color: #007aff;
@@ -56,6 +76,6 @@
 }
 .q-sub.data-v-4615cbc4 {
   padding: 20rpx 0;
-  margin-top: 50rpx;
+  margin-top: 30rpx;
 }
 

@@ -6,6 +6,7 @@
     "q-a-user-profile": "/components/QAUserProfile/QAUserProfile",
     "q-a-reply": "/components/QAReply/QAReply",
     "rz-select-modal": "/components/rzSelectModal/rzSelectModal",
-    "share-modal": "/components/shareModal/shareModal"
+    "share-modal": "/components/shareModal/shareModal",
+    "skeleton": "/components/skeleton/index"
   }
 }

@@ -41,7 +41,11 @@ Vue.filter('timeFilter', v => {
 			if(nowArr[3] == arr[3]) {
 				return nowArr[4] - arr[4] + 1 + '分钟前'
 			}
+			else if(nowArr[4] < arr[4]){
+				return nowArr[4] - arr[4] + 61 + '分钟前'
+			}
 			return nowArr[3] - arr[3] + '小时前'
+			
 		}else if(nowArr[2] - arr[2] == 1 && nowArr[3] - arr[3] < 0) {
 			return (+nowArr[3]) - (+arr[3]) + 24 + '小时前'
 		}else {

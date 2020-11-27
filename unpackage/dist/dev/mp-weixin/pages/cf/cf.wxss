@@ -30,6 +30,7 @@
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 45%;
           flex: 0 0 45%;
+  font-size: 28rpx;
 }
 .item-footer.data-v-79629d66 {
   display: -webkit-box;
@@ -51,7 +52,7 @@
   margin-left: 10rpx;
 }
 .list-item.data-v-79629d66 {
-  padding: 50rpx 30rpx;
+  padding: 30rpx;
   border-bottom: 1rpx solid #f8f8f8;
 }
 .item-sub.data-v-79629d66 {

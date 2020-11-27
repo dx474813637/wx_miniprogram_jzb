@@ -94,26 +94,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uIcon: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 337))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 347))
+  },
+  uCountDown: function() {
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-count-down/u-count-down */ "uview-ui/components/u-count-down/u-count-down").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-count-down/u-count-down.vue */ 547))
   },
   uButton: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 344))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 354))
   }
 }
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var f0 = _vm._f("timeFilter")("2020-10-20 09:25:33")
+  var l0 = _vm.__map(_vm.list, function(item, index) {
+    var $orig = _vm.__get_orig(item)
 
-  var f1 = _vm._f("timeFilter")("2020-10-20 05:25:33")
+    var f0 = _vm._f("timeFilter")(item.post_time)
+
+    return {
+      $orig: $orig,
+      f0: f0
+    }
+  })
 
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        f0: f0,
-        f1: f1
+        l0: l0
       }
     }
   )
@@ -215,31 +224,71 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
-    return {};
+    return {
+      list: [],
+      customStyle: {
+        fontSize: '28rpx' } };
 
 
   },
-  onLoad: function onLoad() {
+  onShow: function onShow() {
     this.renderList();
   },
   methods: {
     renderList: function renderList() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  _this.getData());case 2:res = _context.sent;case 3:case "end":return _context.stop();}}}, _callee);}))();
+                  _this.getData());case 2:res = _context.sent;
+                // zt 0 邀请中 1接受邀请正在回复 2 完成回复 3拒绝邀请
+                _this.list = res.data.list.map(function (ele) {
+                  var timestamp = Date.parse(new Date(ele.end_time.replace(/-/g, '/'))) - Date.parse(new Date());
+                  ele.timestamp = timestamp / 1000;
+                  ele.isTimeLimit = timestamp > 0 ? false : true;
+                  return ele;
+                });case 4:case "end":return _context.stop();}}}, _callee);}))();
     },
     getData: function getData() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   _this2.$https.get('/Home/Jzbxcx/answer_list'));case 2:return _context2.abrupt("return", _context2.sent);case 3:case "end":return _context2.stop();}}}, _callee2);}))();
     },
-    handleSeeOrigin: function handleSeeOrigin() {
+    handleSeeOrigin: function handleSeeOrigin(index) {
+      var item = this.list[index];
       uni.navigateTo({
-        url: '/pages/qaDetail/qaDetail' });
+        url: "/pages/qaDetail/qaDetail?id=".concat(item.qid, "&type=0") });
 
     },
-    handleSeeDetail: function handleSeeDetail() {
+    handleSeeDetail: function handleSeeDetail(index) {
+      var item = this.list[index];
       uni.navigateTo({
-        url: '/pages/jdDetail/jdDetail' });
+        url: "/pages/jdDetail/jdDetail?id=".concat(item.id, "&qid=").concat(item.qid, "&zt=").concat(item.zt) });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

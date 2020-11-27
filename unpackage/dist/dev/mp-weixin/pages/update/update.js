@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uTabs: function() {
-    return Promise.all(/*! import() | uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 269))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-tabs/u-tabs */ "uview-ui/components/u-tabs/u-tabs").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabs/u-tabs.vue */ 279))
   }
 }
 var render = function() {
@@ -134,7 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var updateList = function updateList() {__webpack_require__.e(/*! require.ensure | components/updateList/updateList */ "components/updateList/updateList").then((function () {return resolve(__webpack_require__(/*! @/components/updateList/updateList.vue */ 439));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var updateList = function updateList() {__webpack_require__.e(/*! require.ensure | components/updateList/updateList */ "components/updateList/updateList").then((function () {return resolve(__webpack_require__(/*! @/components/updateList/updateList.vue */ 456));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -163,34 +163,46 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       current: 0,
       navList: [
       {
-        name: '我的点赞',
-        type: 'dz' },
+        name: '关注动态',
+        type: 'dt',
+        api: '/Home/Jzbxcx/follow_viewpoint_list' },
 
       {
         name: '我的留言',
         type: 'f' }],
 
 
-      list: [] };
+      list: [],
+      p: 1 };
 
   },
-  onShow: function onShow() {
-    this.getData('dz');
+  onLoad: function onLoad() {
+    this.change(this.current);
   },
   components: {
     updateList: updateList },
 
   methods: {
-    getData: function getData(type) {
+    renderData: function renderData(index) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                uni.showLoading({
+                  title: '加载中',
+                  mask: true });_context.next = 3;return (
 
+                  _this.getData(_this.navList[index].api));case 3:res = _context.sent;
+                _this.list = res.data.list;
+                uni.hideLoading();case 6:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    getData: function getData(api) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$https.get(api, { params: { p: _this2.p } }));case 2:return _context2.abrupt("return", _context2.sent);case 3:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     change: function change(index) {
       this.current = index;
-      if (!this.navList[index].data) {
-        this.getData(this.navList[index].type);
-      }
+      this.p = 1;
+      this.renderData(index);
+
 
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

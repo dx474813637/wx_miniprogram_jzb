@@ -26,6 +26,12 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.jujue.data-v-357b3234 {
+  text-align: center;
+  line-height: 60rpx;
+  padding: 60rpx 0;
+  color: #ff0000;
+}
 .w-item.data-v-357b3234 {
   padding: 20rpx;
 }
@@ -51,15 +57,30 @@
   color: #007aff;
   padding-bottom: 10rpx;
   margin-bottom: 10rpx;
-  font-size: 32rpx;
+  font-size: 28rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.a-box-title text.data-v-357b3234 {
+  margin-left: 5rpx;
 }
 .a-content.data-v-357b3234 {
   line-height: 50rpx;
   font-size: 32rpx;
   margin-bottom: 50rpx;
+  white-space: pre-wrap;
+}
+.bottom-item.data-v-357b3234 {
+  width: 100%;
 }
 .bottom-item.bw.data-v-357b3234 {
-  width: 100%;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 45%;
+          flex: 0 0 45%;
 }
 .bottom.data-v-357b3234 {
   display: -webkit-box;
@@ -141,5 +162,11 @@
   line-height: 50rpx;
   font-size: 32rpx;
   margin-bottom: 50rpx;
+  white-space: pre-wrap;
+}
+.unchecked.data-v-357b3234 {
+  font-weight: normal;
+  color: #999;
+  margin-left: 10rpx;
 }
 

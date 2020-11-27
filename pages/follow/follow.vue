@@ -11,43 +11,21 @@
 			</u-tabs>
 		</view>
 		<view class="list">
-			<template v-if="current != 0">
-				<view 
-					class="list-item" 
-					v-for="(item, index) in list"
-					:key="index"
-				>	
-					<q-a-user-profile
-						:userid="item.id"
-						:name="item.name"
-						:avatar="item.pic"
-						:label="item.type"
-						:sub="item.auth_title || item.company"
-						:isFollow="item.follow"
-					></q-a-user-profile>
-				</view>
-			</template>
-			<template v-else>
-				<navigator 
-					url="/pages/qaDetail/qaDetail" 
-					class="list-item"
-					v-for="(item, index) in list"
-					:key="index"
-				>
-					<view class="item-sub">
-						<view class="author-info">
-							<image class="author-pic" :src="item.pic" mode=""></image>
-							<text class="author-name">{{item.name}}</text>
-						</view>
-						<view class="post-date">
-							{{item.uptime | timeFilter}}
-						</view>
-					</view>
-					<view class="item-title">
-						{{item.title}}
-					</view>
-				</navigator>
-			</template>
+			<view 
+				class="list-item" 
+				v-for="(item, index) in list"
+				:key="index"
+			>	
+				<q-a-user-profile
+					:userid="item.follow"
+					:name="item.name"
+					:avatar="item.pic"
+					:label="item.type"
+					:sub="item.auth_title || item.company"
+					:isFollow="true"
+					:loading="loading"
+				></q-a-user-profile>
+			</view>
 			
 		</view>
 	</view>
@@ -60,18 +38,28 @@
 		data() {
 			return {
 				current: 0,
-				navList: [{
-					name: '关注动态'
-				},{
+				navList: [
+				// 	{
+				// 	name: '关注动态'
+				// },
+				{
 					name: '我关注的人'
 				},{
 					name: '关注我的人'
 				},],
-				list: []
+				list: [{
+					name: ' ',
+					label: ' ',
+					sub: ' ',
+					auth_title: ' ',
+					company: ' '
+				}],
+				loading: true
 			}
 		},
 		onLoad() {
 			this.renderList(this.current)
+			
 		},
 		watch: {
 			current(newV) {
@@ -86,6 +74,7 @@
 				this.current = index
 			},
 			async renderList(index) {
+				this.loading = true
 				let res
 				uni.showLoading({
 					title: '加载中...',
@@ -93,18 +82,20 @@
 				})
 				res = await this.getData()
 				this.list = res.data.list
+				this.loading = false
 				uni.hideLoading()
 			},
 			async getData () {
 				this.list = []
+				// if(this.current == 0) {
+				// 	return await this.$https.get('/Home/Jzbxcx/follow_viewpoint_list', {params: {p: 1}})
+				// }
+				// else 
 				if(this.current == 0) {
-					return await this.$https.get('/Home/Jzbxcx/follow_viewpoint_list', {params: {p: 1}})
-				}
-				else if(this.current == 1) {
 					return await this.$https.get('/Home/Jzbxcx/follow_list', {params: {p: 1}})
 				}
-				else if(this.current == 2) {
-					
+				else if(this.current == 1) {
+					return await this.$https.get('/Home/Jzbxcx/follow_me_list', {params: {p: 1}})
 				}
 				
 			}

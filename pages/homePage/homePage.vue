@@ -5,23 +5,29 @@
 				<view class="user-avatar">
 					<image :src="list.pic"></image>
 				</view>
-				<view class="header-item">
-					<u-button type="primary" shape="circle" size="mini" ripple  :custom-style="!eyeFlag? eyeStyle: noEyeStyle " @click="handleEyeFlag">
-						<u-icon :name="!eyeFlag? 'heart': 'eye-off'" size="30"></u-icon>
-						<text class="eye">{{eyeFlag? '取消': ''}}关注</text>
-					</u-button>
-					<template v-if="eyeFlag">
-						<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle">
-							<u-icon name="phone-fill" size="30"></u-icon>
-							<text class="eye">互换手机</text>
+				<template v-if="phoneReg">
+					<view class="header-item">
+						<u-button type="primary" shape="circle" size="mini" ripple  :custom-style="!eyeFlag? eyeStyle: noEyeStyle " @click="handleEyeFlag">
+							<u-icon :name="!eyeFlag? 'heart': 'eye-off'" size="30"></u-icon>
+							<text class="eye">{{eyeFlag? '取消': ''}}关注</text>
 						</u-button>
-					</template>
-					<u-button type="primary" shape="circle" ripple size="mini" :custom-style="cfStyle">
-						<u-icon name="plus" size="30"></u-icon>
-						<text class="eye">采访</text>
-					</u-button>
-					
-				</view>
+						<template v-if="eyeFlag">
+							<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle">
+								<u-icon name="phone-fill" size="30"></u-icon>
+								<text class="eye">互换手机</text>
+							</u-button>
+						</template>
+						<template v-if="infoAuthorize.type == 0 && list.type != 0">
+							<u-button type="primary" shape="circle" ripple size="mini" :custom-style="cfStyle">
+								<u-icon name="plus" size="30"></u-icon>
+								<text class="eye">采访</text>
+							</u-button>
+						</template>
+						
+						
+					</view>
+				</template>
+				
 			</view>
 			
 			<view class="box user-info">
@@ -34,19 +40,19 @@
 				</view>
 				<view class="user-data">
 					<view class="data-item">
-						<text class="num">4657</text>
+						<text class="num">{{follow_me.length}}</text>
 						<text>关注Ta的</text>
 					</view>
 					<view class="data-item">
-						<text class="num">27</text>
+						<text class="num">{{my_follow.length}}</text>
 						<text>Ta关注的</text>
 					</view>
 					<view class="data-item">
-						<text class="num">4.8</text>
+						<text class="num">{{score}}</text>
 						<text>评分</text>
 					</view>
 					<view class="data-item">
-						<text class="num">888</text>
+						<text class="num">{{ list.type != 0 ?answer.length : questions.length}}</text>
 						<text>采访数</text>
 					</view>
 				</view>
@@ -68,30 +74,20 @@
 						<view class="itro-input" >
 							{{list.intro}}
 						</view>
-						<!-- <textarea 
-							class="itro-input" 
-							auto-height 
-							:value="list.intro" 
-							disabled 
-							:maxlength="-1" 
-						/> -->
 					</u-read-more>
 				</view>
 			</view>
 			
 			<view class="box">
 				<view class="box-card">
-					<u-tabs 
-						:list="tabsList" 
-						:is-scroll="false" 
-						:current="tabsCurrent" 
-						@change="tabsChange"
-						:show-bar="false"
-						active-color="#007aff"
-						inactive-color="#666"
-					></u-tabs>
+					<view class="title">
+						<u-icon name="file-text-fill" size="30" color="#007aff"></u-icon>
+						<text class="title-name">{{!isAnswer ? 'Ta的提问' : 'Ta的解读'}}</text> 
+					</view>
 					<q-a-list
 						:list="dataList"
+						:type="0"
+						:isAnswer="isAnswer"
 						:isIndexList="false"
 					></q-a-list>
 				</view>
@@ -102,34 +98,11 @@
 
 <script>
 	import QAList from '@/components/QAList/QAList.vue'
+	import {mapState} from 'vuex'
 	export default {
 		data() {
 			return {
 				id: '',
-				tabsCurrent: 0,
-				tabsList: [
-					{
-						name: 'Ta的提问',
-						isAuthor: true,
-						isQuestion: true
-						
-					},
-					{
-						name: 'Ta的解读',
-						isAuthor: false,
-						isQuestion: true
-					},
-					{
-						name: 'Ta的发声',
-						isAuthor: true,
-						isQuestion: false
-					},
-					{
-						name: 'Ta的留言',
-						isAuthor: false,
-						isQuestion: false
-					},
-				],
 				eyeFlag: false,
 				shadowStyle: {
 					backgroundColor: 'none'
@@ -156,30 +129,32 @@
 				my_follow: [],
 				list: {},
 				questions: [],
-				answer: []
+				answer: [],
+				isAnswer: 0,
+				score: 0
 			}
 		},
 		components: {
 			QAList
 		},
 		async onLoad(opt) {
+			
+			uni.showLoading({
+				title: '加载中',
+				mask: true
+			})
 			if(opt.id) {
 				this.id = opt.id
-				this.renderInit()
+				await this.renderInit()
 				// console.log(res)
 				
 			}
+			uni.hideLoading()
 		},
 		computed: {
+			...mapState(['phoneReg', 'infoAuthorize']),
 			dataList() {
-				return []
-				let arr = this.qaData
-				let isA = this.tabsList[this.tabsCurrent].isAuthor
-				let isQ = this.tabsList[this.tabsCurrent].isQuestion
-				return arr.filter(ele => {
-					return (isA? ele.isAuthor : !ele.isAuthor) && (isQ? ele.isQuestion : !ele.isQuestion)
-				})
-				
+				return this.list.type == 0 ? this.questions : this.answer
 			}
 		},
 		methods: {
@@ -195,7 +170,12 @@
 				this.list = list
 				this.eyeFlag = follow
 				this.questions = questions
-				this.answer = answer
+				this.answer = answer.filter(ele => ele.zt == 2)
+				this.isAnswer = this.list.type
+				this.score = Math.floor(this.answer.reduce((sum, cur) => {
+					return sum + Number(cur[(!this.isAnswer ? 'score_questions' : 'score_answer')])
+				}, 0) / this.answer.length * 10) / 10
+				
 				this.$nextTick(() => {
 					this.$refs.uReadMore.init();
 				})
@@ -233,6 +213,15 @@
 </script>
 
 <style scoped lang="scss">
+	.title {
+		padding: 10rpx 20rpx;
+		font-weight: bold;
+		color: $jzb-theme-color;
+		font-size: 30rpx;
+	}
+	.title-name {
+		margin-left: 5rpx;
+	}
 	.itro-input {
 		width: 100%;
 		color: #c8c8c8;

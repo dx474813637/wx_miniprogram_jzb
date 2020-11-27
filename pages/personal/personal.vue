@@ -5,12 +5,12 @@
 				<open-data class="top-img" type="userAvatarUrl"></open-data>
 				<view class="per-h-item center">
 					
-						<open-data class="top-name" type="userNickName"></open-data>
-						<view class="per-info">
-							<view class="per-info-item per-label limit">
-								{{infoAuthorStatus}}
-							</view>
+					<open-data class="top-name" type="userNickName"></open-data>
+					<view class="per-info">
+						<view class="per-info-item per-label limit">
+							{{infoAuthorStatus}}
 						</view>
+					</view>
 					
 				</view>
 			</template>
@@ -35,6 +35,9 @@
 			<view class="reg-btn">
 				<u-button type="warning" plain @click="gotoReg">普通用户注册</u-button>
 			</view>
+			<view class="msg">
+				温馨提示：手机注册成功后，即可开放所有“我的”后台功能。并且认证身份后可与行业专家在线互动、参与话题采访、发布个人观点、获取电商数据等。
+			</view>
 		</template>
 		<template v-else>
 			<view class="personal-list">
@@ -53,9 +56,6 @@
 							<u-icon name="file-text-fill" class="cell-icon" size="40" color="#aa21ff" slot="icon"></u-icon>
 						</u-cell-item>
 					</template>
-					<u-cell-item  title="发声" hover-class="cell-hover-class" @click="handleToPage('fs')">
-						<u-icon name="chat-fill" class="cell-icon" size="40" color="#ba1ca5" slot="icon"></u-icon>
-					</u-cell-item>
 					
 					<u-cell-item  title="关注" hover-class="cell-hover-class" @click="handleToPage('follow')">
 						<u-icon name="eye-fill" class="cell-icon" size="40" color="#ff5500" slot="icon"></u-icon>
@@ -91,6 +91,7 @@
 </template>
 
 <script>
+	import {getuserauthinfo} from '@/static/js/common.js'
 	import {mapState} from 'vuex'
 	import tabBar from '@/components/tabBar/tabBar.vue'
 	import rzSelectModal from '@/components/rzSelectModal/rzSelectModal.vue'
@@ -100,15 +101,17 @@
 				rzModalShow: false,
 			}
 		},
-		onLoad() {
-			// console.log(this.$store.state.authorize)
+		onShow() {
+			if(this.infoAuthorize.auth_status != 2 && this.phoneReg) {
+				getuserauthinfo()
+			}
 		},
 		components: {
 			tabBar,
 			rzSelectModal
 		},
 		computed: {
-			...mapState(['infoAuthorize']),
+			...mapState(['infoAuthorize', 'phoneReg']),
 			phoneRegFlag() {
 				return !this.$store.state.phoneReg
 			},
@@ -118,20 +121,19 @@
 				if(this.infoAuthorize.type == 2) return '公关'
 			},
 			infoAuthorStatus() {
-				if(this.infoAuthorize.auth_status == 0) {
-					if(this.infoAuthorize.auth_date) {
-						return '等待认证'
-					}
-					return '未认证'
+				if(this.infoAuthorize.auth_status == 0 && this.infoAuthorize.auth_date) {
+					return '等待认证'
 				}
 				if(this.infoAuthorize.auth_status == 1) return '等待认证'
 				if(this.infoAuthorize.auth_status == 2) return '认证成功'
 				if(this.infoAuthorize.auth_status == 3) return '认证失败'
+				return '未认证'
 			}
 			
 		},
 		methods: {
 			handleShowRzBox() {
+				if(!this.phoneReg) return 
 				if(this.infoAuthorize.auth_status == 2) return
 				this.rzModalShow = !this.rzModalShow
 			},
@@ -178,6 +180,11 @@
 </script>
 
 <style scoped lang="scss">
+	.msg {
+		padding: 0 30rpx;
+		color: #999;
+		line-height: 40rpx;
+	}
 	.reg-btn {
 		padding: 30rpx;
 	}

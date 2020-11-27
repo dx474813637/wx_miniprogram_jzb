@@ -4,60 +4,88 @@
 			<view class="name-item">
 				<u-icon name="file-text-fill" color="#007aff" size="36"></u-icon>
 				<text>我的采访解读</text>
+				
 			</view>
 			
 		</view>
 		
 		<view class="w-list">
-			<view class="list-item">
-				<view class="item-title">
-					标题内容标题内容标题内容标题内容标题内容标题内容
-				</view>
+			<view class="list-item"
+				v-for="(item, index) in list"
+				:key="index"
+			>
+				<view class="item-title">{{item.title}}</view>
 				<view class="item-sub">
 					<view class="sub-date">
-						{{'2020-10-20 09:25:33' | timeFilter}}发出采访邀请
+						{{item.post_time | timeFilter}}发出采访邀请
 					</view>
+					
+					
 					<view class="sub-status">
-						<u-icon name="info-circle-fill" color="#f90" size="34"></u-icon>
-						<text>采访待处理</text>
+						<template v-if="item.zt == 0">
+							<template v-if="!item.isTimeLimit">
+								<u-icon name="info-circle-fill" color="#f90" size="34"></u-icon>
+								<text>待处理</text>
+							</template>
+							<template v-else>
+								<u-icon name="close-circle-fill" color="#bcbcbc" size="34"></u-icon>
+								<text>未处理</text>
+							</template>
+						</template>
+						<template v-else-if="item.zt == 1">
+							<template v-if="item.intro">
+								<u-icon name="info-circle-fill" color="#f90" size="34"></u-icon>
+								<text>回复待提交</text>
+							</template>
+							<template v-else-if="!item.isTimeLimit">
+								<u-icon name="edit-pen-fill" color="#007aff" size="34"></u-icon>
+								<text>接受待回复</text>
+							</template>
+							<template v-else>
+								<u-icon name="close-circle-fill" color="#d80000" size="34"></u-icon>
+								<text>未回复</text>
+							</template>
+						</template>
+						<template v-else-if="item.zt == 2">
+							<u-icon name="checkmark-circle-fill" color="#00aa7f" size="34"></u-icon>
+							<text>已回复</text>
+						</template>
+						<template v-else-if="item.zt == 3">
+							<u-icon name="close-circle-fill" color="#d80000" size="34"></u-icon>
+							<text>已拒绝</text>
+						</template>
 					</view>
 				</view>
-				<view class="item-sub">
-					<view class="sub-date">
-						<text>23小时59分</text>后采访邀请失效
+				<template v-if="item.zt != 2 && item.zt != 3">
+					<view class="item-sub">
+						<view class="sub-date">
+							<template v-if="!item.isTimeLimit">
+								<u-count-down 
+									separator="zh" 
+									hide-zero-day 
+									:timestamp="item.timestamp"
+									:show-seconds="false"
+									:show-days="item.timestamp > 86400? true : false"
+								></u-count-down>后到截稿日期
+							</template>
+							<template v-else>
+								已过截稿日期。
+							</template>
+							
+						</view>
 					</view>
-				</view>
+				</template>
+				
 				<view class="item-footer">
 					<view class="footer-item">
-						<u-button type="primary" @click="handleSeeDetail">处理详情</u-button>
+						<u-button type="primary" plain @click="handleSeeDetail(index)" :custom-style="customStyle">处理详情</u-button>
 					</view>
 					<view class="footer-item">
-						<u-button type="primary" @click="handleSeeOrigin">查看原文</u-button>
+						<u-button type="primary" plain @click="handleSeeOrigin(index)" :custom-style="customStyle">查看原文</u-button>
 					</view>
 				</view>
 			</view>
-			<view class="list-item">
-				<view class="item-title">
-					标题内容标题内容标题内容标题内容标题内容标题内容
-				</view>
-				<view class="item-sub">
-					<view class="sub-date">
-						{{'2020-10-20 05:25:33' | timeFilter}}发出采访邀请
-					</view>
-					<view class="sub-status">
-						<u-icon name="checkmark-circle-fill" color="#00aa00" size="34"></u-icon>
-						<text>采访已处理</text>
-					</view>
-				</view>
-				<view class="item-footer">
-					<view class="footer-item">
-						<u-button type="primary" @click="handleSeeDetail">处理详情</u-button>
-					</view>
-					<view class="footer-item">
-						<u-button type="primary" @click="handleSeeOrigin">查看原文</u-button>
-					</view>
-				</view>
-			</view>
+			
 		</view>
 		
 	</view>
@@ -67,27 +95,39 @@
 	export default {
 		data() {
 			return {
-				
+				list: [],
+				customStyle: {
+					fontSize: '28rpx'
+				}
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.renderList()
 		},
 		methods: {
 			async renderList() {
 				let res = await this.getData()
+				// zt 0 邀请中 1接受邀请正在回复 2 完成回复 3拒绝邀请
+				this.list = res.data.list.map(ele => {
+					let timestamp = Date.parse(new Date(ele.end_time.replace(/-/g,'/'))) - Date.parse(new Date())
+					ele.timestamp = timestamp/1000
+					ele.isTimeLimit = timestamp > 0 ? false : true
+					return ele
+				})
 			},
 			async getData() {
 				return await this.$https.get('/Home/Jzbxcx/answer_list')
 			},
-			handleSeeOrigin() {
+			handleSeeOrigin(index) {
+				let item = this.list[index]
 				uni.navigateTo({
-					url: '/pages/qaDetail/qaDetail'
+					url: `/pages/qaDetail/qaDetail?id=${item.qid}&type=0`
 				})
 			},
-			handleSeeDetail() {
+			handleSeeDetail(index) {
+				let item = this.list[index]
 				uni.navigateTo({
-					url: '/pages/jdDetail/jdDetail'
+					url: `/pages/jdDetail/jdDetail?id=${item.id}&qid=${item.qid}&zt=${item.zt}`
 				})
 			}
 			
@@ -102,7 +142,7 @@
 	.item-footer {
 		display: flex;
 		justify-content: space-between;
-		padding: 20rpx 0;
+		// padding: 20rpx 0;
 	}
 	.sub-status {
 		display: flex;
@@ -112,7 +152,7 @@
 		margin-left: 10rpx;
 	}
 	.list-item {
-		padding: 50rpx 30rpx;
+		padding: 30rpx;
 		border-bottom: 1rpx solid #f8f8f8;
 	}
 	.item-sub {

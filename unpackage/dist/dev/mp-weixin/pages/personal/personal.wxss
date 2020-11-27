@@ -26,6 +26,11 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.msg.data-v-3df0de86 {
+  padding: 0 30rpx;
+  color: #999;
+  line-height: 40rpx;
+}
 .reg-btn.data-v-3df0de86 {
   padding: 30rpx;
 }

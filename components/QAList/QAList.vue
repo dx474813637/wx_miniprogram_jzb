@@ -1,75 +1,62 @@
 <template>
-	<view class="list-w">
-		<template v-if="dataList.length == 0">
-			<view class="empty">
-				<u-empty text="列表为空" mode="list"></u-empty>
-			</view>
-		</template>
+	<view class="list-w" :class="{'noIndex': !isIndexList}">
 		
-		
-		<view class="list-item" v-for="(item, index) in dataList" :key="index">
-			
-			<template v-if="item.title">
-				<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="title">{{item.title}}</navigator>
-			</template>
-			<template v-if="isIndexList">
-				<navigator :url="`/pages/homePage/homePage?id=${item.poster}`" class="user-info" :class="{'author': item.title}">
-					<view class="user-avatar">
-						<image :src="item.pic"></image>
+		<template v-if="dataList.length > 0">
+			<view class="list-item" v-for="(item, index) in dataList" :key="index">
+				<template v-if="!isIndexList">
+					<view class="noIndex-sub">
+						Ta于
+						<text class="sub-time">{{(item.post_time || item.uptime) | timeFilter}}</text>
+						{{isAnswer ? '解读' : '发布'}}了采访提问：
+						<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${type}`" class="sub-title">{{item.title}}</navigator>
 					</view>
-					<view class="user-profile">
-						<view class="user-profile-item">
-							<view class="user-name">{{item.name}}</view>
-							<view class="user-label">{{item.type | typeToLabel}}</view>
+				</template>
+				<template v-if="item.title && isIndexList">
+					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="title">{{item.title}}</navigator>
+				</template>
+				<template v-if="isIndexList">
+					<navigator :url="`/pages/homePage/homePage?id=${item.poster}`" class="user-info" :class="{'author': item.title}">
+						<view class="user-avatar">
+							<image :src="item.pic" class="avatar-img"></image>
 						</view>
-						<view class="user-profile-sub">{{item.auth_title || item.company}}</view>
-					</view>
-				</navigator>
-			</template>
-			
-			<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="user-content">
-				<view class="content">{{item.intro}}</view>
-				<view class="post-time">{{(item.post_time || item.uptime) | timeFilter}}</view>
-			</navigator>
-			<template v-if="!item.title">
+						<view class="user-profile">
+							<view class="user-profile-item">
+								<view class="user-name">{{item.name}}</view>
+								<view class="user-label">{{item.type | typeToLabel}}</view>
+							</view>
+							<view class="user-profile-sub">{{item.auth_title || item.company}}</view>
+						</view>
+					</navigator>
+				</template>
 				
-				<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="a-to-q-wrap">
-					
+				<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${type}`" class="user-content">
+					<view class="content">{{item.intro}}</view>
 					<template v-if="isIndexList">
-						<view class="q-user-profile">
-							<text class="user-name">{{item.q.name}}</text>
-							<text class="user-label">{{item.q.label}}</text>
-							<text class="user-profile-sub">{{item.q.sub}}</text>
-							<u-icon class="q-ans-icon" name="chat" size="28"></u-icon>
-							<text class="q-ans-num">{{item.q.answer}}<!-- {{item.isQuestion? '解答' : '留言'}} --></text>
-							
-						</view>
+						<view class="post-time">{{(item.post_time || item.uptime) | timeFilter}}</view>
 					</template>
-					<view class="q-info">
-						<text class="q-label">{{item.end_time? '提问' : '发声'}}</text>
-						<text class="q-title">{{item.q_title}}</text>
-					</view>
 				</navigator>
+				
 				<template v-if="isIndexList">
 					<q-a-item-tools
 						:uid="item.id"
 						:type="type"
-						:isAuthor="item.title? true : false"
-						:goods="item.info.goods"
+						:isQ="item.end_time ? true : false"
+						:isAuthor="true"
+						:ansNum="item.ansNum"
 					></q-a-item-tools>
 				</template>
+			</view>
+			<template v-if="endFlag">
+				<u-divider bg-color="transparent">没有更多了</u-divider>
 			</template>
-			<template v-else-if="isIndexList">
-				<q-a-item-tools
-					:uid="item.id"
-					:type="type"
-					:isQ="item.end_time ? true : false"
-					:isAuthor="item.title ? true : false"
-					:goods="item.info.goods"
-					:ansNum="Number(item.reply_num) + (item.comment_num ? Number(item.comment_num) : 0)"
-				></q-a-item-tools>
-			</template>
-		</view>
+		</template>
+		
+		<template v-else>
+			<view class="empty">
+				<u-loading :show="loading" mode="circle" size="50" color="#007aff"></u-loading>
+				<u-empty :show="!loading" text="列表为空" mode="list"></u-empty>
+			</view>
+		</template>
 	</view>
 </template>
 
@@ -90,7 +77,19 @@
 			type: {
 				type: Number | String,
 				default: 0
-			}
+			},
+			loading: {
+				type: Boolean,
+				default: false
+			},
+			endFlag: {
+				type: Boolean,
+				default: false
+			},
+			isAnswer: {
+				type: Number | String,
+				default: 0
+			},
 		},
 		
 		components: {
@@ -99,6 +98,7 @@
 		data() {
 			return {
 				dataList: [],
+				load: true
 			};
 		},
 		watch:{
@@ -107,12 +107,31 @@
 			}
 		},
 		created() {
-			
+			setTimeout(() => {
+				this.load = false;
+			}, 2000)
 			this.changeData(this.list)
 		},
 		methods: {
 			changeData(data) {
-				this.dataList = data
+				if(this.isIndexList) {
+					if(this.type == 0) {
+						this.dataList = data.map(ele => {
+							let arr = ele.reply_list.filter(item => item.zt == 2)
+							ele.ansNum = Number(ele.comment_num) + arr.length
+							return ele
+						})
+					}
+					else if(this.type == 1) {
+						this.dataList = data.map(ele => {
+							ele.ansNum = ele.reply_num
+							return ele
+						})
+					}
+				}else {
+					this.dataList = data
+				}
+				
 			},
 		}
 	}
@@ -121,6 +140,10 @@
 <style scoped lang="scss">
 	.empty {
 		padding: 80rpx 0;
+		background-color: #fff;
+		display: flex;
+		justify-content: center;
+		
 	}
 	.list-w {
 		background-color: #f8f8f8;
@@ -146,7 +169,7 @@
 		width: 60rpx;
 		height: 60rpx;
 	}
-	.user-avatar image {
+	.user-avatar .avatar-img {
 		width: 100%;
 		height: 100%;
 	}
@@ -195,8 +218,10 @@
 		-webkit-box-orient: vertical;
 		color: #666;
 		line-height: 50rpx;
-		padding: 10rpx 0;
+		// padding: 10rpx 0;
+		margin-bottom: 10rpx;
 		white-space: pre-wrap;
+		// word-break: break-all;
 	}
 	.post-time {
 		color: #999;
@@ -248,5 +273,25 @@
 	.q-ans-icon {
 		color: #999;
 		margin-right: 6rpx;
+	}
+	.noIndex-sub {
+		font-size: 28rpx;
+		line-height: 40rpx;
+		color: #666;
+		margin-bottom: 10rpx;
+	}
+	.sub-title, .sub-time {
+		color: $jzb-theme-color;
+		display: inline;
+		// word-break: break-all;
+	}
+	
+	.noIndex .user-content {
+		background-color: #f8f8f8;
+		border-radius: 10rpx;
+		padding: 10rpx;
+	}
+	.noIndex .content {
+		color: $jzb-theme-color;
 	}
 </style>

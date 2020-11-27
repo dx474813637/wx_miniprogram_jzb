@@ -67,9 +67,9 @@
 }
 .content.data-v-5252f614 {
   padding-left: 50rpx;
-  margin: 20rpx auto;
+  margin: 10rpx auto 20rpx;
   line-height: 50rpx;
-  font-size: 32rpx;
+  font-size: 28rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
