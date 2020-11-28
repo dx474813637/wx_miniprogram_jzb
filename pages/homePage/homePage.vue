@@ -12,7 +12,7 @@
 							<text class="eye">{{eyeFlag? '取消': ''}}关注</text>
 						</u-button>
 						<template v-if="eyeFlag">
-							<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle">
+							<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle" @click="applyBtn">
 								<u-icon name="phone-fill" size="30"></u-icon>
 								<text class="eye">互换手机</text>
 							</u-button>
@@ -207,6 +207,27 @@
 			},
 			tabsChange(index) {
 				this.tabsCurrent = index
+			},
+			async applyBtn() {
+				uni.showLoading({
+					title: '提交申请中...'
+				})
+				let res = await this.$https.get('/Home/Jzbxcx/friends_apply', {
+					params: {
+						id: this.id
+					}
+				})
+				uni.hideLoading()
+				uni.showModal({
+					content: '发送成功！是否跳转消息列表？',
+					success: res => {
+						if(res.confirm) {
+							uni.navigateTo({
+								url: '/pages/messageList/messageList'
+							})
+						}
+					}
+				})
 			}
 		}
 	}

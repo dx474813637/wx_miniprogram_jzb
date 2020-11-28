@@ -6,34 +6,7 @@
   "setting": {
     "urlCheck": false,
     "es6": true,
-    "enhance": false,
-    "postcss": true,
-    "preloadBackgroundData": false,
-    "minified": true,
-    "newFeature": false,
-    "coverView": true,
-    "nodeModules": false,
-    "autoAudits": false,
-    "showShadowRootInWxmlPanel": true,
-    "scopeDataCheck": false,
-    "uglifyFileName": false,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "useMultiFrameRuntime": false,
-    "useApiHook": true
+    "minified": true
   },
   "compileType": "miniprogram",
   "libVersion": "",
@@ -54,15 +27,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/homePage/homePage",
-          "pathName": "pages/homePage/homePage",
-          "query": "id=1",
-          "scene": null
-        },
-        {
-          "name": "pages/homePage/homePage",
-          "pathName": "pages/homePage/homePage",
-          "query": "id=5",
+          "name": "pages/messageList/messageList",
+          "pathName": "pages/messageList/messageList",
           "scene": null
         }
       ]

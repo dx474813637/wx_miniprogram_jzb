@@ -10,7 +10,7 @@
 					:title="item.name" 
 					:icon-style="iconStyle" 
 					:arrow="true"
-					@click="handleGoDetail(index)"
+					@click="handleGoDetail"
 				>
 					<u-badge :count="item.count" :absolute="false" slot="right-icon"></u-badge>
 				</u-cell-item>
@@ -19,29 +19,29 @@
 		<view class="msg-w">
 			<u-cell-group>
 				<u-cell-item 
-					:label="'互换邀请' + msg[item.status]" 
-					:value="item.time | timeFilter " 
+					:label="`互换邀请${msg[item.zt]}`" 
+					:value="item.uptime | timeFilter " 
 					:arrow="false"
 					v-for="(item, index) in exchangeData"
 					:key="index"
-					@click="handleExchangeDetail"
+					@click="handleExchangeDetail(index)"
 				>
 					<view class="cell-title" slot="title">
 						<text class="name">{{item.name}}</text>
-						<text class="label" :class="{'rz': item.label != '未认证'}">{{item.label}}</text>
+						<text class="label rz" >{{item.type | typeToLabel}}</text>
 					</view>
 					<image 
 						class="cell-avator"
 						slot="icon" 
-						:src="item.avatorUrl" 
+						:src="item.pic" 
 					/>
-					<u-badge
+					<!-- <u-badge
 						:count="item.status == 1? 0 : 1"
 						class="u-badge"
 						:absolute="false" 
 						slot="right-icon" 
 						is-dot 
-					></u-badge>
+					></u-badge> -->
 				</u-cell-item>
 			</u-cell-group>
 			
@@ -55,7 +55,8 @@
 	export default {
 		data() {
 			return {
-				msg: ['待处理', '已处理'],
+				p: 1,
+				msg: ['待处理', '已接受', '已拒绝'],
 				iconStyle: {
 					color: '#007aff'
 				},
@@ -108,16 +109,63 @@
 				]
 			}
 		},
+		onShow() {
+			this.renderList()
+			this.$https.get('/Home/Jzbxcx/friends_list')
+			// this.$https.get('/Home/Jzbxcx/friends_delete', {params: {
+			// 	id: 1
+			// }})
+		},
 		methods: {
+			async renderList() {
+				let res = await this.getData()
+				if(res.data.code == 1) {
+					this.exchangeData = res.data.list
+				}
+			},
+			async getData() {
+				return await this.$https.get('/Home/Jzbxcx/friends_apply_list', {
+					params: {p: this.p}
+				})
+			},
 			handleGoDetail(index) {
 				uni.navigateTo({
 					url: '/pages/messageDetail/messageDetail?index=' + index
 				})
 			},
-			handleExchangeDetail() {
-				uni.navigateTo({
-					url: '/pages/exchangDetail/exchangDetail'
-				})
+			async handleExchangeDetail(index) {
+				let item = this.exchangeData[index]
+				console.log(item)
+				let id = item.id
+				if(item.poster == this.$store.state.infoAuthorize.poster || item.zt != 0 ) return
+				let modelRes = await new Promise((res, rej) => {
+					uni.showModal({
+						title: '是否接受对方的名片交换邀请？',
+						cancelText: '拒绝',
+						confirmText: '接受',
+						success: r => {
+							res(r)
+						}
+					})
+				}) 
+				console.log(modelRes)
+				if(modelRes.confirm || modelRes.cancel) {
+					let params= { id }
+					if(modelRes.confirm) {
+						params.zt = 1
+					}else if(modelRes.cancel) {
+						params.zt = 2
+					}
+					let re = await this.handleApply(params)
+					uni.showToast({
+						title: '处理成功！'
+					})
+				}
+				
+			},
+				
+			async handleApply(params) {
+				return await this.$https.get('/Home/Jzbxcx/friends_apply_handle', { params })
 			}
 		}
 	}
