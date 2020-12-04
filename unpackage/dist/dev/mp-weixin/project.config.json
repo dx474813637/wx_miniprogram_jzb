@@ -12,24 +12,27 @@
   "libVersion": "",
   "appid": "wx6bcac999af0cc86d",
   "projectname": "jzb",
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
   "condition": {
-    "plugin": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
       "list": []
     },
     "game": {
-      "list": []
-    },
-    "gamePlugin": {
+      "current": -1,
       "list": []
     },
     "miniprogram": {
+      "current": 0,
       "list": [
         {
-          "name": "pages/messageList/messageList",
-          "pathName": "pages/messageList/messageList",
-          "scene": null
+          "name": "",
+          "path": "",
+          "query": "",
+          "id": 0
         }
       ]
     }

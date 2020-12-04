@@ -1807,54 +1807,6 @@ uni$1;exports.default = _default;
 /***/ }),
 
 /***/ 10:
-/*!************************************************************!*\
-  !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-// This method of obtaining a reference to the global object needs to be
-// kept identical to the way it is obtained in runtime.js
-var g = (function() {
-  return this || (typeof self === "object" && self);
-})() || Function("return this")();
-
-// Use `getOwnPropertyNames` because not all browsers support calling
-// `hasOwnProperty` on the global `self` object in a worker. See #183.
-var hadRuntime = g.regeneratorRuntime &&
-  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
-
-// Save the old regeneratorRuntime in case it needs to be restored later.
-var oldRuntime = hadRuntime && g.regeneratorRuntime;
-
-// Force reevalutation of runtime.js.
-g.regeneratorRuntime = undefined;
-
-module.exports = __webpack_require__(/*! ./runtime */ 11);
-
-if (hadRuntime) {
-  // Restore the original runtime.
-  g.regeneratorRuntime = oldRuntime;
-} else {
-  // Remove the global property added by runtime.js.
-  try {
-    delete g.regeneratorRuntime;
-  } catch(e) {
-    g.regeneratorRuntime = undefined;
-  }
-}
-
-
-/***/ }),
-
-/***/ 11:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -2586,10 +2538,102 @@ if (hadRuntime) {
 
 /***/ }),
 
+/***/ 11:
+/*!**********************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/common.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getSetting = getSetting;exports.loginInit = loginInit;exports.getlogin = getlogin;exports.getuserauthinfo = getuserauthinfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 8));var _https = __webpack_require__(/*! @/static/js/https.js */ 12);
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+function getSetting() {
+  // 微信用户信息授权状态查询
+  uni.getSetting({
+    success: function success(res) {
+      console.log(res);
+      if (res.authSetting['scope.userInfo']) {
+        _index.default.commit('checkAuthorize', true);
+      } else {
+        _index.default.commit('checkAuthorize', false);
+        getApp().globalData.prePagePath = getCurrentPages()[0].$page.fullPath;
+        uni.reLaunch({
+          url: '/pages/wxAuthorize/wxAuthorize' });
+
+      }
+    } });
+
+}
+function login() {
+  // 获取code
+  return new Promise(function (resolve) {
+    uni.login({
+      provider: 'weixin',
+      success: function success(res) {
+        resolve(res);
+      } });
+
+  });
+}function
+getloginwxauth(_x) {return _getloginwxauth.apply(this, arguments);}function _getloginwxauth() {_getloginwxauth = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(code) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+
+              _https.https.get('/Home/Jzbxcx/login_wx_auth?code=' + code));case 2:return _context.abrupt("return", _context.sent);case 3:case "end":return _context.stop();}}}, _callee);}));return _getloginwxauth.apply(this, arguments);}function
+
+getuserauthinfo() {return _getuserauthinfo.apply(this, arguments);}function _getuserauthinfo() {_getuserauthinfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+
+              _https.https.get('/Home/Jzbxcx/user_auth_info'));case 2:res = _context2.sent;
+            console.log(res);
+            _index.default.commit('updateInfoAuthorize', res.data.list);case 5:case "end":return _context2.stop();}}}, _callee2);}));return _getuserauthinfo.apply(this, arguments);}function
+
+getlogin() {return _getlogin.apply(this, arguments);}function _getlogin() {_getlogin = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var res;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+
+              _https.https.get('/Home/Jzbxcx/get_login'));case 2:res = _context3.sent;
+            console.log(res);if (!(
+            res.data.code == 2)) {_context3.next = 8;break;}
+            uni.removeStorageSync('userid');
+            loginInit();return _context3.abrupt("return",
+            false);case 8:
+
+            //phone 手机认证状态 0没有绑定 1等待绑定 2绑定成功
+            //login 手机号码 0为初始状态。有具体手机号的，但状态phone=1的，已经发送了验证码，但还没有绑定成功的。状态是2的，那这个手机号码是已经认证了的。
+            //denglu 登录状态（认证状态） 可以直接用这个来判断有没有登录（认证） 1没登录（没认证） 2登录（认证）
+            if (res.data.denglu == 2) {
+              _index.default.commit('checkPhoneReg', true);
+              _index.default.commit('checkPhone', res.data.phone);
+            }
+            // store.commit('checkPhoneReg', true)
+            return _context3.abrupt("return", res);case 10:case "end":return _context3.stop();}}}, _callee3);}));return _getlogin.apply(this, arguments);}function
+
+loginInit() {return _loginInit.apply(this, arguments);}function _loginInit() {_loginInit = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (
+            uni.getStorageSync('userid')) {_context4.next = 5;break;}
+            console.log('getUserId-begin');_context4.next = 4;return (
+              getUserId());case 4:
+            console.log('getUserId-end');case 5:_context4.next = 7;return (
+
+              getlogin());case 7:res = _context4.sent;
+            if (res) {
+              getuserauthinfo();
+            }case 9:case "end":return _context4.stop();}}}, _callee4);}));return _loginInit.apply(this, arguments);}function
+
+
+
+getUserId() {return _getUserId.apply(this, arguments);}function _getUserId() {_getUserId = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var loginRes, res;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+              login());case 2:loginRes = _context5.sent;_context5.next = 5;return (
+              getloginwxauth(loginRes.code));case 5:res = _context5.sent;
+            // console.log(res)
+            uni.setStorageSync('userid', res.data.userid);
+            _index.default.commit('changeUserId', res.data.userid);return _context5.abrupt("return",
+            res);case 9:case "end":return _context5.stop();}}}, _callee5);}));return _getUserId.apply(this, arguments);}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
 /***/ 12:
-/*!************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/https.js ***!
-  \************************************************************/
+/*!*********************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/https.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2622,9 +2666,9 @@ https.interceptors.response.use(function (response) {
 /***/ }),
 
 /***/ 13:
-/*!*********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/index.js ***!
-  \*********************************************************************/
+/*!******************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/index.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2635,9 +2679,9 @@ _Request.default;exports.default = _default;
 /***/ }),
 
 /***/ 14:
-/*!****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/core/Request.js ***!
-  \****************************************************************************/
+/*!*************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/core/Request.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2845,9 +2889,9 @@ Request = /*#__PURE__*/function () {
 /***/ }),
 
 /***/ 15:
-/*!************************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/core/dispatchRequest.js ***!
-  \************************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/core/dispatchRequest.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2862,9 +2906,9 @@ function _default(config) {
 /***/ }),
 
 /***/ 16:
-/*!******************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/adapters/index.js ***!
-  \******************************************************************************/
+/*!***************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/adapters/index.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2962,9 +3006,9 @@ function _default(config) {
 /***/ }),
 
 /***/ 17:
-/*!********************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/helpers/buildURL.js ***!
-  \********************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/helpers/buildURL.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3042,9 +3086,9 @@ function buildURL(url, params) {
 /***/ }),
 
 /***/ 18:
-/*!*********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/utils.js ***!
-  \*********************************************************************/
+/*!******************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/utils.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3184,9 +3228,9 @@ function deepMerge() /* obj1, obj2, obj3, ... */{
 /***/ }),
 
 /***/ 19:
-/*!**********************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/core/buildFullPath.js ***!
-  \**********************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/core/buildFullPath.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9262,9 +9306,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 20:
-/*!*************************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/helpers/isAbsoluteURL.js ***!
-  \*************************************************************************************/
+/*!**********************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/helpers/isAbsoluteURL.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9287,9 +9331,9 @@ function isAbsoluteURL(url) {
 /***/ }),
 
 /***/ 21:
-/*!***********************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/helpers/combineURLs.js ***!
-  \***********************************************************************************/
+/*!********************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/helpers/combineURLs.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9312,9 +9356,9 @@ function combineURLs(baseURL, relativeURL) {
 /***/ }),
 
 /***/ 22:
-/*!***************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/core/settle.js ***!
-  \***************************************************************************/
+/*!************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/core/settle.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9339,9 +9383,9 @@ function settle(resolve, reject, response) {
 /***/ }),
 
 /***/ 23:
-/*!***************************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/core/InterceptorManager.js ***!
-  \***************************************************************************************/
+/*!************************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/core/InterceptorManager.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9400,18 +9444,18 @@ InterceptorManager;exports.default = _default;
 
 /***/ }),
 
-/***/ 235:
-/*!***********************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/data.js ***!
-  \***********************************************************/
+/***/ 237:
+/*!********************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/data.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var trzConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/trz_data.js */ 236));
-var djsConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/djs_data.js */ 237));
-var bqConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/bq_data.js */ 238));
-var cbConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/cb_data.js */ 239));function _getRequireWildcardCache() {if (typeof WeakMap !== "function") return null;var cache = new WeakMap();_getRequireWildcardCache = function _getRequireWildcardCache() {return cache;};return cache;}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;}if (obj === null || typeof obj !== "object" && typeof obj !== "function") {return { default: obj };}var cache = _getRequireWildcardCache();if (cache && cache.has(obj)) {return cache.get(obj);}var newObj = {};var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;if (desc && (desc.get || desc.set)) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}newObj.default = obj;if (cache) {cache.set(obj, newObj);}return newObj;}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var trzConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/trz_data.js */ 238));
+var djsConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/djs_data.js */ 239));
+var bqConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/bq_data.js */ 240));
+var cbConfig = _interopRequireWildcard(__webpack_require__(/*! ./data/cb_data.js */ 241));function _getRequireWildcardCache() {if (typeof WeakMap !== "function") return null;var cache = new WeakMap();_getRequireWildcardCache = function _getRequireWildcardCache() {return cache;};return cache;}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;}if (obj === null || typeof obj !== "object" && typeof obj !== "function") {return { default: obj };}var cache = _getRequireWildcardCache();if (cache && cache.has(obj)) {return cache.get(obj);}var newObj = {};var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;if (desc && (desc.get || desc.set)) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}newObj.default = obj;if (cache) {cache.set(obj, newObj);}return newObj;}
 
 var obj = {
   trz: trzConfig,
@@ -9423,10 +9467,10 @@ obj;exports.default = _default;
 
 /***/ }),
 
-/***/ 236:
-/*!********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/data/trz_data.js ***!
-  \********************************************************************/
+/***/ 238:
+/*!*****************************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/data/trz_data.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9768,10 +9812,10 @@ var sjkInfo = {
 
 /***/ }),
 
-/***/ 237:
-/*!********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/data/djs_data.js ***!
-  \********************************************************************/
+/***/ 239:
+/*!*****************************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/data/djs_data.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9836,10 +9880,110 @@ var sjkInfo = {
 
 /***/ }),
 
-/***/ 238:
-/*!*******************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/data/bq_data.js ***!
-  \*******************************************************************/
+/***/ 24:
+/*!*****************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/core/mergeConfig.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _utils = __webpack_require__(/*! ../utils */ 18);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+
+/**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * 合并局部配置优先的配置，如果局部有该配置项则用局部，如果全局有该配置项则用全局
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @param {Array} keys - 配置项
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @param {Object} globalsConfig - 当前的全局配置
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @param {Object} config2 - 局部配置
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @return {{}}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  */
+var mergeKeys = function mergeKeys(keys, globalsConfig, config2) {
+  var config = {};
+  keys.forEach(function (prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof globalsConfig[prop] !== 'undefined') {
+      config[prop] = globalsConfig[prop];
+    }
+  });
+  return config;
+};
+/**
+    *
+    * @param globalsConfig - 当前实例的全局配置
+    * @param config2 - 当前的局部配置
+    * @return - 合并后的配置
+    */var _default =
+function _default(globalsConfig) {var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var method = config2.method || globalsConfig.method || 'GET';
+  var config = {
+    baseURL: globalsConfig.baseURL || '',
+    method: method,
+    url: config2.url || '',
+    params: config2.params || {},
+    custom: _objectSpread(_objectSpread({}, globalsConfig.custom || {}), config2.custom || {}),
+    header: (0, _utils.deepMerge)(globalsConfig.header || {}, config2.header || {}) };
+
+  var defaultToConfig2Keys = ['getTask', 'validateStatus'];
+  config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultToConfig2Keys, globalsConfig, config2));
+
+  // eslint-disable-next-line no-empty
+  if (method === 'DOWNLOAD') {
+
+  } else if (method === 'UPLOAD') {
+    delete config.header['content-type'];
+    delete config.header['Content-Type'];
+    var uploadKeys = [
+
+
+
+
+
+
+
+
+
+    'filePath',
+    'name',
+    'formData'];
+
+    uploadKeys.forEach(function (prop) {
+      if (typeof config2[prop] !== 'undefined') {
+        config[prop] = config2[prop];
+      }
+    });
+  } else {
+    var defaultsKeys = [
+    'data',
+
+    'timeout',
+
+    'dataType',
+
+    'responseType'];
+
+
+
+
+
+
+
+
+
+
+
+    config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultsKeys, globalsConfig, config2));
+  }
+
+  return config;
+};exports.default = _default;
+
+/***/ }),
+
+/***/ 240:
+/*!****************************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/data/bq_data.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9939,10 +10083,10 @@ var sjkInfo = {
 
 /***/ }),
 
-/***/ 239:
-/*!*******************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/data/cb_data.js ***!
-  \*******************************************************************/
+/***/ 241:
+/*!****************************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/data/cb_data.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9950,110 +10094,10 @@ var sjkInfo = {
 
 /***/ }),
 
-/***/ 24:
-/*!********************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/core/mergeConfig.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _utils = __webpack_require__(/*! ../utils */ 18);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
-
-/**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * 合并局部配置优先的配置，如果局部有该配置项则用局部，如果全局有该配置项则用全局
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @param {Array} keys - 配置项
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @param {Object} globalsConfig - 当前的全局配置
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @param {Object} config2 - 局部配置
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * @return {{}}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  */
-var mergeKeys = function mergeKeys(keys, globalsConfig, config2) {
-  var config = {};
-  keys.forEach(function (prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (typeof globalsConfig[prop] !== 'undefined') {
-      config[prop] = globalsConfig[prop];
-    }
-  });
-  return config;
-};
-/**
-    *
-    * @param globalsConfig - 当前实例的全局配置
-    * @param config2 - 当前的局部配置
-    * @return - 合并后的配置
-    */var _default =
-function _default(globalsConfig) {var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var method = config2.method || globalsConfig.method || 'GET';
-  var config = {
-    baseURL: globalsConfig.baseURL || '',
-    method: method,
-    url: config2.url || '',
-    params: config2.params || {},
-    custom: _objectSpread(_objectSpread({}, globalsConfig.custom || {}), config2.custom || {}),
-    header: (0, _utils.deepMerge)(globalsConfig.header || {}, config2.header || {}) };
-
-  var defaultToConfig2Keys = ['getTask', 'validateStatus'];
-  config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultToConfig2Keys, globalsConfig, config2));
-
-  // eslint-disable-next-line no-empty
-  if (method === 'DOWNLOAD') {
-
-  } else if (method === 'UPLOAD') {
-    delete config.header['content-type'];
-    delete config.header['Content-Type'];
-    var uploadKeys = [
-
-
-
-
-
-
-
-
-
-    'filePath',
-    'name',
-    'formData'];
-
-    uploadKeys.forEach(function (prop) {
-      if (typeof config2[prop] !== 'undefined') {
-        config[prop] = config2[prop];
-      }
-    });
-  } else {
-    var defaultsKeys = [
-    'data',
-
-    'timeout',
-
-    'dataType',
-
-    'responseType'];
-
-
-
-
-
-
-
-
-
-
-
-    config = _objectSpread(_objectSpread({}, config), mergeKeys(defaultsKeys, globalsConfig, config2));
-  }
-
-  return config;
-};exports.default = _default;
-
-/***/ }),
-
 /***/ 25:
-/*!*****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/utils/luch-request/core/defaults.js ***!
-  \*****************************************************************************/
+/*!**************************************************************!*\
+  !*** F:/hbuild-item/jzb/utils/luch-request/core/defaults.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10091,9 +10135,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 26:
-/*!********************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/store/index.js ***!
-  \********************************************************/
+/*!*****************************************!*\
+  !*** F:/hbuild-item/jzb/store/index.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10110,6 +10154,37 @@ var store = new _vuex.default.Store({
     phoneReg: false,
     infoAuthorize: '', //obj.type 0:记者，1:专家，2：公关
     goodStr: '[点赞]',
+    shareOptions: {
+      curPageUrl: 'pages/index/index',
+      name: '姓名',
+      label: '标签',
+      sub: '头衔',
+      contentTitle: '标题',
+      contentText: '内容',
+      marginLR: 40,
+      marginTB: 40,
+      radius: 0.01,
+      fillColor: '#ffffff',
+      innerLR: 20,
+      innerTB: 20,
+      posterRatio: 1,
+      posterImgUrl: "",
+      title: "",
+      titleFontSize: 18,
+      titleLineHeight: 30,
+      posterCodeUrl: "",
+      codeWidth: 0.2,
+      codeRatio: 1,
+      codeRadius: 0.5,
+      codeMT: 20,
+      codeName: "网经社",
+      codeNameMT: 20,
+      tips: "长按/扫描识别进入小程序",
+      posterBgUrl: 'https://www.100ec.cn/Public/home/images/wx_haibao_bg.jpg',
+      codeML: 140,
+      desTextMT: 70,
+      desTextML: 240 },
+
     httpHeader: {
       appid: '10000',
       appsecret: '21a85v+eATCMI1ZYFaYcU7LyARmK9ig+vsjOfhw1JyjKDasGJBF0PWM',
@@ -10178,6 +10253,9 @@ var store = new _vuex.default.Store({
     },
     changeUserId: function changeUserId(state, userid) {
       state.httpHeader.userid = userid;
+    },
+    changeShareOptions: function changeShareOptions(state, shareOptions) {
+      Object.assign(state.shareOptions, shareOptions);
     } },
 
   actions: {} });var _default =
@@ -11462,9 +11540,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 31:
-/*!***********************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/index.js ***!
-  \***********************************************************/
+/*!********************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/index.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11609,9 +11687,9 @@ var install = function install(Vue) {
 /***/ }),
 
 /***/ 32:
-/*!**********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/mixin/mixin.js ***!
-  \**********************************************************************/
+/*!*******************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/mixin/mixin.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11651,9 +11729,9 @@ var install = function install(Vue) {
 /***/ }),
 
 /***/ 33:
-/*!************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/request/index.js ***!
-  \************************************************************************/
+/*!*********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/request/index.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11832,9 +11910,9 @@ new Request();exports.default = _default;
 /***/ }),
 
 /***/ 34:
-/*!*****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/deepMerge.js ***!
-  \*****************************************************************************/
+/*!**************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/deepMerge.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11873,9 +11951,9 @@ deepMerge;exports.default = _default;
 /***/ }),
 
 /***/ 35:
-/*!*****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/deepClone.js ***!
-  \*****************************************************************************/
+/*!**************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/deepClone.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11907,9 +11985,9 @@ deepClone;exports.default = _default;
 /***/ }),
 
 /***/ 36:
-/*!************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/test.js ***!
-  \************************************************************************/
+/*!*********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/test.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12150,9 +12228,9 @@ function code(value) {var len = arguments.length > 1 && arguments[1] !== undefin
 /***/ }),
 
 /***/ 37:
-/*!*******************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/queryParams.js ***!
-  \*******************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/queryParams.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12219,9 +12297,9 @@ queryParams;exports.default = _default;
 /***/ }),
 
 /***/ 38:
-/*!*************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/route.js ***!
-  \*************************************************************************/
+/*!**********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/route.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12316,9 +12394,9 @@ route;exports.default = _default;
 /***/ }),
 
 /***/ 39:
-/*!******************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/timeFormat.js ***!
-  \******************************************************************************/
+/*!***************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/timeFormat.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12379,9 +12457,9 @@ timeFormat;exports.default = _default;
 /***/ }),
 
 /***/ 4:
-/*!****************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/pages.json ***!
-  \****************************************************/
+/*!*************************************!*\
+  !*** F:/hbuild-item/jzb/pages.json ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -12390,9 +12468,9 @@ timeFormat;exports.default = _default;
 /***/ }),
 
 /***/ 40:
-/*!****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/timeFrom.js ***!
-  \****************************************************************************/
+/*!*************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/timeFrom.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12447,9 +12525,9 @@ timeFrom;exports.default = _default;
 /***/ }),
 
 /***/ 41:
-/*!*********************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/colorGradient.js ***!
-  \*********************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/colorGradient.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12556,10 +12634,156 @@ function rgbToHex(rgb) {
 
 /***/ }),
 
-/***/ 415:
-/*!***********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/util/emitter.js ***!
-  \***********************************************************************/
+/***/ 42:
+/*!*********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/guid.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
+                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
+                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
+                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
+                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
+                                                                                                      * @param {Number} len uuid的长度
+                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
+                                                                                                      * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
+                                                                                                      */
+function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  var uuid = [];
+  radix = radix || chars.length;
+
+  if (len) {
+    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
+    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
+  } else {
+    var r;
+    // rfc4122标准要求返回的uuid中,某些位为固定的字符
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+
+    for (var _i = 0; _i < 36; _i++) {
+      if (!uuid[_i]) {
+        r = 0 | Math.random() * 16;
+        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
+      }
+    }
+  }
+  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
+  if (firstU) {
+    uuid.shift();
+    return 'u' + uuid.join('');
+  } else {
+    return uuid.join('');
+  }
+}var _default =
+
+guid;exports.default = _default;
+
+/***/ }),
+
+/***/ 43:
+/*!**********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/color.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
+// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
+var color = {
+  primary: "#2979ff",
+  primaryDark: "#2b85e4",
+  primaryDisabled: "#a0cfff",
+  primaryLight: "#ecf5ff",
+  bgColor: "#f3f4f6",
+
+  info: "#909399",
+  infoDark: "#82848a",
+  infoDisabled: "#c8c9cc",
+  infoLight: "#f4f4f5",
+
+  warning: "#ff9900",
+  warningDark: "#f29100",
+  warningDisabled: "#fcbd71",
+  warningLight: "#fdf6ec",
+
+  error: "#fa3534",
+  errorDark: "#dd6161",
+  errorDisabled: "#fab6b6",
+  errorLight: "#fef0f0",
+
+  success: "#19be6b",
+  successDark: "#18b566",
+  successDisabled: "#71d5a1",
+  successLight: "#dbf1e1",
+
+  mainColor: "#303133",
+  contentColor: "#606266",
+  tipsColor: "#909399",
+  lightColor: "#c0c4cc",
+  borderColor: "#e4e7ed" };var _default =
+
+
+color;exports.default = _default;
+
+/***/ }),
+
+/***/ 44:
+/*!**************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/type2icon.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 根据主题type值,获取对应的图标
+                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
+                                                                                                      * @param String fill 是否使用fill填充实体的图标  
+                                                                                                      */
+function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  // 如果非预置值,默认为success
+  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
+  var iconName = '';
+  // 目前(2019-12-12),info和primary使用同一个图标
+  switch (type) {
+    case 'primary':
+      iconName = 'info-circle';
+      break;
+    case 'info':
+      iconName = 'info-circle';
+      break;
+    case 'error':
+      iconName = 'close-circle';
+      break;
+    case 'warning':
+      iconName = 'error-circle';
+      break;
+    case 'success':
+      iconName = 'checkmark-circle';
+      break;
+    default:
+      iconName = 'checkmark-circle';}
+
+  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
+  if (fill) iconName += '-fill';
+  return iconName;
+}var _default =
+
+type2icon;exports.default = _default;
+
+/***/ }),
+
+/***/ 440:
+/*!********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/util/emitter.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12616,10 +12840,10 @@ function _broadcast(componentName, eventName, params) {
 
 /***/ }),
 
-/***/ 416:
-/*!*******************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/util/async-validator.js ***!
-  \*******************************************************************************/
+/***/ 441:
+/*!****************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/util/async-validator.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13979,11 +14203,11 @@ Schema.warning = warning;
 Schema.messages = messages;var _default =
 
 Schema;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 417)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 442)))
 
 /***/ }),
 
-/***/ 417:
+/***/ 442:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -14014,7 +14238,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 418);
+        if (!path) path = __webpack_require__(/*! path */ 443);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -14028,7 +14252,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 418:
+/***/ 443:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -14338,160 +14562,14 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 417)))
-
-/***/ }),
-
-/***/ 42:
-/*!************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/guid.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
-                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
-                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
-                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
-                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
-                                                                                                      * @param {Number} len uuid的长度
-                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
-                                                                                                      * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
-                                                                                                      */
-function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-  var uuid = [];
-  radix = radix || chars.length;
-
-  if (len) {
-    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
-    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
-  } else {
-    var r;
-    // rfc4122标准要求返回的uuid中,某些位为固定的字符
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-    uuid[14] = '4';
-
-    for (var _i = 0; _i < 36; _i++) {
-      if (!uuid[_i]) {
-        r = 0 | Math.random() * 16;
-        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
-      }
-    }
-  }
-  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
-  if (firstU) {
-    uuid.shift();
-    return 'u' + uuid.join('');
-  } else {
-    return uuid.join('');
-  }
-}var _default =
-
-guid;exports.default = _default;
-
-/***/ }),
-
-/***/ 43:
-/*!*************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/color.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
-// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
-var color = {
-  primary: "#2979ff",
-  primaryDark: "#2b85e4",
-  primaryDisabled: "#a0cfff",
-  primaryLight: "#ecf5ff",
-  bgColor: "#f3f4f6",
-
-  info: "#909399",
-  infoDark: "#82848a",
-  infoDisabled: "#c8c9cc",
-  infoLight: "#f4f4f5",
-
-  warning: "#ff9900",
-  warningDark: "#f29100",
-  warningDisabled: "#fcbd71",
-  warningLight: "#fdf6ec",
-
-  error: "#fa3534",
-  errorDark: "#dd6161",
-  errorDisabled: "#fab6b6",
-  errorLight: "#fef0f0",
-
-  success: "#19be6b",
-  successDark: "#18b566",
-  successDisabled: "#71d5a1",
-  successLight: "#dbf1e1",
-
-  mainColor: "#303133",
-  contentColor: "#606266",
-  tipsColor: "#909399",
-  lightColor: "#c0c4cc",
-  borderColor: "#e4e7ed" };var _default =
-
-
-color;exports.default = _default;
-
-/***/ }),
-
-/***/ 44:
-/*!*****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/type2icon.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 根据主题type值,获取对应的图标
-                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
-                                                                                                      * @param String fill 是否使用fill填充实体的图标  
-                                                                                                      */
-function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  // 如果非预置值,默认为success
-  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
-  var iconName = '';
-  // 目前(2019-12-12),info和primary使用同一个图标
-  switch (type) {
-    case 'primary':
-      iconName = 'info-circle';
-      break;
-    case 'info':
-      iconName = 'info-circle';
-      break;
-    case 'error':
-      iconName = 'close-circle';
-      break;
-    case 'warning':
-      iconName = 'error-circle';
-      break;
-    case 'success':
-      iconName = 'checkmark-circle';
-      break;
-    default:
-      iconName = 'checkmark-circle';}
-
-  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
-  if (fill) iconName += '-fill';
-  return iconName;
-}var _default =
-
-type2icon;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 442)))
 
 /***/ }),
 
 /***/ 45:
-/*!*******************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/randomArray.js ***!
-  \*******************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/randomArray.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14507,9 +14585,9 @@ randomArray;exports.default = _default;
 /***/ }),
 
 /***/ 46:
-/*!***************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/addUnit.js ***!
-  \***************************************************************************/
+/*!************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/addUnit.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14526,9 +14604,9 @@ function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefin
 /***/ }),
 
 /***/ 47:
-/*!**************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/random.js ***!
-  \**************************************************************************/
+/*!***********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/random.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14547,9 +14625,9 @@ random;exports.default = _default;
 /***/ }),
 
 /***/ 48:
-/*!************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/trim.js ***!
-  \************************************************************************/
+/*!*********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/trim.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14573,9 +14651,9 @@ trim;exports.default = _default;
 /***/ }),
 
 /***/ 49:
-/*!*************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/toast.js ***!
-  \*************************************************************************/
+/*!**********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/toast.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14594,9 +14672,9 @@ toast;exports.default = _default;
 /***/ }),
 
 /***/ 50:
-/*!*****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/getParent.js ***!
-  \*****************************************************************************/
+/*!**************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/getParent.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14652,9 +14730,9 @@ function getParent(name, keys) {
 /***/ }),
 
 /***/ 51:
-/*!***************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/$parent.js ***!
-  \***************************************************************************/
+/*!************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/$parent.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14681,9 +14759,9 @@ function $parent() {var name = arguments.length > 0 && arguments[0] !== undefine
 /***/ }),
 
 /***/ 52:
-/*!***********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/sys.js ***!
-  \***********************************************************************/
+/*!********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/sys.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14700,9 +14778,9 @@ function sys() {
 /***/ }),
 
 /***/ 53:
-/*!****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/debounce.js ***!
-  \****************************************************************************/
+/*!*************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/debounce.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14740,9 +14818,9 @@ debounce;exports.default = _default;
 /***/ }),
 
 /***/ 54:
-/*!****************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/function/throttle.js ***!
-  \****************************************************************************/
+/*!*************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/function/throttle.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14783,9 +14861,9 @@ throttle;exports.default = _default;
 /***/ }),
 
 /***/ 55:
-/*!************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/config/config.js ***!
-  \************************************************************************/
+/*!*********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/config/config.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14807,9 +14885,9 @@ var version = '1.6.8';var _default =
 /***/ }),
 
 /***/ 56:
-/*!************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/config/zIndex.js ***!
-  \************************************************************************/
+/*!*********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/config/zIndex.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14836,10 +14914,113 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 601:
-/*!****************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/city.data.js ***!
-  \****************************************************************/
+/***/ 57:
+/*!*******************************************!*\
+  !*** F:/hbuild-item/jzb/utils/filters.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}
+var typeToLabel = function typeToLabel(v) {
+  if (v == 0) return '记者';else
+  if (v == 1) return '专家';else
+  if (v == 2) return '公关';
+};
+
+var timeFilter = function timeFilter(v) {
+  var dateArr = v.split(' ')[0].split('-');
+  var timeArr = v.split(' ')[1].split(':');
+  var arr = [].concat(_toConsumableArray(dateArr), _toConsumableArray(timeArr));
+  arr = arr.map(function (ele) {return +ele;});
+  // console.log(arr)
+  var now = new Date().toLocaleString();
+  var nowArr1 = now.split(' ')[0].split('/');
+  var nowArr2 = now.split(' ')[1].slice(2).split(':');
+  var nowArr = [].concat(_toConsumableArray(nowArr1), _toConsumableArray(nowArr2));
+  nowArr = nowArr.map(function (ele) {return +ele;});
+  if (now.indexOf('下午') != -1) {
+    nowArr[3] = nowArr[3] + 12;
+  }
+  // console.log(nowArr)
+
+  if (nowArr[0] == arr[0] && nowArr[1] == arr[1] && nowArr[2] - arr[2] <= 1) {
+    if (nowArr[2] == arr[2]) {
+      if (nowArr[3] == arr[3]) {
+        return nowArr[4] - arr[4] + 1 + '分钟前';
+      } else
+      if (nowArr[4] < arr[4]) {
+        return nowArr[4] - arr[4] + 61 + '分钟前';
+      }
+      return nowArr[3] - arr[3] + '小时前';
+
+    } else if (nowArr[2] - arr[2] == 1 && nowArr[3] - arr[3] < 0) {
+      return +nowArr[3] - +arr[3] + 24 + '小时前';
+    } else {
+      return v.split(' ')[0].slice(5);
+    }
+  }
+  if (nowArr[0] != arr[0]) {
+    return v.split(' ')[0];
+  }
+  return v.split(' ')[0].slice(5);
+};
+
+module.exports = {
+  typeToLabel: typeToLabel,
+  timeFilter: timeFilter };
+
+/***/ }),
+
+/***/ 58:
+/*!*********************************************!*\
+  !*** F:/hbuild-item/jzb/utils/sharePage.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.sharePage = void 0;
+var sharePage = {
+  data: function data() {
+    return {
+      sharePageOpt: {
+        title: '', // 分享页面标题
+        path: '', // 分享页面的路径
+        imageUrl: '',
+        desc: '',
+        content: '' } };
+
+
+  },
+  onShareAppMessage: function onShareAppMessage(res) {
+    return {
+      title: this.sharePageOpt.title,
+      // path:this.sharePageOpt.path,
+      // imageUrl:this.sharePageOpt.imageUrl,
+      // desc:this.sharePageOpt.desc,
+      // content:this.sharePageOpt.content,
+      success: function success(res) {
+        uni.showToast({
+          title: '分享成功' });
+
+      },
+      fail: function fail(res) {
+        uni.showToast({
+          title: '分享失败',
+          icon: 'none' });
+
+      } };
+
+  } };exports.sharePage = sharePage;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 633:
+/*!*************************************************!*\
+  !*** F:/hbuild-item/jzb/static/js/city.data.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16150,10 +16331,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.cityData =
 
 /***/ }),
 
-/***/ 609:
-/*!******************************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/components/u-parse/libs/MpHtmlParser.js ***!
-  \******************************************************************************************/
+/***/ 641:
+/*!***************************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/components/u-parse/libs/MpHtmlParser.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16164,9 +16345,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.cityData =
  * @author JinYufeng
  * @listens MIT
  */
-var cfg = __webpack_require__(/*! ./config.js */ 610),
+var cfg = __webpack_require__(/*! ./config.js */ 642),
 blankChar = cfg.blankChar,
-CssHandler = __webpack_require__(/*! ./CssHandler.js */ 611),
+CssHandler = __webpack_require__(/*! ./CssHandler.js */ 643),
 windowWidth = uni.getSystemInfoSync().windowWidth;
 var emoji;
 
@@ -16696,10 +16877,10 @@ module.exports = MpHtmlParser;
 
 /***/ }),
 
-/***/ 610:
-/*!************************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/components/u-parse/libs/config.js ***!
-  \************************************************************************************/
+/***/ 642:
+/*!*********************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/components/u-parse/libs/config.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -16786,14 +16967,14 @@ module.exports = cfg;
 
 /***/ }),
 
-/***/ 611:
-/*!****************************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/components/u-parse/libs/CssHandler.js ***!
-  \****************************************************************************************/
+/***/ 643:
+/*!*************************************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/components/u-parse/libs/CssHandler.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cfg = __webpack_require__(/*! ./config.js */ 610),
+var cfg = __webpack_require__(/*! ./config.js */ 642),
 isLetter = function isLetter(c) {return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';};
 
 function CssHandler(tagStyle) {
@@ -16893,10 +17074,10 @@ parser.prototype.Content = function () {
 
 /***/ }),
 
-/***/ 675:
-/*!************************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/util/province.js ***!
-  \************************************************************************/
+/***/ 707:
+/*!*********************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/util/province.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16905,10 +17086,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 676:
-/*!********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/util/city.js ***!
-  \********************************************************************/
+/***/ 708:
+/*!*****************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/util/city.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16917,10 +17098,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 677:
-/*!********************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/uview-ui/libs/util/area.js ***!
-  \********************************************************************/
+/***/ 709:
+/*!*****************************************************!*\
+  !*** F:/hbuild-item/jzb/uview-ui/libs/util/area.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16930,103 +17111,61 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 8:
-/*!*************************************************************!*\
-  !*** C:/Users/86187/Desktop/uniapp-jzb/static/js/common.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getSetting = getSetting;exports.loginInit = loginInit;exports.getlogin = getlogin;exports.getuserauthinfo = getuserauthinfo;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));var _https = __webpack_require__(/*! @/static/js/https.js */ 12);
-var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
-
-function getSetting() {
-  // 微信用户信息授权状态查询
-  uni.getSetting({
-    success: function success(res) {
-      console.log(res);
-      if (res.authSetting['scope.userInfo']) {
-        _index.default.commit('checkAuthorize', true);
-      } else {
-        _index.default.commit('checkAuthorize', false);
-        getApp().globalData.prePagePath = getCurrentPages()[0].$page.fullPath;
-        uni.reLaunch({
-          url: '/pages/wxAuthorize/wxAuthorize' });
-
-      }
-    } });
-
-}
-function login() {
-  // 获取code
-  return new Promise(function (resolve) {
-    uni.login({
-      provider: 'weixin',
-      success: function success(res) {
-        resolve(res);
-      } });
-
-  });
-}function
-getloginwxauth(_x) {return _getloginwxauth.apply(this, arguments);}function _getloginwxauth() {_getloginwxauth = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(code) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-
-              _https.https.get('/Home/Jzbxcx/login_wx_auth?code=' + code));case 2:return _context.abrupt("return", _context.sent);case 3:case "end":return _context.stop();}}}, _callee);}));return _getloginwxauth.apply(this, arguments);}function
-
-getuserauthinfo() {return _getuserauthinfo.apply(this, arguments);}function _getuserauthinfo() {_getuserauthinfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-
-              _https.https.get('/Home/Jzbxcx/user_auth_info'));case 2:res = _context2.sent;
-            console.log(res);
-            _index.default.commit('updateInfoAuthorize', res.data.list);case 5:case "end":return _context2.stop();}}}, _callee2);}));return _getuserauthinfo.apply(this, arguments);}function
-
-getlogin() {return _getlogin.apply(this, arguments);}function _getlogin() {_getlogin = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var res;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-
-              _https.https.get('/Home/Jzbxcx/get_login'));case 2:res = _context3.sent;
-            console.log(res);if (!(
-            res.data.code == 2)) {_context3.next = 8;break;}
-            uni.removeStorageSync('userid');
-            loginInit();return _context3.abrupt("return",
-            false);case 8:
-
-            //phone 手机认证状态 0没有绑定 1等待绑定 2绑定成功
-            //login 手机号码 0为初始状态。有具体手机号的，但状态phone=1的，已经发送了验证码，但还没有绑定成功的。状态是2的，那这个手机号码是已经认证了的。
-            //denglu 登录状态（认证状态） 可以直接用这个来判断有没有登录（认证） 1没登录（没认证） 2登录（认证）
-            if (res.data.denglu == 2) {
-              _index.default.commit('checkPhoneReg', true);
-              _index.default.commit('checkPhone', res.data.phone);
-            }
-            // store.commit('checkPhoneReg', true)
-            return _context3.abrupt("return", res);case 10:case "end":return _context3.stop();}}}, _callee3);}));return _getlogin.apply(this, arguments);}function
-
-loginInit() {return _loginInit.apply(this, arguments);}function _loginInit() {_loginInit = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (
-            uni.getStorageSync('userid')) {_context4.next = 3;break;}_context4.next = 3;return (
-              getUserId());case 3:_context4.next = 5;return (
-
-              getlogin());case 5:res = _context4.sent;
-            if (res) {
-              getuserauthinfo();
-            }case 7:case "end":return _context4.stop();}}}, _callee4);}));return _loginInit.apply(this, arguments);}function
-
-
-
-getUserId() {return _getUserId.apply(this, arguments);}function _getUserId() {_getUserId = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var loginRes, res;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
-              login());case 2:loginRes = _context5.sent;_context5.next = 5;return (
-              getloginwxauth(loginRes.code));case 5:res = _context5.sent;
-            // console.log(res)
-            uni.setStorageSync('userid', res.data.userid);
-            _index.default.commit('changeUserId', res.data.userid);return _context5.abrupt("return",
-            res);case 9:case "end":return _context5.stop();}}}, _callee5);}));return _getUserId.apply(this, arguments);}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 9:
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 10);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 9);
+
+/***/ }),
+
+/***/ 9:
+/*!************************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// This method of obtaining a reference to the global object needs to be
+// kept identical to the way it is obtained in runtime.js
+var g = (function() {
+  return this || (typeof self === "object" && self);
+})() || Function("return this")();
+
+// Use `getOwnPropertyNames` because not all browsers support calling
+// `hasOwnProperty` on the global `self` object in a worker. See #183.
+var hadRuntime = g.regeneratorRuntime &&
+  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
+
+// Save the old regeneratorRuntime in case it needs to be restored later.
+var oldRuntime = hadRuntime && g.regeneratorRuntime;
+
+// Force reevalutation of runtime.js.
+g.regeneratorRuntime = undefined;
+
+module.exports = __webpack_require__(/*! ./runtime */ 10);
+
+if (hadRuntime) {
+  // Restore the original runtime.
+  g.regeneratorRuntime = oldRuntime;
+} else {
+  // Remove the global property added by runtime.js.
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
+}
+
 
 /***/ })
 

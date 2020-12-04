@@ -5,16 +5,16 @@
         v-if="showAvatar"
         class="skeleton-avatar"
         :class="[avatarShape]"
-        :style="{ width: avatarSize, height: avatarSize }"
+        :style="{ width: avatarSize, height: avatarSize, backgroundColor: elColor }"
       ></view>
       <view class="skeleton-content">
-        <view v-if="showTitle" class="skeleton-title" :style="{ width: titleWidth }"></view>
+        <view v-if="showTitle" class="skeleton-title" :style="{ width: titleWidth, backgroundColor: elColor }"></view>
         <view class="skeleton-rows">
           <view
             class="skeleton-row-item"
             v-for="(item, index) in rowList"
             :key="index"
-            :style="{ width: item.width }"
+            :style="{ width: item.width, backgroundColor: elColor }"
           ></view>
         </view>
       </view>
@@ -29,6 +29,10 @@ const DEFAULT_LAST_ROW_WIDTH = '60%'
 
 export default {
   props: {
+	elColor: {
+		type: String,
+		default: '#f2f3f5'
+	},
     loading: {
       type: Boolean,
       default: true,

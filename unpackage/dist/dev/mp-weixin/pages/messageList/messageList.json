@@ -2,6 +2,10 @@
   "usingComponents": {
     "u-cell-group": "/uview-ui/components/u-cell-group/u-cell-group",
     "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
-    "u-badge": "/uview-ui/components/u-badge/u-badge"
+    "u-badge": "/uview-ui/components/u-badge/u-badge",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-button": "/uview-ui/components/u-button/u-button"
   }
 }

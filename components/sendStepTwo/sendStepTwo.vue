@@ -85,11 +85,11 @@
 				let arr = []
 				this.userList.forEach(ele => {
 					if(ele.checked) {
-						arr.push(ele.auth_poster)
+						arr.push(ele.auth_poster || ele.uid)
 					}
 				})
 				this.uid = arr.join(',')
-				// console.log(this.uid)
+				console.log(this.uid)
 			},
 			handleFindZJ() {
 				this.setUid()

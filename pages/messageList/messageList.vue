@@ -17,24 +17,43 @@
 			</u-cell-group>
 		</view>
 		<view class="msg-w">
+			<u-tabs 
+				:list="tabsList" 
+				:is-scroll="false" 
+				:current="tabsCurrent" 
+				@change="change"
+				:show-bar="false"
+			></u-tabs>
 			<u-cell-group>
 				<u-cell-item 
-					:label="`互换邀请${msg[item.zt]}`" 
 					:value="item.uptime | timeFilter " 
 					:arrow="false"
-					v-for="(item, index) in exchangeData"
+					v-for="(item, index) in dataList"
 					:key="index"
-					@click="handleExchangeDetail(index)"
+					@click="handlePopupShow(index)"
 				>
-					<view class="cell-title" slot="title">
-						<text class="name">{{item.name}}</text>
-						<text class="label rz" >{{item.type | typeToLabel}}</text>
-					</view>
 					<image 
 						class="cell-avator"
 						slot="icon" 
 						:src="item.pic" 
 					/>
+					<view class="cell-title" slot="title">
+						<text class="name">{{item.name}}</text>
+						<text class="label rz" >{{item.type | typeToLabel}}</text>
+					</view>
+					<view class="cell-label" slot="label">
+						
+						<template v-if="item.zt == 1">
+							<u-icon name="checkmark-circle-fill" color="#00aa7f" size="34"></u-icon>
+						</template>
+						<template v-else-if="item.zt == 2">
+							<u-icon name="close-circle-fill" color="#d80000" size="34"></u-icon>
+						</template>
+						<template v-else>
+							<u-icon name="info-circle-fill" color="#f90" size="34"></u-icon>
+						</template>
+						<text class="cell-label-text">{{`互换邀请${msg[item.zt]}`}}</text>
+					</view>
 					<!-- <u-badge
 						:count="item.status == 1? 0 : 1"
 						class="u-badge"
@@ -46,7 +65,34 @@
 			</u-cell-group>
 			
 		</view>
-		
+		<u-popup 
+			v-model="show"
+			mode="center"
+			border-radius="20"
+			width="80%"
+			height="650"
+		>
+			<view class="msg-box">
+				<view class="msg-title">
+					名片邀请
+				</view>
+				<view class="msg-content">
+					是否接受对方的名片互换邀请？如若接受，双方均可查看对方的手机等联系信息。
+				</view>
+				<view class="msg-btn">
+					<view class="msg-item">
+						<u-button type="primary" @click="handleExchangeDetail(true)">接受</u-button>
+					</view>
+					<view class="msg-item">
+						<u-button type="error" @click="handleExchangeDetail(false)">拒绝</u-button>
+					</view>
+					<view class="msg-item">
+						<u-button type="info" plain @click="show = false">忽略</u-button>
+					</view>
+				</view>
+				
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -55,11 +101,22 @@
 	export default {
 		data() {
 			return {
+				show: false,
 				p: 1,
 				msg: ['待处理', '已接受', '已拒绝'],
 				iconStyle: {
 					color: '#007aff'
 				},
+				tabsList: [
+					{
+						name: '我收到的名片邀请'
+					},
+					{
+						name: '我发出的名片邀请'
+					}
+				],
+				tabsCurrent: 0,
+				handleIndex: 0,
 				list: [
 					{
 						name: '回复',
@@ -109,14 +166,24 @@
 				]
 			}
 		},
+		computed: {
+			dataList() {
+				let index = this.tabsCurrent
+				let iposter = this.$store.state.infoAuthorize.poster
+				return this.exchangeData.filter(ele => iposter == (index? ele.poster :ele.friends))
+			}
+		},
 		onShow() {
 			this.renderList()
-			this.$https.get('/Home/Jzbxcx/friends_list')
+			// this.$https.get('/Home/Jzbxcx/friends_list')
 			// this.$https.get('/Home/Jzbxcx/friends_delete', {params: {
 			// 	id: 1
 			// }})
 		},
 		methods: {
+			change(index) {
+				this.tabsCurrent = index
+			},
 			async renderList() {
 				let res = await this.getData()
 				if(res.data.code == 1) {
@@ -133,34 +200,29 @@
 					url: '/pages/messageDetail/messageDetail?index=' + index
 				})
 			},
-			async handleExchangeDetail(index) {
-				let item = this.exchangeData[index]
-				console.log(item)
+			handlePopupShow(index) {
+				let item = this.dataList[index]
+				if(item.poster == this.$store.state.infoAuthorize.poster || item.zt != 0)  return
+				this.handleIndex = index
+				this.show = true
+			},
+			async handleExchangeDetail(apply) {
+				let item = this.exchangeData[this.handleIndex]
 				let id = item.id
 				if(item.poster == this.$store.state.infoAuthorize.poster || item.zt != 0 ) return
-				let modelRes = await new Promise((res, rej) => {
-					uni.showModal({
-						title: '是否接受对方的名片交换邀请？',
-						cancelText: '拒绝',
-						confirmText: '接受',
-						success: r => {
-							res(r)
-						}
-					})
-				}) 
-				console.log(modelRes)
-				if(modelRes.confirm || modelRes.cancel) {
-					let params= { id }
-					if(modelRes.confirm) {
-						params.zt = 1
-					}else if(modelRes.cancel) {
-						params.zt = 2
-					}
-					let re = await this.handleApply(params)
-					uni.showToast({
-						title: '处理成功！'
-					})
+
+				let params= { id }
+				if(apply) {
+					params.zt = 1
+				}else {
+					params.zt = 2
 				}
+				let re = await this.handleApply(params)
+				uni.showToast({
+					title: '处理成功！'
+				})
+				this.show = false
+				this.renderList()
 				
 			},
 				
@@ -172,6 +234,32 @@
 </script>
 
 <style scoped lang="scss">
+	.cell-label {
+		display: flex;
+		align-items: center;
+	}
+	.cell-label .cell-label-text {
+		margin-left: 5rpx;
+	}
+	.msg-box {
+		padding: 20rpx;
+	}
+	.msg-title {
+		font-size: 30rpx;
+		text-align: center;
+		line-height: 70rpx;
+		margin-bottom: 20rpx;
+		font-weight: bold;
+	}
+	.msg-content {
+		font-size: 30rpx;
+		line-height: 50rpx;
+		margin-bottom: 40rpx;
+	}
+	.msg-item {
+		// height: 50rpx;
+		margin-bottom: 20rpx;
+	}
 	.u-badge {
 		margin-left: 20rpx;
 	}

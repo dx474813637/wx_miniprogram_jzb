@@ -79,6 +79,7 @@
 					:skLoading="load"
 					@follow-event="handleFollow"
 					@update-rep-list="handleUpdateRepList"
+					:qTitle="qList.title"
 				>	
 					<q-a-detail-list
 						:list="repList"
@@ -125,7 +126,7 @@
 				</template>
 				
 			</view>
-			<view class="footer-item" @click="handleShareBtn">
+			<view class="footer-item" @click="handleShare">
 				<u-icon name="zhuanfa" size="34"></u-icon><text>分享</text>
 			</view>
 			<view class="footer-item report" @click="handleReportBtn">
@@ -135,7 +136,9 @@
 		
 		<share-modal
 			:show="shareShow"
-			@change-flag="handleShareBtn"
+			:opt="options"
+			@render-event="handleShareBtn"
+			@change-flag="handleShare"
 		></share-modal>
 		<q-a-reply
 			:show="replyShow"
@@ -147,11 +150,13 @@
 			:show="rzModalShow"
 			@change-flag="handleShowRzBox"
 		></rz-select-modal>
-		<!-- <u-skeleton :loading="load" :animation="true" bgColor="#FFF"></u-skeleton> -->
+		
+		
 	</view>
 </template>
 
 <script>
+	import {sharePage} from '@/utils/sharePage.js'
 	import QADetailList from '@/components/QADetailList/QADetailList.vue'
 	import QAUserProfile from '@/components/QAUserProfile/QAUserProfile.vue'
 	import QAReply from '@/components/QAReply/QAReply.vue'
@@ -159,6 +164,7 @@
 	import rzSelectModal from '@/components/rzSelectModal/rzSelectModal.vue'
 	import Skeleton from '@/components/skeleton/index.vue'
 	export default {
+		mixins: [sharePage],
 		data() {
 			return {
 				uid: '',
@@ -179,7 +185,8 @@
 				collection: 0,
 				like: 0,
 				repList: '',
-				load: true
+				load: true,
+				options: {}
 			}
 		},
 		components: {
@@ -225,6 +232,7 @@
 			}
 		},
 		methods: {
+			// ...mapMutations(['changeShareOptions']),
 			async getData() {
 				let api = this.detailApi
 				return await this.$https.get(api, {params: {id: this.uid}})
@@ -258,6 +266,18 @@
 										return ele
 									})
 				}
+				let time = this.type == 1 ? this.qList.uptime : this.qList.post_time
+				let itype = this.type == 1 ? '发声' :'采访提问'
+				this.options = {
+					title: `网经社${itype}海报`,
+					posterImgUrl: this.authorInfo.pic,
+					name: this.authorInfo.name,
+					label: this.authorInfo.type,
+					sub: this.authorInfo.title || this.authorInfo.company,
+					contentTitle: `${this.authorInfo.name}于${time}${this.type == 1 ? itype : '发布'+itype}${this.qList.title}：`,
+					contentText: this.qList.intro,
+					curPageUrl: getCurrentPages()[0]['$page'].fullPath.slice(1),
+				}
 				this.load = false
 				uni.hideLoading()
 			},
@@ -279,8 +299,15 @@
 				}
 			},
 			//分享
-			handleShareBtn() {
+			handleShare() {
 				this.shareShow = !this.shareShow
+			},
+			handleShareBtn() {
+				// this.handleShare()
+				// if(obj.type == 'q') {
+				
+				// this.changeShareOptions(options)
+				
 			},
 			handleShowReply() {
 				this.replyShow = !this.replyShow

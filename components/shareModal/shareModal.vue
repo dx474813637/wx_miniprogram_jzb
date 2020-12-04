@@ -9,14 +9,14 @@
 			<view class="share-w-title">分享到</view>
 			<view class="share-w-content">
 				<view class="share-w-c-item wx-bg">
-					<button open-type="share" class="s-c-item">
+					<button open-type="share" class="s-c-item" @click="zfFriends">
 						<u-icon name="weixin-circle-fill" color="#07c160" size="120"></u-icon>
 					</button>
 					<view class="">
 						微信
 					</view>
 				</view>
-				<view class="share-w-c-item hb-bg">
+				<view class="share-w-c-item hb-bg" @click="shareSavePic">
 					<button class="s-c-item">
 						<u-icon name="photo" color="#007aff" size="90"></u-icon>
 					</button>
@@ -27,15 +27,23 @@
 			</view>
 			<view class="share-w-footer" @click="handleExit">取消</view>
 		</u-popup>
+		<hch-poster
+			ref="hchPoster"
+		></hch-poster>
 	</view>
 </template>
 
 <script>
+	import hchPoster from "@/components/hch-poster/hch-poster.vue"
+	import {mapMutations} from 'vuex'
 	export default {
 		props: {
 			show: {
 				type: Boolean,
 				default: false
+			},
+			opt: {
+				type: Object
 			}
 		},
 		watch: {
@@ -47,7 +55,7 @@
 				if(!newV) {
 					this.$emit('change-flag')
 				}
-			}
+			},
 		},
 		data() {
 			return {
@@ -57,9 +65,31 @@
 		created() {
 			this.flag = this.show
 		},
+		components: {
+			hchPoster
+		},
 		methods: {
+			...mapMutations(['changeShareOptions']),
 			handleExit() {
 				this.flag = false
+			},
+			shareSavePic() {
+				this.handleExit()
+				// this.$emit('render-event')
+				this.changeShareOptions(this.opt)
+				this.$nextTick(() => {
+					this.$refs.hchPoster.posterShow()
+				})
+			},
+			zfFriends() {
+				this.handleExit()
+				uni.showShareMenu({
+					withShareTicket: true,
+					success: res => {
+						console.log(res)
+					}
+				})
+				
 			}
 		}
 	}

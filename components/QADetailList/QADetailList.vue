@@ -61,6 +61,7 @@
 				</view>
 					
 				<q-a-item-tools
+					:itemInfo="item"
 					:uid="item.poster"
 					:qid="item.qid || item.vid"
 					:aid="item.id"
@@ -69,6 +70,7 @@
 					:isAuthor="false"
 					:goods="item.goods"
 					:isAnswer="isAnswer"
+					:qTitle="qTitle"
 					:reportInfo="item.intro.slice(0, 10)"
 					@follow-event="handleFollow"
 				></q-a-item-tools>
@@ -120,6 +122,10 @@
 				type: Boolean,
 				default: false
 			},
+			qTitle: {
+				type: String,
+				default: ''
+			},
 			isShowFollowBtn: {
 				type: Boolean,
 				default: true
@@ -162,7 +168,7 @@
 				this.repDetailList = this.list[index]
 				this.$emit('update-rep-list', this.repDetailList.rList)
 				this.show = true
-			}
+			},
 		}
 	}
 </script>

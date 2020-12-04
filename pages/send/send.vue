@@ -70,7 +70,9 @@
 				],
 				firstUid: '',
 				isSecond: false,
-				maxNum: 3
+				maxNum: 3,
+				uid: 0,
+				uidInfo: ''
 				
 			}
 		}, 
@@ -87,7 +89,6 @@
 			kw(newV) {
 				if(newV) {
 					this.searchKwUser(newV)
-					
 				}
 			}
 		},
@@ -98,6 +99,10 @@
 			}
 			if(opt.current) {
 				this.current = opt.current
+			}
+			if(opt.uid) {
+				this.uid = opt.uid
+				this.getUidInfo()
 			}
 		},
 		computed: {
@@ -110,15 +115,30 @@
 			sendStepFour
 		},
 		methods: {
+			async getUidInfo() {
+				let res = await this.$https.get('/Home/Jzbxcx/user_auth_detail', {params: {id: this.uid}})
+				let data = res.data.list
+				this.uidInfo = {
+					auth_poster: data.poster,
+					pic: data.pic,
+					auth_name: data.name,
+					type: data.type,
+					auth_title: data.title,
+					company: data.company,
+					follow: res.data.follow,
+					auth_intro: data.intro,
+					checked: true
+				}
+			},
 			handleEndQ(qid) {
-				
+				this.qData.answer = []
 				this.$https.get('/Home/Jzbxcx/questions_detail?id=' + qid)
 				.then(res => {
 					if(!this.firstUid) {
 						this.firstUid = res.data.answer.map(ele => ele.poster)
 						this.isSecond = true
 					}
-					this.maxNum = this.maxNum - res.data.answer_num
+					this.maxNum = 3 - res.data.answer_num
 					let endTime = res.data.list.end_time.replace(/-/g,'/')
 					let timeC = Date.parse(new Date(endTime)) - Date.parse(new Date())
 					res.data.list.timeC = timeC / 1000
@@ -126,17 +146,26 @@
 				})
 			},
 			async searchKwUser(newV) {
-				uni.showLoading({
-					title: '匹配中...'
-				})
+				this.userList = []
+				uni.showLoading({title: '匹配中...'})
 				let res = await this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + newV)
-				this.userList = res.data.list.filter(ele => {
-					//不是记者 + 已认证身份 + 不是自己 + 不是头一次邀请的人
-					return ele.type != 0 && ele.auth_status == 2 && ele.auth_poster != this.$store.state.infoAuthorize.poster && !this.firstUid.includes(ele.auth_poster)
+				let arr = this.uid? [this.uidInfo] : []
+				this.userList = arr.concat(...res.data.list.filter(ele => {
+					//不是记者 
+					// + 已认证身份 
+					// + 不是点击采访链接过来的id 去重
+					// + 不是自己 
+					// + 不是头一次邀请的人
+					return ele.type != 0 
+							&& ele.auth_status == 2 
+							&& ele.auth_poster != this.uid
+							&& ele.auth_poster != this.$store.state.infoAuthorize.poster 
+							&& !this.firstUid.includes(ele.auth_poster)
 				}).map(ele => {
 					ele.checked = false
 					return ele
-				})
+				})) 
+				console.log(this.userList)
 				uni.hideLoading()
 			},
 			async handleChangeStep(num, obj) {
@@ -163,6 +192,7 @@
 						let kw = this.qData.keywords.map(ele => ele.keywords).reduce((accumulator, currentValue) => {
 							return accumulator + ',' + currentValue
 						})
+						this.uidInfo = ''
 						this.searchKwUser(kw)
 					}
 					if(num == 2) {
@@ -199,6 +229,8 @@
 				})
 				uni.hideLoading()
 				if(res.data.code == 1) {
+					let arr = uid.split(',')
+					this.firstUid = this.firstUid.concat(...arr)
 					this.handleEndQ(this.id)
 					uni.showToast({
 						title: '发送成功！'

@@ -43,6 +43,7 @@
 </template>
 
 <script>
+	import {sharePage} from '@/utils/sharePage.js'
 	import {mapState} from 'vuex'
 	import tabBar from '@/components/tabBar/tabBar.vue'
 	import searchBar from '@/components/searchBar/searchBar.vue'
@@ -50,6 +51,7 @@
 	import rzSelectModal from '@/components/rzSelectModal/rzSelectModal.vue'
 	
 	export default {
+		mixins: [sharePage],
 		data() {
 			return {
 				current: 0,

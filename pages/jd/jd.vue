@@ -3,7 +3,7 @@
 		<view class="w-name">
 			<view class="name-item">
 				<u-icon name="file-text-fill" color="#007aff" size="36"></u-icon>
-				<text>我的采访解读</text>
+				<text class="name-title">我的采访解读</text>
 				
 			</view>
 			
@@ -175,14 +175,14 @@
 		
 	}
 	.w-name {
-		font-size: 34rpx;
+		font-size: 30rpx;
 		font-weight: bold;
 		padding: 20rpx;
 		border-bottom: 1rpx solid #f8f8f8;
 		display: flex;
 		justify-content: space-between;
 	}
-	.w-name text {
+	.w-name .name-title {
 		margin-left: 10rpx;
 		color: #333;
 	}

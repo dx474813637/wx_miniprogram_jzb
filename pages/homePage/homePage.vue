@@ -1,83 +1,103 @@
 <template>
-	<!-- develop2 -->
-	<view class="w">
+	<scroll-view class="w" scroll-y>
+		<view class="w-icon-btn">
+			<button class="zf-btn btn-item" open-type="share">
+				<u-icon name="share-fill" color="#fff" size="40"></u-icon>
+			</button>
+			<view class="btn-item" @click="shareHomePage">
+				<u-icon name="moments" color="#fff" size="45"></u-icon>
+			</view>
+		</view>
 		<view class="w-main">
-			<view class="user-header">
-				<view class="user-avatar">
-					<image :src="list.pic"></image>
-				</view>
-				<template v-if="phoneReg">
-					<view class="header-item">
-						<u-button type="primary" shape="circle" size="mini" ripple  :custom-style="!eyeFlag? eyeStyle: noEyeStyle " @click="handleEyeFlag">
-							<u-icon :name="!eyeFlag? 'heart': 'eye-off'" size="30"></u-icon>
-							<text class="eye">{{eyeFlag? '取消': ''}}关注</text>
-						</u-button>
-						<template v-if="eyeFlag">
-							<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle" @click="applyBtn">
-								<u-icon name="phone-fill" size="30"></u-icon>
-								<text class="eye">互换手机</text>
-							</u-button>
-						</template>
-						<template v-if="infoAuthorize.type == 0 && list.type != 0">
-							<u-button type="primary" shape="circle" ripple size="mini" :custom-style="cfStyle">
-								<u-icon name="plus" size="30"></u-icon>
-								<text class="eye">采访</text>
-							</u-button>
-						</template>
-						
-						
-					</view>
-				</template>
-				
-			</view>
-			
-			<view class="box user-info">
-				<view class="user-name">
-					<text class="name">{{list.name}}</text>
-					<text class="label">{{list.type | typeToLabel}}</text>
-				</view>
-				<view class="user-sub">
-					{{list.title}}
-				</view>
-				<view class="user-data">
-					<view class="data-item">
-						<text class="num">{{follow_me.length}}</text>
-						<text>关注Ta的</text>
-					</view>
-					<view class="data-item">
-						<text class="num">{{my_follow.length}}</text>
-						<text>Ta关注的</text>
-					</view>
-					<view class="data-item">
-						<text class="num">{{score}}</text>
-						<text>评分</text>
-					</view>
-					<view class="data-item">
-						<text class="num">{{ list.type != 0 ?answer.length : questions.length}}</text>
-						<text>采访数</text>
-					</view>
-				</view>
-				<view class="user-key-label">
-					<view 
-						class="key-item"
-						v-for="(item, index) in field"
-						:key="index"
-					>{{item.field}}</view>
-				</view>
-				<view class="user-intro">
-					<u-read-more 
-						ref="uReadMore"
-						toggle
-						:shadow-style="shadowStyle"
-						show-height="300"
-						close-text="展开"
-					>	
-						<view class="itro-input" >
-							{{list.intro}}
+			<skeleton 
+				:loading="load"
+				:row="10"
+				el-color="#17366f"
+			>
+				<view>
+					<view class="user-header">
+						<view class="user-avatar">
+							<image :src="list.pic"></image>
 						</view>
-					</u-read-more>
+						<template v-if="phoneReg && list.poster != infoAuthorize.poster">
+							<view class="header-item">
+								<u-button type="primary" shape="circle" size="mini" ripple  :custom-style="!eyeFlag? eyeStyle: noEyeStyle " @click="handleEyeFlag">
+									<u-icon :name="!eyeFlag? 'heart': 'eye-off'" size="30"></u-icon>
+									<text class="eye">{{eyeFlag? '取消': ''}}关注</text>
+								</u-button>
+								<template v-if="eyeFlag">
+									<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle" @click="applyBtn">
+										<!-- <u-icon name="plus" size="28"></u-icon> -->
+										<u-icon name="account-fill" size="28"></u-icon>
+										<text class="eye">换名片</text>
+									</u-button>
+								</template>
+								<template v-if="infoAuthorize.type == 0 && list.type != 0">
+									<u-button @click="inviteBtn" type="primary" shape="circle" ripple size="mini" :custom-style="cfStyle">
+										<u-icon name="mic" size="28"></u-icon>
+										<text class="eye">采访</text>
+									</u-button>
+								</template>
+								
+								
+							</view>
+						</template>
+						
+					</view>
+					
+					<view class="box user-info">
+						<view class="user-name">
+							<text class="name">{{list.name}}</text>
+							<text class="label">{{list.type | typeToLabel}}</text>
+						</view>
+						<view class="user-sub">
+							{{list.title}}
+						</view>
+						<view class="user-data">
+							<view class="data-item">
+								<text class="num">{{follow_me.length}}</text>
+								<text class="data-t">粉丝</text>
+							</view>
+							<view class="data-item">
+								<text class="num">{{my_follow.length}}</text>
+								<text class="data-t">关注</text>
+							</view>
+							<view class="data-item">
+								<text class="num">{{ list.type != 0 ?answer.length : questions.length}}</text>
+								<text class="data-t">{{ list.type != 0 ? '解读' : '采访'}}</text>
+							</view>
+							<template v-if="score">
+								<view class="data-item">
+									<text class="num">{{score}}</text>
+									<text class="data-t">评分</text>
+								</view>
+							</template>
+							
+						</view>
+						<view class="user-key-label">
+							<view 
+								class="key-item"
+								v-for="(item, index) in field"
+								:key="index"
+							>{{item.field}}</view>
+						</view>
+						<view class="user-intro">
+							<u-read-more 
+								ref="uReadMore"
+								toggle
+								:shadow-style="shadowStyle"
+								show-height="300"
+								close-text="展开"
+							>	
+								<view class="itro-input" >
+									{{list.intro}}
+								</view>
+							</u-read-more>
+						</view>
+					</view>
 				</view>
-			</view>
+			</skeleton>
+			
 			
 			<view class="box">
 				<view class="box-card">
@@ -94,13 +114,23 @@
 				</view>
 			</view>
 		</view>
-	</view>
+		<hch-poster 
+			ref="hchPoster" 
+			:simpleFlag="simpleFlag" 
+			:posterBgFlag="posterBgFlag"
+			:billType="billType"
+		></hch-poster>
+	</scroll-view>
 </template>
 
 <script>
+	import {sharePage} from '@/utils/sharePage.js'
+	import Skeleton from '@/components/skeleton/index.vue'
 	import QAList from '@/components/QAList/QAList.vue'
-	import {mapState} from 'vuex'
+	import hchPoster from "../../components/hch-poster/hch-poster.vue"
+	import {mapState, mapMutations} from 'vuex'
 	export default {
+		mixins: [sharePage],
 		data() {
 			return {
 				id: '',
@@ -132,11 +162,21 @@
 				questions: [],
 				answer: [],
 				isAnswer: 0,
-				score: 0
+				score: 0,
+				load: true,
+				shareEwm: '',
+			    posterBgFlag: true,//是否展示海报背景图
+			    simpleFlag: false,//是否展示简单版海报
+				billType: 'user',
+				posterObj: {
+					title: "网经社名片海报",
+				},
 			}
 		},
 		components: {
-			QAList
+			QAList,
+			Skeleton,
+			hchPoster
 		},
 		async onLoad(opt) {
 			
@@ -146,19 +186,22 @@
 			})
 			if(opt.id) {
 				this.id = opt.id
+				console.log('home-begin')
 				await this.renderInit()
+				console.log('home-end')
 				// console.log(res)
 				
 			}
 			uni.hideLoading()
 		},
 		computed: {
-			...mapState(['phoneReg', 'infoAuthorize']),
+			...mapState(['phoneReg', 'infoAuthorize', 'shareOptions']),
 			dataList() {
 				return this.list.type == 0 ? this.questions : this.answer
 			}
 		},
 		methods: {
+			...mapMutations(['changeShareOptions']),
 			async getUser() {
 				return await this.$https.get('/Home/Jzbxcx/user_auth_detail', {params: {id: this.id}})
 			},
@@ -173,10 +216,21 @@
 				this.questions = questions
 				this.answer = answer.filter(ele => ele.zt == 2)
 				this.isAnswer = this.list.type
-				this.score = Math.floor(this.answer.reduce((sum, cur) => {
-					return sum + Number(cur[(!this.isAnswer ? 'score_questions' : 'score_answer')])
-				}, 0) / this.answer.length * 10) / 10
-				
+				if(this.isAnswer != 0) {
+					this.score = Math.floor(this.answer.reduce((sum, cur) => {
+						return sum + Number(cur['score_answer'])
+					}, 0) / this.answer.length * 10) / 10 || 0
+				}else {
+					
+				}
+				this.load = false
+				this.posterObj.posterImgUrl = list.pic
+				this.posterObj.name = list.name
+				this.posterObj.label = list.type
+				this.posterObj.sub = list.title || list.company
+				this.posterObj.contentTitle = '个人简介'
+				this.posterObj.contentText = list.intro
+				this.changeShareOptions(this.posterObj)
 				this.$nextTick(() => {
 					this.$refs.uReadMore.init();
 				})
@@ -209,7 +263,19 @@
 			tabsChange(index) {
 				this.tabsCurrent = index
 			},
-			async applyBtn() {
+			applyBtn() {
+				if(this.id == this.infoAuthorize.poster) return
+				uni.showModal({
+					title: '名片交换邀请',
+					content: '该邀请对方若接受后，双方均可查看对方的手机信息。',
+					success: res => {
+						if(res.confirm) {
+							this.handleApply()
+						}
+					}
+				})
+			},
+			async handleApply() {
 				uni.showLoading({
 					title: '提交申请中...'
 				})
@@ -219,22 +285,73 @@
 					}
 				})
 				uni.hideLoading()
-				uni.showModal({
-					content: '发送成功！是否跳转消息列表？',
-					success: res => {
-						if(res.confirm) {
-							uni.navigateTo({
-								url: '/pages/messageList/messageList'
-							})
+				if(res.data.code == 1) {
+					uni.showModal({
+						content: '发送成功！是否跳转消息列表？',
+						success: res => {
+							if(res.confirm) {
+								uni.navigateTo({
+									url: '/pages/messageList/messageList'
+								})
+							}
 						}
-					}
+					})
+				}else {
+					uni.showToast({
+						title: res.data.msg,
+						icon: 'none'
+					})
+				}
+				
+			},
+			inviteBtn() {
+				uni.navigateTo({
+					url: `/pages/send/send?uid=${this.id}`
 				})
+			},
+			async shareHomePage() {
+				// let res = await this.$https.get('/Home/Jzbxcx/get_xcx_code', {
+				// 	params: {
+				// 		url: 'pages/homePage/homePage?id=' + this.id
+				// 	}
+				// })
+				// if(res.data.code == 1) {
+				// 	this.shareEwm = res.data.ewm
+					
+				// 	this.$set(this.posterObj, 'posterCodeUrl', res.data.ewm)
+					// this.$nextTick(() => {
+						this.$refs.hchPoster.posterShow()
+					// })
+					
+				// }
+			},
+			zfHomePage() {
+				uni.showShareMenu({
+				  withShareTicket: true,
+				  success: res => {
+					  console.log(res)
+				  }
+				})
+			},
+			canvasCancel(val) {
+			  this.canvasFlag = val
 			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.w-icon-btn {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 20rpx;
+		display: flex;
+		align-items: center;
+	}
+	.data-t {
+		font-size: 28rpx;
+	}
 	.title {
 		padding: 10rpx 20rpx;
 		font-weight: bold;
@@ -275,14 +392,24 @@
 		padding: 20rpx;
 	}
 	.data-item {
+		flex: 0 0 25%;
+		// display: flex;
+		justify-content: center;
+		align-items: baseline;
 		// margin-right: 10rpx;
+	}
+	.data-item:first-child {
+		justify-content: flex-start;
+	}
+	.data-item:last-child {
+		justify-content: flex-end;
 	}
 	// .data-item:last-child {
 	// 	margin-right: 0;
 	// }
 	.user-data {
 		display: flex;
-		justify-content: space-between;
+		// justify-content: space-between;
 		color: #fff;
 		margin-bottom: 15rpx;
 		padding-bottom: 25rpx;
@@ -329,12 +456,14 @@
 	}
 	.w {
 		background-color: $jzb-theme-color;
-		padding: 100rpx 0rpx 10rpx;
+		padding: 0rpx 0rpx 10rpx;
+		height: 100%;
 	}
 	.w-main {
 		border-radius: 20rpx;
 		background-color: #001f33;
 		min-height: 1500rpx;
+		margin-top: 100rpx;
 		padding-top: 40rpx;
 	}
 	.user-header {
@@ -361,5 +490,16 @@
 	}
 	.eye {
 		margin-left: 15rpx;
+	}
+	
+	.btn-item {
+		margin-left: 25rpx;
+	}
+	.btn-item.zf-btn {
+		background-color: transparent;
+		border: none;
+	}
+	button::after {
+		border: none;
 	}
 </style>

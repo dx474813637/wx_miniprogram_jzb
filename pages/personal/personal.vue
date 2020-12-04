@@ -69,6 +69,9 @@
 					<u-cell-item  title="消息" hover-class="cell-hover-class" @click="handleToPage('messageList')">
 						<u-icon name="bell-fill" class="cell-icon" size="40" color="#079cff" slot="icon"></u-icon>
 					</u-cell-item>
+					<u-cell-item  title="名片" hover-class="cell-hover-class" @click="handleToPage('friendsList')">
+						<u-icon name="account-fill" class="cell-icon" size="40" color="#079cff" slot="icon"></u-icon>
+					</u-cell-item>
 					<u-cell-item  title="积分" hover-class="cell-hover-class" @click="handleToPage('score')">
 						<u-icon name="integral-fill" class="cell-icon" size="40" color="#ffd608" slot="icon"></u-icon>
 					</u-cell-item>
@@ -134,7 +137,12 @@
 		methods: {
 			handleShowRzBox() {
 				if(!this.phoneReg) return 
-				if(this.infoAuthorize.auth_status == 2) return
+				if(this.infoAuthorize.auth_status == 2) {
+					uni.navigateTo({
+						url: `/pages/homePage/homePage?id=${this.infoAuthorize.poster}`
+					})
+					return
+				}
 				this.rzModalShow = !this.rzModalShow
 			},
 			handleToPage(name) {

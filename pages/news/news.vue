@@ -50,7 +50,9 @@
 
 <script>
 	import tabBar from '@/components/tabBar/tabBar.vue'
+	import {sharePage} from '@/utils/sharePage.js'
 	export default {
+		mixins: [sharePage],
 		data() {
 			return {
 				current: 0,
@@ -134,9 +136,10 @@
 		components: {
 			tabBar
 		},
-		created() {
+		onLoad() {
 			this.initList()
 			this.handleChange(0)
+			this.$https.get('/Home/Jzbxcx/category')
 		},
 		methods: {
 			initList() {

@@ -19,7 +19,7 @@
 						<u-icon name="chat" size="38"></u-icon>
 						<text class="icon-name">回复</text>
 					</view>
-					<view class="tools-item" @click="handleShareBtn">
+					<view class="tools-item" @click="handleShare">
 						<u-icon name="zhuanfa" size="38"></u-icon>
 						<text class="icon-name">分享</text>
 					</view>
@@ -41,6 +41,7 @@
 		
 		<share-modal
 			:show="shareShow"
+			:opt="options"
 			@change-flag="handleShareBtn"
 		></share-modal>
 		<u-action-sheet 
@@ -61,6 +62,7 @@
 <script>
 	import shareModal from '@/components/shareModal/shareModal.vue'
 	import QAReply from '@/components/QAReply/QAReply.vue'
+	import {mapMutations} from 'vuex'
 	export default {
 		props: {
 			uid: {
@@ -103,6 +105,22 @@
 				type: String,
 				default: ''
 			},
+			qTitle: {
+				type: String,
+				default: ''
+			},
+			itemInfo: {
+				type: Object,
+				default: {
+					pic: '',
+					name: '',
+					type: '',
+					company: '',
+					title: '',
+					intro: '',
+					uptime: ''
+				}
+			}
 		},
 		data() {
 			return {
@@ -115,7 +133,8 @@
 					}
 				],
 				replyShow: false,
-				replyApi: ''
+				replyApi: '',
+				options: {}
 			};
 		},
 		computed: {
@@ -131,7 +150,7 @@
 			this.replyApi = this.type == 1 ? '/Home/Jzbxcx/reply_viewpoint' : '/Home/Jzbxcx/add_questions_comment'
 		},
 		methods: {
-			
+			...mapMutations(['changeShareOptions']),
 			//点赞
 			async handleGoodsBtn() {
 				if(this.goods == 1) return
@@ -168,6 +187,23 @@
 			//分享
 			handleShareBtn() {
 				this.shareShow = !this.shareShow
+			},
+			handleShare() {
+				this.options = {
+					title: '网经社采访解读海报',
+					posterImgUrl: this.itemInfo.pic,
+					name: this.itemInfo.name,
+					label: this.itemInfo.type,
+					sub: this.itemInfo.title || this.itemInfo.company,
+					contentTitle: `${this.itemInfo.name}于${this.itemInfo.uptime}接受采访解读${this.qTitle}：`,
+					contentText: this.itemInfo.intro,
+					curPageUrl: getCurrentPages()[0]['$page'].fullPath.slice(1),
+				}
+				this.handleShareBtn()
+				// this.changeShareOptions(options)
+				// this.$nextTick(() => {
+				// 	this.$refs.hchPoster.posterShow()
+				// })
 			},
 			//更多
 			handleMoreBtn() {

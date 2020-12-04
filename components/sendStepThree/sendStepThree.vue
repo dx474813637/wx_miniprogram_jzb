@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<template v-if="!isTimeLimit && qData.list.zt != 1">
+		<template v-if="!isTimeLimit && qData.list.zt != 1 && maxNum != 0">
 			<view class="fanhui-w">
 				<view class="sub">
 					补充邀请人数还剩：{{maxNum}}人

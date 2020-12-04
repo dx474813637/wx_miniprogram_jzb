@@ -1,0 +1,151 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* uni.scss */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* jzb颜色 */
+.content.data-v-68d93d26 {
+  text-align: center;
+  height: 100%;
+}
+.share-btn.data-v-68d93d26 {
+  padding: 30rpx 60rpx;
+  background-color: #007aff;
+  color: #fff;
+}
+.share-pro.data-v-68d93d26 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+          justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  z-index: 5;
+  line-height: 1;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  /* 显示或关闭内容时动画 */
+}
+.share-pro .share-pro-mask.data-v-68d93d26 {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.share-pro .share-pro-dialog.data-v-68d93d26 {
+  width: 750rpx;
+  height: 310rpx;
+  overflow: hidden;
+  background-color: #fff;
+  -webkit-border-radius: 24rpx 24rpx 0px 0px;
+          border-radius: 24rpx 24rpx 0px 0px;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+}
+.share-pro .share-pro-dialog .close-btn.data-v-68d93d26 {
+  padding: 20rpx 15rpx;
+  position: absolute;
+  top: 0rpx;
+  right: 29rpx;
+}
+.share-pro .share-pro-dialog .share-pro-title.data-v-68d93d26 {
+  font-size: 28rpx;
+  color: #1c1c1c;
+  padding: 28rpx 41rpx;
+  background-color: #f7f7f7;
+}
+.share-pro .share-pro-dialog .share-pro-body.data-v-68d93d26 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  font-size: 28rpx;
+  color: #1c1c1c;
+}
+.share-pro .share-pro-dialog .share-pro-body .share-item.data-v-68d93d26 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+}
+.share-pro .share-pro-dialog .share-pro-body .share-item .share-icon.data-v-68d93d26 {
+  text-align: center;
+  font-size: 70rpx;
+  margin-top: 39rpx;
+  margin-bottom: 16rpx;
+  color: #42ae3c;
+}
+.share-pro .share-pro-dialog .share-pro-body .share-item:nth-child(2) .share-icon.data-v-68d93d26 {
+  color: #ff5f33;
+}
+.share-pro .open.data-v-68d93d26 {
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+.share-pro .close.data-v-68d93d26 {
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  -webkit-transform: translateY(310rpx);
+          transform: translateY(310rpx);
+}
+.canvas.data-v-68d93d26 {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 10;
+}
+

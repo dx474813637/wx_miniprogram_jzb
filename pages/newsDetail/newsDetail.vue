@@ -32,9 +32,12 @@
 </template>
 
 <script>
+	import {sharePage} from '@/utils/sharePage.js'
 	export default {
+		mixins: [sharePage],
 		data() {
 			return {
+				sharePageOpt: {},
 				id: '',
 				kwArr: [],
 				list: {},
@@ -54,9 +57,13 @@
 		},
 		methods: {
 			async renderData (){
+				uni.showLoading()
 				let res = await this.getData()
+				
 				this.list = res.data.list
+				this.sharePageOpt.title = res.data.list.title
 				this.kwArr = this.list.keywords.split(' ')
+				uni.hideLoading()
 			},
 			async getData() {
 				return await this.$https.get('/Home/Jzbxcx/news_detail', {params: {id: this.id}})
@@ -98,10 +105,11 @@
 		margin-right: 20rpx;
 		margin-bottom: 20rpx;
 		padding: 0rpx 20rpx;
-		line-height: 50rpx;
-		background-color: $jzb-theme-color;
-		color: #fff;
-		border-radius: 25rpx;
+		line-height: 40rpx;
+		background-color: $jzb-sup-color;
+		border: 1rpx solid $jzb-theme-color;
+		color: $jzb-theme-color;
+		border-radius: 22rpx;
 		font-size: 24rpx;
 		
 	}

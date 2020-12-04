@@ -1,8 +1,10 @@
 {
   "usingComponents": {
-    "u-button": "/uview-ui/components/u-button/u-button",
     "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-button": "/uview-ui/components/u-button/u-button",
     "u-read-more": "/uview-ui/components/u-read-more/u-read-more",
-    "q-a-list": "/components/QAList/QAList"
+    "hch-poster": "/components/hch-poster/hch-poster",
+    "q-a-list": "/components/QAList/QAList",
+    "skeleton": "/components/skeleton/index"
   }
 }

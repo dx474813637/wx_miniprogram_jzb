@@ -75,7 +75,9 @@
 <script>
 	import searchBar from '@/components/searchBar/searchBar.vue'
 	import tabBar from '@/components/tabBar/tabBar.vue'
+	import {sharePage} from '@/utils/sharePage.js'
 	export default {
+		mixins: [sharePage],
 		data() {
 			return {
 				current: 0,
@@ -140,7 +142,7 @@
 				let params
 				params = {p: this.p, cid: index}
 				let res = await this.getData(params)
-				this.dataList = res.data.list
+				this.dataList = res.data.list //.filter(ele => ele.)
 				uni.hideLoading()
 			},
 			async getData(params) {

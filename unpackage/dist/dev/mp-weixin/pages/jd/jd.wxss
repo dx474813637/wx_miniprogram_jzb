@@ -76,7 +76,7 @@
   background-color: #fff;
 }
 .w-name.data-v-7955ebf4 {
-  font-size: 34rpx;
+  font-size: 30rpx;
   font-weight: bold;
   padding: 20rpx;
   border-bottom: 1rpx solid #f8f8f8;
@@ -87,7 +87,7 @@
   -webkit-justify-content: space-between;
           justify-content: space-between;
 }
-.w-name text.data-v-7955ebf4 {
+.w-name .name-title.data-v-7955ebf4 {
   margin-left: 10rpx;
   color: #333;
 }

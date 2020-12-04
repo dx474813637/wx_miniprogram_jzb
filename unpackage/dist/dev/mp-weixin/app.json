@@ -27,7 +27,9 @@
     "pages/dataNavCell/dataNavCell",
     "pages/newsDetail/newsDetail",
     "pages/collection/collection",
-    "pages/ideaFeed/ideaFeed"
+    "pages/ideaFeed/ideaFeed",
+    "pages/hch-poster/hch-poster",
+    "pages/friendsList/friendsList"
   ],
   "subPackages": [],
   "window": {
@@ -55,6 +57,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

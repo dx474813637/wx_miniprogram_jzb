@@ -26,6 +26,35 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.cell-label.data-v-8d2698dc {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.cell-label .cell-label-text.data-v-8d2698dc {
+  margin-left: 5rpx;
+}
+.msg-box.data-v-8d2698dc {
+  padding: 20rpx;
+}
+.msg-title.data-v-8d2698dc {
+  font-size: 30rpx;
+  text-align: center;
+  line-height: 70rpx;
+  margin-bottom: 20rpx;
+  font-weight: bold;
+}
+.msg-content.data-v-8d2698dc {
+  font-size: 30rpx;
+  line-height: 50rpx;
+  margin-bottom: 40rpx;
+}
+.msg-item.data-v-8d2698dc {
+  margin-bottom: 20rpx;
+}
 .u-badge.data-v-8d2698dc {
   margin-left: 20rpx;
 }

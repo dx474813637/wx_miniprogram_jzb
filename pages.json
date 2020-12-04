@@ -117,6 +117,19 @@
             "path" : "pages/ideaFeed/ideaFeed",
             "style" : {}
         }
+        ,{
+            "path" : "pages/hch-poster/hch-poster",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/friendsList/friendsList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

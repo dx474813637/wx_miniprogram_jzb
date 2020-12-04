@@ -60,7 +60,9 @@ async function getlogin () {
 }
 async function loginInit() {
 	if(!uni.getStorageSync('userid') ) {
+		console.log('getUserId-begin')
 		await getUserId()
+		console.log('getUserId-end')
 	}
 	let res = await getlogin()
 	if(res) {
