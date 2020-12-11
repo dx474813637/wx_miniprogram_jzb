@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-form-item label="领域（至多10个）" prop="keyword" required>
+		<u-form-item label="领域（至多10个）" prop="keywords" required>
 			<view class="kw-right">
 				<u-tag class="tag-class" text="+ 新增" mode="dark" :type="keyAddTagBtn" shape="circle" @click="handleKeySelectChange" />
 				<u-tag 

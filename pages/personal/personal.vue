@@ -105,7 +105,8 @@
 			}
 		},
 		onShow() {
-			if(this.infoAuthorize.auth_status != 2 && this.phoneReg) {
+			if(this.infoAuthorize && this.infoAuthorize.auth_status != 2 && this.phoneReg) {
+				console.log('show')
 				getuserauthinfo()
 			}
 		},

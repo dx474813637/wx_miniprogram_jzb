@@ -47,7 +47,7 @@
 			</view>
 		</u-form>
 		<view class="main">	
-			<u-button type="primary" @click="handleFindZJ">下一步</u-button>
+			<u-button type="primary" @click="handleFindZJ">{{infoAuthorize.type == 0 ?'下一步' : '发布'}}</u-button>
 		</view>
 	</view>
 </template>
@@ -82,9 +82,9 @@
 					title: [
 						{
 							required: true,
-							max: 25,
+							max: 40,
 							min: 5,
-							message: '请输入5至25字的标题',
+							message: '请输入5至40字的标题',
 							trigger: ['blur', 'change']
 						}
 					],
@@ -157,7 +157,6 @@
 				} else {
 					console.log('验证失败');
 				}
-				console.log(this.form)
 			},
 			// async submitQuestion() {
 			// 	if(this.infoAuthorize.type == 0) {

@@ -14,7 +14,7 @@
 			></u-swiper>
 		</view>
 		
-		<view class="content">
+		<view class="content" >
 			<u-tabs 
 				name="cate_name" 
 				:show-bar="false"
@@ -24,21 +24,45 @@
 				:current="current"
 				@change="tabsChange"
 			></u-tabs>
-			<qa-list
-				:type="current"
-				:end-flag="endFlag[current]"
-				:list="dataList"
-				:loading="loading"
-			></qa-list>
+				
+			<view
+				:style="{'display': current == i? 'block':'none'}"
+				v-for="(item, i) in swiperData"
+				:key="i"
+			>	
+					<qa-list
+						:type="i"
+						:end-flag="item.endFlag"
+						:list="item.data"
+						:loading="item.loading"
+					></qa-list>
+
+			</view>
 		</view>
-		<view class="add-btn" @click="handleSend">
-			{{infoAuthorize.type == 0 ? '提问' : '发声'}}
-		</view>
+		<template v-if="!freshShow">
+			<view class="add-btn" @click="handleSend">
+				<u-icon name="plus" color="#fff" size="50"></u-icon>
+				<view class="add-btn-text">
+					{{infoAuthorize.type == 0 ? '提问' : '发声'}}
+				</view>
+				
+			</view>
+		</template>
+		<template v-else>
+			<view class="add-btn" @click="handleFresh">
+				<u-icon name="reload" color="#fff" size="50"></u-icon>
+				<view class="add-btn-text">刷新</view>
+			</view>
+		</template>
+		
 		<rz-select-modal
 			:show="rzModalShow"
 			@change-flag="handleShowRzBox"
 		></rz-select-modal>
+		
+		<u-top-tips ref="uTips"></u-top-tips>
 		<tab-bar></tab-bar>
+		
 	</view>
 </template>
 
@@ -59,7 +83,7 @@
 				loading: false,
 				tabs: [
 					{
-						name: '记者提问'
+						name: '记者提问',
 					},
 					{
 						name: '专家发声'
@@ -81,10 +105,30 @@
 					
 				],
 				dataList: [],
+				swiperData: [
+					{
+						data: [],
+						api: 'questions_list',
+						loading: false,
+						p: 1,
+						endFlag: false,
+						scroll: false
+					},
+					{
+						data: [],
+						api: 'viewpoint_list',
+						loading: false,
+						p: 1,
+						endFlag: false,
+						scroll: false
+					}
+				],
 				qData: [],
 				vData: [],
 				p: [1, 1],
-				endFlag: [false, false]
+				endFlag: [false, false],
+				wH: 0,
+				freshShow: false
 			}
 		},
 		components: {
@@ -98,33 +142,40 @@
 		},
 		watch: {
 			current(newV) {
-				this.dataList = []
-				if(newV == 0 && this.qData.length > 0) {
-					this.dataList = this.qData
-					return
-				}
-				else if(newV == 1 && this.vData.length > 0) {
-					this.dataList = this.vData
-					return
-				}
+				let obj = this.swiperData[newV]
+				if(obj.data.length>0 || obj.endFlag) return
 				this.renderList()
 			}
 		},
 		async onPullDownRefresh() {
-			console.log('down')
-			this.p = [1, 1]
-			this.endFlag = [false, false]
+			// console.log('down')
+			this.swiperData.forEach(ele => {
+				this.$set(ele, 'data', [])
+				this.$set(ele, 'p', 1)
+				this.$set(ele, 'endFlag', false)
+			})
+			// let obj = this.swiperData[this.current]
+			// obj.p = 1
+			// obj.endFlag = false
+			// this.$set(obj, 'data', [])
 			await this.renderList()
 			uni.stopPullDownRefresh()
+			this.$refs.uTips.show({
+				title: '刷新成功',
+				type: 'success',
+				duration: '2000'
+			})
 		},
 		onReachBottom() {
-			if(this.endFlag[this.current]) return
-			this.p.splice(this.current, 1, this.p[this.current]+1)
+			let obj = this.swiperData[this.current]
+			if(obj.endFlag) return
+			obj.p++
 			this.renderList()
-			console.log('reach')
+			// console.log('reach')
 		},
 		onLoad() {
 			this.renderList()
+			
 		},
 		onShow(){
 			if(uni.getStorageSync('indexRefresh')) {
@@ -133,7 +184,19 @@
 			}
 			
 		},
+		onPageScroll(res) {
+			res.scrollTop > 700 ? this.freshShow = true : this.freshShow = false
+		},
 		methods: {
+			handleFresh() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					success: () => {
+						uni.startPullDownRefresh()
+					}
+				})
+				
+			},
 			handleNavigator(index) {
 				uni.navigateTo({
 					url: this.list[index].url
@@ -144,24 +207,40 @@
 				// this.renderList()
 			},
 			async renderList() {
-				this.loading = true
+				// this.loading = true
 				let res
-				let p = this.p[this.current]
-				if(this.current == 0) {
-					res = await this.$https.get('/Home/Jzbxcx/questions_list', {params: {p}})
-					this.qData = p == 1 ? res.data.list : this.qData.concat(...res.data.list)
-					this.dataList = this.qData
+				let index = this.current
+				let obj = this.swiperData[index]
+				let api = '/Home/Jzbxcx/' + obj.api
+				let p = obj.p
+				let data = obj.data
+				this.$set(obj, 'loading', true)
+				res = await this.$https.get(api, {params: {p}})
+				if(res.data.code == 1) {
+					let resData = res.data.list.map(ele => {
+						if(index == 1) {
+							ele.ansNum = ele.reply_num
+						}else {
+							let arr = ele.reply_list.filter(el => el.zt == 2)
+							ele.ansNum = Number(ele.comment_num) + arr.length
+						}
+						return ele
+					})
+					if(obj.p == 1) obj.data = []
+					obj.data.push(resData)
+					// this.$set(obj.data, p - 1, resData)
 				}
-				else if(this.current == 1) {
-					res = await this.$https.get('/Home/Jzbxcx/viewpoint_list', {params: {p}})
-					this.vData = p == 1 ? res.data.list : this.vData.concat(...res.data.list)
-					this.dataList = this.vData
-				}
+				
 				if(res.data.pages == p) {
-					this.endFlag.splice(this.current, 1, true)
+					// obj.endFlag = true
+					this.$set(obj, 'endFlag', true)
 				}
+				// console.log(this.endFlag)
 				this.$nextTick(() => {
-					this.loading = false
+					// setTimeout(() => {
+						this.$set(obj, 'loading', false)
+					// }, 1000)
+					
 				})
 				
 				 
@@ -171,6 +250,8 @@
 				this.rzModalShow = !this.rzModalShow
 			},
 			handleSend() {
+				
+				
 				if(!this.phoneReg) {
 					uni.navigateTo({
 						url: '/pages/wxAuthorize/wxAuthorize?phone=1'
@@ -192,6 +273,13 @@
 </script>
 
 <style scoped lang="scss">
+	.list {
+		height: 100%;
+	}
+	.swiper-w {
+		height: 100%;
+		width: 100%;
+	}
 	.add-btn {
 		position: fixed;
 		right: 20rpx;
@@ -199,8 +287,9 @@
 		background-color: $jzb-theme-color;
 		border: 8rpx solid #fff;
 		color: #fff;
-		font-weight: bold;
+		// font-weight: bold;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		width: 130rpx;
@@ -209,6 +298,9 @@
 		border-radius: 50%;
 		box-sizing: border-box;
 		box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+	}
+	.add-btn-text {
+		font-size: 24rpx;
 	}
 	.xx {
 		color: $jzb-sup3-color;

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-sticky": "/uview-ui/components/u-sticky/u-sticky",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "search-res-list": "/components/searchResList/searchResList"
+  }
+}

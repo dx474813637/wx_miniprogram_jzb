@@ -30,11 +30,21 @@
 				</view>
 			</template>
 			<template v-else>
-				<navigator :url="url" class="tools-item">
-						<u-icon name="chat" size="38"></u-icon>
+				<view class="tools-item">
+					<navigator :url="url" class="item-data">
+						<u-icon name="chat" size="36" color="#999"></u-icon>
 						<text class="num">{{ansNum}}</text>
-				</navigator>
-				<navigator :url="url" class="tools-item ans-btn">评论</navigator>
+					</navigator>
+					<template v-if="time">
+						<view class="item-data item-time">
+							<u-icon name="clock" size="32" color="#999"></u-icon>
+							<text class="num">{{time}}</text>
+						</view>
+					</template>
+					
+				</view>
+				
+				<!-- <navigator :url="url" class="tools-item ans-btn">评论</navigator> -->
 			</template>
 			
 		</view>
@@ -65,6 +75,10 @@
 	import {mapMutations} from 'vuex'
 	export default {
 		props: {
+			time: {
+				type: String,
+				default: ''
+			},
 			uid: {
 				type: Number | String,
 				default: 0
@@ -232,7 +246,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		height: 90rpx;
+		height: 70rpx;
 		font-size: 28rpx;
 		color: #666;
 		
@@ -247,14 +261,22 @@
 	.tools-item .icon-name{
 		margin-left: 5px;
 	}
+	.item-time {
+		margin-left: 20rpx;
+	}
+	.item-data {
+		display: flex;
+		align-items: center;
+		color: #999;
+	}
 	.ans-btn {
 		background-color: $jzb-theme-color;
 		color: #fff;
 		width: 120rpx;
-		height: 60rpx;
-		line-height: 60rpx;
+		height: 50rpx;
+		line-height: 50rpx;
 		justify-content: center;
 		border-radius: 10rpx;
-		font-size: 28rpx;
+		font-size: 24rpx;
 	}
 </style>

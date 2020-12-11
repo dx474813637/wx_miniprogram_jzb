@@ -29,7 +29,8 @@
     "pages/collection/collection",
     "pages/ideaFeed/ideaFeed",
     "pages/hch-poster/hch-poster",
-    "pages/friendsList/friendsList"
+    "pages/friendsList/friendsList",
+    "pages/searchRes/searchRes"
   ],
   "subPackages": [],
   "window": {
@@ -57,5 +58,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap21.json"
 }

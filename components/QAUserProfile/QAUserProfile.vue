@@ -7,11 +7,11 @@
 			<navigator :url="userHomePath" class="q-user-item user-profile">
 				<view class="user-profile-item u-skeleton-fillet">
 					<view class="user-name">{{name}}</view>
-					<view class="user-label">{{slabel}}</view>
+					<view class="user-label">{{label | typeToLabel}}</view>
 				</view>
 				<view class="user-profile-sub u-skeleton-fillet">{{sub}}</view>
 			</navigator>
-			<template v-if="phoneReg && followBtn">
+			<template v-if="phoneReg && followBtn && infoAuthorize.poster != userid">
 				<view class="q-user-item">
 					<u-button v-if="!followStatus" type="primary" size="mini" shape="circle" @click="handleEyeFlag(followStatus)">关注ta</u-button>
 					<u-button v-else type="default" size="mini" :plain="true" shape="circle" @click="handleEyeFlag(followStatus)">已关注</u-button>
@@ -70,7 +70,7 @@
 			},
 		},
 		computed: {
-			...mapState(['phoneReg']),
+			...mapState(['phoneReg', 'infoAuthorize']),
 			slabel() {
 				let label = this.label
 				if(label == '未认证') return '未认证'

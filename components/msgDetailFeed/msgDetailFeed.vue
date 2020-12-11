@@ -1,8 +1,5 @@
 <template>
 	<view class="feed">
-		<q-a-user-profile
-			isFollow
-		></q-a-user-profile>
 		<view class="sub">
 			{{'2020-10-13 13:35:25' | timeFilter}} 回复了你：
 		</view>

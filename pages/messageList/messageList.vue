@@ -12,7 +12,10 @@
 					:arrow="true"
 					@click="handleGoDetail"
 				>
-					<u-badge :count="item.count" :absolute="false" slot="right-icon"></u-badge>
+					<template v-if="item.count">
+						<u-badge :count="item.count" :absolute="false" slot="right-icon"></u-badge>
+					</template>
+					
 				</u-cell-item>
 			</u-cell-group>
 		</view>
@@ -102,7 +105,9 @@
 		data() {
 			return {
 				show: false,
+				pageFlag: true,
 				p: 1,
+				loading: false,
 				msg: ['待处理', '已接受', '已拒绝'],
 				iconStyle: {
 					color: '#007aff'
@@ -119,19 +124,8 @@
 				handleIndex: 0,
 				list: [
 					{
-						name: '回复',
-						count: 99,
+						name: '回复动态',
 						icon: 'chat'
-					},
-					{
-						name: '赞',
-						count: 199,
-						icon: 'thumb-up'
-					},
-					{
-						name: '关注',
-						count: 19,
-						icon: 'eye'
 					},
 				],
 				exchangeData: [
@@ -170,15 +164,37 @@
 			dataList() {
 				let index = this.tabsCurrent
 				let iposter = this.$store.state.infoAuthorize.poster
-				return this.exchangeData.filter(ele => iposter == (index? ele.poster :ele.friends))
+				return this.exchangeData.filter(ele => {
+					if(iposter == (index? ele.poster :ele.friends)) {
+						ele.type = index ? ele.btype : ele.atype
+						ele.pic = index ? ele.bpic : ele.apic
+						ele.name = index ? ele.bname : ele.aname
+						return true
+					}else {
+						return false
+					}
+				})
 			}
 		},
 		onShow() {
+			uni.showLoading({
+				title: '加载中'
+			})
 			this.renderList()
+			this.$nextTick(() =>{
+				uni.hideLoading()
+			})
 			// this.$https.get('/Home/Jzbxcx/friends_list')
 			// this.$https.get('/Home/Jzbxcx/friends_delete', {params: {
 			// 	id: 1
 			// }})
+		},
+		onReachBottom() {
+			if(!this.pageFlag || this.loading) return
+			this.p++
+			this.loading = true
+			this.renderList()
+			
 		},
 		methods: {
 			change(index) {
@@ -188,7 +204,9 @@
 				let res = await this.getData()
 				if(res.data.code == 1) {
 					this.exchangeData = res.data.list
+					if(res.data.pages == this.p) this.pageFlag = false
 				}
+				if(this.loading) this.loading = false
 			},
 			async getData() {
 				return await this.$https.get('/Home/Jzbxcx/friends_apply_list', {

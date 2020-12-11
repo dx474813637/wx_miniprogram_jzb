@@ -111,7 +111,7 @@
 		},
 		watch:{
 			qData(newV) {
-				if(newV.list.timeC < 0) {
+				if(newV.list && newV.list.timeC < 0) {
 					this.isTimeLimit = true
 				}
 			}

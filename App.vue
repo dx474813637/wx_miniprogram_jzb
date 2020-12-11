@@ -2,12 +2,11 @@
 	import {loginInit} from '@/static/js/common.js'
 	export default {
 		onLaunch: async function() {
-			console.log('loginInit-begin')
 			await loginInit()
-			console.log('loginInit-end')
 			
 		},
 		onShow: function() {
+			console.log('show')
 			this.$getSetting()
 			
 		},
@@ -23,6 +22,7 @@
 		background-color: #f8f8f8;
 		height: 100%;
 		word-break: break-all;
+		font-family: Helvetica;
 	}
 	@font-face {
 	  font-family: 'font_family';  /* project id 1991769 */

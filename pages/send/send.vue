@@ -173,12 +173,12 @@
 					if(num == 1) {
 						// this.id = obj.form.id
 						this.formInfo = obj.form
-						this.formInfo.keywords = obj.form.keywords
-						this.kw = obj.form.keywords
 						if(this.infoAuthorize.type != 0) {
 							this.submitViewpoint()
 							return 
 						}
+						this.formInfo.keywords = obj.form.keywords
+						this.kw = obj.form.keywords
 					}
 					if(num == 2) {
 						this.formInfo.uid = obj.uid
@@ -215,6 +215,7 @@
 						title: '发送成功！'
 					})
 				}
+				uni.setStorageSync('indexRefresh', true)
 			},
 			async newInvite(uid) {
 				uni.showLoading({

@@ -3,7 +3,7 @@
 		<template v-if="list && list.length > 0">
 			<view class="list-item"
 				v-for="(item, index) in list"
-				:key="index"
+				:key="item.id"
 			>
 				<view class="user-row">
 					<q-a-user-profile
@@ -148,7 +148,7 @@
 			list(newV) {
 				// console.log(newV)
 				this.$nextTick(() => {
-					this.$refs.uReadMore.forEach(ele => ele.init());
+					this.$refs.uReadMore.forEach(ele => ele.init() );
 				})
 			},
 			type(newV) {

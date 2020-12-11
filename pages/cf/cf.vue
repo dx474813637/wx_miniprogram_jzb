@@ -61,7 +61,10 @@
 				list: [],
 				customStyle: {
 					fontSize: '28rpx'
-				}
+				},
+				p: 1,
+				pFlag: true,
+				pLoading: false
 			}
 		},
 		async onShow() {
@@ -71,11 +74,24 @@
 			await this.getList()
 			uni.hideLoading()
 		},
+		onReachBottom() {
+			if(!this.pFlag || this.pLoading) return
+			this.pLoading = true
+			this.p++
+			this.getList()
+			
+		},
 		methods: {
 			async getList() {
-				let res = await this.$https.get('/Home/Jzbxcx/my_questions_list')
+				let res = await this.$https.get('/Home/Jzbxcx/my_questions_list', {params: {p: this.p}})
 				// console.log(res)
-				this.list = res.data.list
+				if(res.data.code == 1) {
+					this.list = res.data.list
+					if(this.p == res.data.pages) {
+						this.pFlag = false
+					}
+				}
+				if(this.loading) this.pLoading = false
 			},
 			handleSeeStep(index) {
 				let id = this.list[index].id

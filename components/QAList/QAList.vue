@@ -1,20 +1,16 @@
 <template>
 	<view class="list-w" :class="{'noIndex': !isIndexList}">
 		
-		<template v-if="dataList.length > 0">
-			<view class="list-item" v-for="(item, index) in dataList" :key="index">
-				<template v-if="!isIndexList">
-					<view class="noIndex-sub">
-						Ta于
-						<text class="sub-time">{{(item.post_time || item.uptime) | timeFilter}}</text>
-						{{isAnswer ? '解读' : '发布'}}了采访提问：
-						<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${type}`" class="sub-title">{{item.title}}</navigator>
-					</view>
-				</template>
-				<template v-if="item.title && isIndexList">
-					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="title">{{item.title}}</navigator>
-				</template>
-				<template v-if="isIndexList">
+		<template v-if="list.length > 0">
+			<view 
+				v-for="(ele, i) in list" 
+				:key="i"
+			>
+				<view class="list-item" v-for="(item, index) in ele" :key="index">
+					
+					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="title">
+						{{item.title}}
+					</navigator>
 					<navigator :url="`/pages/homePage/homePage?id=${item.poster}`" class="user-info" :class="{'author': item.title}">
 						<view class="user-avatar">
 							<image :src="item.pic" class="avatar-img"></image>
@@ -27,25 +23,29 @@
 							<view class="user-profile-sub">{{item.auth_title || item.company}}</view>
 						</view>
 					</navigator>
-				</template>
-				
-				<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${type}`" class="user-content">
-					<view class="content">{{item.intro}}</view>
-					<template v-if="isIndexList">
-						<view class="post-time">{{(item.post_time || item.uptime) | timeFilter}}</view>
-					</template>
-				</navigator>
-				
-				<template v-if="isIndexList">
-					<q-a-item-tools
-						:uid="item.id"
-						:type="type"
-						:isQ="item.end_time ? true : false"
-						:isAuthor="true"
-						:ansNum="item.ansNum"
-					></q-a-item-tools>
-				</template>
+					
+					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${type}`" class="user-content">
+						<view class="content">{{item.intro}}</view>
+						<view class="item-footer-tools">
+							<view class="tools-item">
+								<navigator :url="url" class="item-data">
+									<u-icon name="chat" size="36" color="#999"></u-icon>
+									<text class="num">{{item.ansNum}}</text>
+								</navigator>
+								<template v-if="item.post_time || item.uptime">
+									<view class="item-data item-time">
+										<u-icon name="clock" size="32" color="#999"></u-icon>
+										<text class="num">{{(item.post_time || item.uptime) | timeFilter}}</text>
+									</view>
+								</template>
+								
+							</view>
+						</view>
+					</navigator>
+					
+				</view>
 			</view>
+			
 			<template v-if="endFlag">
 				<u-divider bg-color="transparent">没有更多了</u-divider>
 			</template>
@@ -98,46 +98,49 @@
 		data() {
 			return {
 				dataList: [],
-				load: true
 			};
 		},
 		watch:{
 			list(newV) {
-				this.changeData(newV)
-			}
+				// console.log(newV)
+				// this.changeData(newV)
+			},
 		},
 		created() {
-			setTimeout(() => {
-				this.load = false;
-			}, 2000)
-			this.changeData(this.list)
 		},
 		methods: {
-			changeData(data) {
-				if(this.isIndexList) {
-					if(this.type == 0) {
-						this.dataList = data.map(ele => {
-							let arr = ele.reply_list.filter(item => item.zt == 2)
-							ele.ansNum = Number(ele.comment_num) + arr.length
-							return ele
-						})
-					}
-					else if(this.type == 1) {
-						this.dataList = data.map(ele => {
-							ele.ansNum = ele.reply_num
-							return ele
-						})
-					}
-				}else {
-					this.dataList = data
-				}
-				
-			},
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.item-footer-tools {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 70rpx;
+		font-size: 28rpx;
+		color: #666;
+		
+	}
+	.num {
+		margin-left: 6rpx;
+	}
+	.tools-item {
+		display: flex;
+		align-items: center;
+	}
+	.tools-item .icon-name{
+		margin-left: 5px;
+	}
+	.item-time {
+		margin-left: 20rpx;
+	}
+	.item-data {
+		display: flex;
+		align-items: center;
+		color: #999;
+	}
 	.empty {
 		padding: 80rpx 0;
 		background-color: #fff;
@@ -149,9 +152,9 @@
 		background-color: #f8f8f8;
 	}
 	.list-item {
-		padding: 40rpx 40rpx 20rpx;
+		padding: 20rpx 40rpx;
 		background-color: #fff;
-		margin-bottom: 30rpx;
+		margin-bottom: 10rpx;
 	}
 	.user-info {
 		display: flex;
@@ -166,8 +169,8 @@
 		margin-right: 20rpx;
 	}
 	.author .user-avatar {
-		width: 60rpx;
-		height: 60rpx;
+		width: 50rpx;
+		height: 50rpx;
 	}
 	.user-avatar .avatar-img {
 		width: 100%;
@@ -186,24 +189,24 @@
 		margin-bottom: 0;
 	}
 	.user-name {
-		font-weight: bold;
-		font-size: 32rpx;
+		// font-weight: bold;
+		font-size: 28rpx;
 		margin-right: 10rpx;
 	}
 	.user-label {
 		background-color: $jzb-sup-color;
 		color: $jzb-theme-color;
 		display: inline-block;
-		font-size: 24rpx;
+		font-size: 22rpx;
 		padding: 2rpx 16rpx;
 		border-radius: 6rpx;
-		font-weight: bold;
+		// font-weight: bold;
 		margin-right: 10rpx;
 		border: 1rpx solid #54c9ff;
 	}
 	.user-profile-sub {
 		color: #999;
-		font-size: 26rpx;
+		font-size: 24rpx;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -217,9 +220,9 @@
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		color: #666;
-		line-height: 50rpx;
+		line-height: 48rpx;
 		// padding: 10rpx 0;
-		margin-bottom: 10rpx;
+		// margin-bottom: 10rpx;
 		white-space: pre-wrap;
 		// word-break: break-all;
 	}
@@ -261,8 +264,8 @@
 	}
 	.title {
 		font-weight: bold;
-		font-size: 34rpx;
-		line-height: 50rpx;
+		font-size: 32rpx;
+		// line-height: 50rpx;
 		margin-bottom: 15rpx;
 		overflow : hidden;
 		text-overflow: ellipsis;

@@ -39,7 +39,7 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  height: 90rpx;
+  height: 70rpx;
   font-size: 28rpx;
   color: #666;
 }
@@ -59,17 +59,29 @@
 .tools-item .icon-name.data-v-05525dba {
   margin-left: 5px;
 }
+.item-time.data-v-05525dba {
+  margin-left: 20rpx;
+}
+.item-data.data-v-05525dba {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  color: #999;
+}
 .ans-btn.data-v-05525dba {
   background-color: #007aff;
   color: #fff;
   width: 120rpx;
-  height: 60rpx;
-  line-height: 60rpx;
+  height: 50rpx;
+  line-height: 50rpx;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
   -webkit-border-radius: 10rpx;
           border-radius: 10rpx;
-  font-size: 28rpx;
+  font-size: 24rpx;
 }
 

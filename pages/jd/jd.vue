@@ -98,22 +98,42 @@
 				list: [],
 				customStyle: {
 					fontSize: '28rpx'
-				}
+				},
+				p: 1,
+				pFlag: true,
+				pLoading: false
 			}
 		},
-		onShow() {
+		async onShow() {
+			uni.showLoading({
+				title: '加载中',
+			})
+			await this.renderList()
+			uni.hideLoading()
+		},
+		onReachBottom() {
+			if(!this.pFlag || this.pLoading) return
+			this.pLoading = true
+			this.p++
 			this.renderList()
+			
 		},
 		methods: {
 			async renderList() {
 				let res = await this.getData()
-				// zt 0 邀请中 1接受邀请正在回复 2 完成回复 3拒绝邀请
-				this.list = res.data.list.map(ele => {
-					let timestamp = Date.parse(new Date(ele.end_time.replace(/-/g,'/'))) - Date.parse(new Date())
-					ele.timestamp = timestamp/1000
-					ele.isTimeLimit = timestamp > 0 ? false : true
-					return ele
-				})
+				if(res.data.code == 1) {
+					// zt 0 邀请中 1接受邀请正在回复 2 完成回复 3拒绝邀请
+					this.list = res.data.list.map(ele => {
+						let timestamp = Date.parse(new Date(ele.end_time.replace(/-/g,'/'))) - Date.parse(new Date())
+						ele.timestamp = timestamp/1000
+						ele.isTimeLimit = timestamp > 0 ? false : true
+						return ele
+					})
+					if(this.p == res.data.pages) {
+						this.pFlag = false
+					}
+				}
+				if(this.loading) this.pLoading = false
 			},
 			async getData() {
 				return await this.$https.get('/Home/Jzbxcx/answer_list')

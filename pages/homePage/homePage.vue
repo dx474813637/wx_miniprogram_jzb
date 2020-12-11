@@ -105,12 +105,27 @@
 						<u-icon name="file-text-fill" size="30" color="#007aff"></u-icon>
 						<text class="title-name">{{!isAnswer ? 'Ta的提问' : 'Ta的解读'}}</text> 
 					</view>
-					<q-a-list
+					<view class="list-w noIndex">
+						<template v-if="dataList.length > 0">
+							<view class="list-item" v-for="(item, index) in dataList" :key="index">
+								<view class="noIndex-sub">
+									Ta于
+									<text class="sub-time">{{(item.post_time || item.uptime) | timeFilter}}</text>
+									{{isAnswer ? '解读' : '发布'}}了采访提问：
+									<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${0}`" class="sub-title">{{item.title}}</navigator>
+								</view>
+								<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${0}`" class="user-content">
+									<view class="content">{{item.intro}}</view>
+								</navigator>
+							</view>
+						</template>
+					</view>
+					<!-- <q-a-list
 						:list="dataList"
 						:type="0"
 						:isAnswer="isAnswer"
 						:isIndexList="false"
-					></q-a-list>
+					></q-a-list> -->
 				</view>
 			</view>
 		</view>
@@ -126,7 +141,7 @@
 <script>
 	import {sharePage} from '@/utils/sharePage.js'
 	import Skeleton from '@/components/skeleton/index.vue'
-	import QAList from '@/components/QAList/QAList.vue'
+	// import QAList from '@/components/QAList/QAList.vue'
 	import hchPoster from "../../components/hch-poster/hch-poster.vue"
 	import {mapState, mapMutations} from 'vuex'
 	export default {
@@ -161,6 +176,7 @@
 				list: {},
 				questions: [],
 				answer: [],
+				// dataList: [],
 				isAnswer: 0,
 				score: 0,
 				load: true,
@@ -174,7 +190,7 @@
 			}
 		},
 		components: {
-			QAList,
+			// QAList,
 			Skeleton,
 			hchPoster
 		},
@@ -186,9 +202,7 @@
 			})
 			if(opt.id) {
 				this.id = opt.id
-				console.log('home-begin')
 				await this.renderInit()
-				console.log('home-end')
 				// console.log(res)
 				
 			}
@@ -207,22 +221,35 @@
 			},
 			async renderInit() {
 				let res = await this.getUser()
-				let {field, follow_me, my_follow, list, questions, answer, follow} = res.data
+				let {
+						field, 
+						follow_me, 
+						my_follow, 
+						list, 
+						questions, 
+						questions_avg_score,
+						answer,
+						answer_avg_score,
+						follow
+					} = res.data
 				this.field = field
 				this.follow_me = follow_me
 				this.my_follow = my_follow
 				this.list = list
+				this.isAnswer = this.list.type
+				//score 保留2位小数
+				this.score = Math.round(Number(this.isAnswer != 0 ? answer_avg_score : questions_avg_score )*100 )/100
 				this.eyeFlag = follow
+				// this.dataList.push(list.type == 0 ? questions : answer.filter(ele => ele.zt == 2))
 				this.questions = questions
 				this.answer = answer.filter(ele => ele.zt == 2)
-				this.isAnswer = this.list.type
-				if(this.isAnswer != 0) {
-					this.score = Math.floor(this.answer.reduce((sum, cur) => {
-						return sum + Number(cur['score_answer'])
-					}, 0) / this.answer.length * 10) / 10 || 0
-				}else {
+				// if(this.isAnswer != 0) {
+				// 	this.score = Math.floor(this.answer.reduce((sum, cur) => {
+				// 		return sum + Number(cur['score_answer'])
+				// 	}, 0) / this.answer.length * 10) / 10 || 0
+				// }else {
 					
-				}
+				// }
 				this.load = false
 				this.posterObj.posterImgUrl = list.pic
 				this.posterObj.name = list.name
@@ -329,7 +356,7 @@
 				uni.showShareMenu({
 				  withShareTicket: true,
 				  success: res => {
-					  console.log(res)
+					  // console.log(res)
 				  }
 				})
 			},
@@ -341,6 +368,63 @@
 </script>
 
 <style scoped lang="scss">
+	.list-w {
+		background-color: #f8f8f8;
+	}
+	.list-item {
+		padding: 20rpx 40rpx;
+		background-color: #fff;
+		margin-bottom: 10rpx;
+	}
+	.content {
+		font-size: 30rpx;
+		overflow : hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		color: #666;
+		line-height: 48rpx;
+		// padding: 10rpx 0;
+		// margin-bottom: 10rpx;
+		white-space: pre-wrap;
+		// word-break: break-all;
+	}
+	.sub-title, .sub-time {
+		color: $jzb-theme-color;
+		display: inline;
+		// word-break: break-all;
+	}
+	.post-time {
+		color: #999;
+		font-size: 26rpx;
+		// margin-bottom: 10px;
+	}
+	.title {
+		font-weight: bold;
+		font-size: 32rpx;
+		// line-height: 50rpx;
+		margin-bottom: 15rpx;
+		overflow : hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.noIndex-sub {
+		font-size: 28rpx;
+		line-height: 40rpx;
+		color: #666;
+		margin-bottom: 10rpx;
+	}
+	.noIndex .user-content {
+		background-color: #f8f8f8;
+		border-radius: 10rpx;
+		padding: 10rpx;
+	}
+	.noIndex .content {
+		color: $jzb-theme-color;
+	}
 	.w-icon-btn {
 		position: absolute;
 		top: 0;
@@ -460,7 +544,7 @@
 		height: 100%;
 	}
 	.w-main {
-		border-radius: 20rpx;
+		border-radius: 20rpx 20rpx 0 0 ;
 		background-color: #001f33;
 		min-height: 1500rpx;
 		margin-top: 100rpx;

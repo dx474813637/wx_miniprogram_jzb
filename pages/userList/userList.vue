@@ -36,7 +36,7 @@
 					<view class="list">
 						<u-cell-group>
 							<navigator 
-								v-for="(item, index) in dataList"
+								v-for="(item, index) in userList"
 								:key="index"
 								:url="`/pages/homePage/homePage?id=${item.id}`"
 							>
@@ -85,33 +85,35 @@
 				navList: [
 					{
 						name: '全部',
-						value: 0
+						value: ['']
 					},
 					{
 						name: '零售',
-						value: 1
+						value: ['零售']
 					},
 					{
 						name: '产业',
-						
-						
-						value: 2
+						value: ['产业']
 					},
 					{
 						name: '跨境',
-						value: 3
+						value: ['跨境']
 					},
 					{
 						name: '服务',
-						value: 4
+						value: ['服务']
 					},
 					{
 						name: '金融',
-						value: 5
+						value: ['金融']
 					},
 					{
 						name: '物流',
-						value: 6
+						value: ['物流']
+					},
+					{
+						name: '法律',
+						value: ['法律']
 					},
 				],
 				tabsList: [
@@ -132,6 +134,13 @@
 		},
 		onLoad() {
 			this.renderList(this.tabsCurrent + 1)
+		},
+		computed: {
+			userList() {
+				
+				let key = this.navList[this.current].value;
+				return this.dataList.filter(ele => key.some(item => ele.field.includes(item)) )
+			}
 		},
 		methods: {
 			async renderList(index) {

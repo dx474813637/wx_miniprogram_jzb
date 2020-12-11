@@ -26,6 +26,58 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.list-w.data-v-4e60a646 {
+  background-color: #f8f8f8;
+}
+.list-item.data-v-4e60a646 {
+  padding: 20rpx 40rpx;
+  background-color: #fff;
+  margin-bottom: 10rpx;
+}
+.content.data-v-4e60a646 {
+  font-size: 30rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  color: #666;
+  line-height: 48rpx;
+  white-space: pre-wrap;
+}
+.sub-title.data-v-4e60a646, .sub-time.data-v-4e60a646 {
+  color: #007aff;
+  display: inline;
+}
+.post-time.data-v-4e60a646 {
+  color: #999;
+  font-size: 26rpx;
+}
+.title.data-v-4e60a646 {
+  font-weight: bold;
+  font-size: 32rpx;
+  margin-bottom: 15rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.noIndex-sub.data-v-4e60a646 {
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+.noIndex .user-content.data-v-4e60a646 {
+  background-color: #f8f8f8;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
+  padding: 10rpx;
+}
+.noIndex .content.data-v-4e60a646 {
+  color: #007aff;
+}
 .w-icon-btn.data-v-4e60a646 {
   position: absolute;
   top: 0;
@@ -161,8 +213,8 @@
   height: 100%;
 }
 .w-main.data-v-4e60a646 {
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  -webkit-border-radius: 20rpx 20rpx 0 0;
+          border-radius: 20rpx 20rpx 0 0;
   background-color: #001f33;
   min-height: 1500rpx;
   margin-top: 100rpx;

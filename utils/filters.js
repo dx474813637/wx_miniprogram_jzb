@@ -3,6 +3,7 @@ const typeToLabel = v => {
 	if(v == 0) return '记者'
 	else if(v == 1) return '专家'
 	else if(v == 2) return '公关'
+	else return '未认证'
 }
 
 const timeFilter = v => {
@@ -26,7 +27,7 @@ const timeFilter = v => {
 			if(nowArr[3] == arr[3]) {
 				return nowArr[4] - arr[4] + 1 + '分钟前'
 			}
-			else if(nowArr[4] < arr[4]){
+			else if(nowArr[4] < arr[4] && nowArr[3] - arr[3] == 1){
 				return nowArr[4] - arr[4] + 61 + '分钟前'
 			}
 			return nowArr[3] - arr[3] + '小时前'

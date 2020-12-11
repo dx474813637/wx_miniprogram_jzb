@@ -95,6 +95,10 @@
 			<view class="qa-wrap">
 				<view class="qa-title">
 					<u-icon name="chat-fill" size="36"></u-icon><text class="qa-title-t">话题留言</text>
+					<view class="qa-title-btn" @click="handleChangePx">
+						<u-icon name="list-dot" size="30"></u-icon>
+						<text class="qa-title-btn-text">{{pxList[pxIndex]}}</text>
+					</view>
 				</view>
 				
 				<skeleton
@@ -115,22 +119,22 @@
 		
 		<view class="q-a-detail-footer">
 			<view class="footer-item" @click="handleReplyBtn">
-				<u-icon name="chat" size="34"></u-icon><text>评论</text>
+				<u-icon name="chat" size="34"></u-icon><text class="item-text">评论</text>
 			</view>
 			<view class="footer-item" @click="handleCollection">
 				<template v-if="!collection">
-					<u-icon name="star" size="34"></u-icon><text>收藏</text>
+					<u-icon name="star" size="34"></u-icon><text class="item-text">收藏</text>
 				</template>
 				<template v-else>
-					<u-icon name="star-fill" size="34"></u-icon><text>已收藏</text>
+					<u-icon name="star-fill" size="34"></u-icon><text class="item-text">已收藏</text>
 				</template>
 				
 			</view>
 			<view class="footer-item" @click="handleShare">
-				<u-icon name="zhuanfa" size="34"></u-icon><text>分享</text>
+				<u-icon name="zhuanfa" size="34"></u-icon><text class="item-text">分享</text>
 			</view>
 			<view class="footer-item report" @click="handleReportBtn">
-				<u-icon name="error-circle" size="34" color="#dc0000"></u-icon><text>举报</text>
+				<u-icon name="error-circle" size="34" color="#dc0000"></u-icon><text class="item-text">举报</text>
 			</view>
 		</view>
 		
@@ -186,7 +190,9 @@
 				like: 0,
 				repList: '',
 				load: true,
-				options: {}
+				options: {},
+				pxList: ['倒序', '正序'],
+				pxIndex: 0 
 			}
 		},
 		components: {
@@ -253,7 +259,12 @@
 					this.replyList = res.data.reply_list
 				}
 				else if(this.type == 0) {
-					this.replyList = res.data.comment.filter(ele => ele.cate == 0)
+					this.replyList = res.data.comment.filter(ele => ele.cate == 0).map(ele => {
+						var time = ele.uptime;
+						time= time.replace(new RegExp("-","gm"),"/");
+						ele.time = (new Date(time)).getTime();
+						return ele
+					})
 					this.answerList = res.data.answer.filter(ele => ele.zt == 2)
 									.map(ele => {
 										let id = ele.id
@@ -362,6 +373,17 @@
 			},
 			handleUpdateRepList(list) {
 				this.repList = list
+			},
+			handleChangePx() {
+				uni.showActionSheet({
+					itemList: this.pxList,
+					success: res => {
+						this.pxIndex = res.tapIndex
+						this.replyList = this.replyList.sort((a, b) => {
+							return  !this.pxIndex? b.time - a.time : a.time - b.time
+						})
+					}
+				})
 			}
 		}
 	}
@@ -395,6 +417,23 @@
 		height: 70rpx;
 		border-bottom: 2rpx solid #f8f8f8;
 		margin-bottom: 20rpx;
+		position: relative;
+	}
+	.qa-title-btn {
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin-top: auto;
+		margin-bottom: auto;
+		color: #999;
+		font-weight: normal;
+		display: flex;
+		align-items: center;
+	}
+	.qa-title-btn-text {
+		font-size: 24rpx;
+		margin-left: 5rpx;
 	}
 	.qa-title-t {
 		margin-left: 20rpx;
@@ -406,6 +445,7 @@
 		border-radius: 10rpx;
 		line-height: 60rpx;
 	}
+	
 	.q-post-date {
 		color: #999;
 		// line-height: 50rpx;
@@ -448,7 +488,7 @@
 	.footer-item.report {
 		color: #dc0000;
 	}
-	.footer-item text {
+	.footer-item .item-text {
 		margin-left: 5rpx;
 	}
 </style>

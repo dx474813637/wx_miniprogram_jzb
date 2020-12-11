@@ -23,7 +23,6 @@
 					:label="item.type"
 					:sub="item.auth_title || item.company"
 					:isFollow="true"
-					:loading="loading"
 				></q-a-user-profile>
 			</view>
 			
@@ -39,14 +38,19 @@
 			return {
 				current: 0,
 				navList: [
-				// 	{
-				// 	name: '关注动态'
-				// },
-				{
-					name: '关注'
-				},{
-					name: '粉丝'
-				},],
+					{
+						name: '关注',
+						p: 1,
+						flag: true,
+						loading: false
+					},
+					{
+						name: '粉丝',
+						p: 1,
+						flag: true,
+						loading: false
+					},
+				],
 				list: [{
 					name: ' ',
 					label: ' ',
@@ -54,11 +58,10 @@
 					auth_title: ' ',
 					company: ' '
 				}],
-				loading: true
 			}
 		},
 		onLoad() {
-			this.renderList(this.current)
+			this.renderList()
 			
 		},
 		watch: {
@@ -69,11 +72,18 @@
 		components: {
 			QAUserProfile
 		},
+		onReachBottom() {
+			if(!this.navList[this.current].flag || this.navList[this.current].loading) return
+			this.$set(this.navList[this.current], 'loading', true)
+			this.$set(this.navList[this.current], 'p', this.navList[this.current].p+1)
+			this.renderList()
+			
+		},
 		methods: {
 			change (index) {
 				this.current = index
 			},
-			async renderList(index) {
+			async renderList() {
 				this.loading = true
 				let res
 				uni.showLoading({
@@ -81,8 +91,13 @@
 					mask: true
 				})
 				res = await this.getData()
-				this.list = res.data.list
-				this.loading = false
+				if(res.data.code == 1) {
+					this.list = res.data.list
+					if(this.navList[this.current].p == res.data.pages) {
+						this.$set(this.navList[this.current], 'flag', false)
+					}
+				}
+				if(this.navList[this.current].loading) this.$set(this.navList[this.current], 'loading', false)	
 				uni.hideLoading()
 			},
 			async getData () {
@@ -92,10 +107,10 @@
 				// }
 				// else 
 				if(this.current == 0) {
-					return await this.$https.get('/Home/Jzbxcx/follow_list', {params: {p: 1}})
+					return await this.$https.get('/Home/Jzbxcx/follow_list', {params: {p: this.navList[this.current].p}})
 				}
 				else if(this.current == 1) {
-					return await this.$https.get('/Home/Jzbxcx/follow_me_list', {params: {p: 1}})
+					return await this.$https.get('/Home/Jzbxcx/follow_me_list', {params: {p: this.navList[this.current].p}})
 				}
 				
 			}

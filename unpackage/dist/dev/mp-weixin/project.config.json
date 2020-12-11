@@ -12,21 +12,19 @@
   "libVersion": "",
   "appid": "wx6bcac999af0cc86d",
   "projectname": "jzb",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
   "condition": {
     "search": {
-      "current": -1,
       "list": []
     },
     "conversation": {
-      "current": -1,
       "list": []
     },
     "game": {
-      "current": -1,
       "list": []
     },
     "miniprogram": {
-      "current": 0,
       "list": [
         {
           "name": "",
