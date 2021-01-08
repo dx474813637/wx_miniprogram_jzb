@@ -63,7 +63,7 @@
 }
 .name.data-v-2a1452ae {
   font-weight: bold;
-  font-size: 32rpx;
+  font-size: 30rpx;
   color: #007aff;
 }
 .content-invest-info.data-v-2a1452ae {
@@ -77,6 +77,7 @@
 }
 .info-label.data-v-2a1452ae {
   color: #999;
+  margin-bottom: 5rpx;
 }
 .info-label text.data-v-2a1452ae {
   margin-left: 5rpx;

@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
     "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
     "u-button": "/uview-ui/components/u-button/u-button",
     "q-a-user-profile": "/components/QAUserProfile/QAUserProfile"

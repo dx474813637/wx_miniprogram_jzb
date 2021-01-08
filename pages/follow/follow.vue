@@ -17,12 +17,13 @@
 				:key="index"
 			>	
 				<q-a-user-profile
-					:userid="item.follow"
+					:userid="current == 0 ? item.follow : item.poster"
 					:name="item.name"
 					:avatar="item.pic"
 					:label="item.type"
-					:sub="item.auth_title || item.company"
+					:sub="item.type != 0 ?item.auth_title : item.company"
 					:isFollow="true"
+					:followBtn="current == 0 ? true : false"
 				></q-a-user-profile>
 			</view>
 			

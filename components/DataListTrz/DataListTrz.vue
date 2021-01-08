@@ -144,7 +144,7 @@
 	}
 	.name {
 		font-weight: bold;
-		font-size: 32rpx;
+		font-size: 30rpx;
 		color: $jzb-theme-color;
 	}
 	.content-invest-info {
@@ -154,6 +154,7 @@
 	}
 	.info-label {
 		color: #999;
+		margin-bottom: 5rpx;
 	}
 	.info-label text {
 		margin-left: 5rpx;

@@ -1,4 +1,3 @@
-
 export const sharePage ={
     data(){
         return {
@@ -11,10 +10,20 @@ export const sharePage ={
             }
         }
     }, 
+	onLoad(opt) {
+		if(opt.InviteCode) this.$store.commit('setOtherInviteCode', opt.InviteCode)
+	},
     onShareAppMessage(res) {
+		let path = getCurrentPages()[getCurrentPages().length - 1].$page.fullPath
+		if(path.includes('?')) {
+			path = path + '&InviteCode=' + this.$store.state.my_invite_code
+		}else {
+			path = path + '?InviteCode=' + this.$store.state.my_invite_code
+		}
+		this.$https.get('/Home/Jzbxcx/share', {params: {url: path}})
         return {
             title:this.sharePageOpt.title,
-            // path:this.sharePageOpt.path,
+            path: path,
             // imageUrl:this.sharePageOpt.imageUrl,
             // desc:this.sharePageOpt.desc,
             // content:this.sharePageOpt.content,

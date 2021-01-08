@@ -2,32 +2,40 @@
 let dataField = [
 	{
 		label: '全部',
-		value: '',
+		value: '全部',
+		extra: 0,
 	},{
 		label: '零售电商',
-		value: 'lsds',
+		value: '零售电商',
+		extra: 1,
 	},{
 		label: '产业电商',
-		value: 'b2bds',
+		value: '产业电商',
+		extra: 2,
 	},{
 		label: '生活服务电商',
-		value: 'shfwds',
+		value: '生活服务电商',
+		extra: 3,
 	},{
 		label: '物流科技',
-		value: 'wlkj',
+		value: '物流科技',
+		extra: 4,
 	},{
 		label: '金融科技',
-		value: 'jrkj',
+		value: '金融科技',
+		extra: 5,
 	},
 ]
 let dataType = [
 	{
 		label: '独角兽',
-		value: '1'
+		value: '独角兽',
+		extra: 0,
 	},
 	{
 		label: '千里马',
-		value: '2'
+		value: '千里马',
+		extra: 1,
 	}
 ]
 

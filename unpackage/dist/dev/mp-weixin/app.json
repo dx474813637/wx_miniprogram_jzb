@@ -30,7 +30,12 @@
     "pages/ideaFeed/ideaFeed",
     "pages/hch-poster/hch-poster",
     "pages/friendsList/friendsList",
-    "pages/searchRes/searchRes"
+    "pages/searchRes/searchRes",
+    "pages/scoreRules/scoreRules",
+    "pages/handbook/handbook",
+    "pages/webViewPath/webViewPath",
+    "pages/complain/complain",
+    "pages/complainDeail/complainDeail"
   ],
   "subPackages": [],
   "window": {
@@ -51,13 +56,12 @@
         "pagePath": "pages/index/index"
       },
       {
-        "pagePath": "pages/data/data"
+        "pagePath": "pages/complain/complain"
       },
       {
         "pagePath": "pages/personal/personal"
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap21.json"
+  "usingComponents": {}
 }

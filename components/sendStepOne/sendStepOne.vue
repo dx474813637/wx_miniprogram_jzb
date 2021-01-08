@@ -107,7 +107,7 @@
 			};
 		},
 		created() {
-			if(this.infoAuthorizetype == 0) {
+			if(this.infoAuthorize.type == 0) {
 				this.$set(this.rules, 'end_time', [
 						{
 							required: true,

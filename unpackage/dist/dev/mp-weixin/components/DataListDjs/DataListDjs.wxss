@@ -48,6 +48,7 @@
   border-bottom: 1rpx solid #f8f8f8;
   margin-bottom: 15rpx;
   padding: 5rpx 20rpx;
+  position: relative;
 }
 .xuhao.data-v-cc6613e0 {
   font-style: italic;
@@ -56,8 +57,20 @@
 }
 .name.data-v-cc6613e0 {
   font-weight: bold;
-  font-size: 32rpx;
+  font-size: 30rpx;
   color: #007aff;
+}
+.name-sub.data-v-cc6613e0 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  right: 20rpx;
+  color: #999;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  height: 40rpx;
 }
 .content-invest-info.data-v-cc6613e0 {
   display: -webkit-box;
@@ -68,8 +81,16 @@
           justify-content: space-between;
   margin-bottom: 15rpx;
 }
+.content-invest-info.type2.data-v-cc6613e0 {
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
 .info-label.data-v-cc6613e0 {
   color: #999;
+  margin-bottom: 5rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .info-label text.data-v-cc6613e0 {
   margin-left: 5rpx;
@@ -82,6 +103,10 @@
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 50%;
           flex: 0 0 50%;
+  overflow: hidden;
+}
+.content-invest-info.type2 .info-item.data-v-cc6613e0 {
+  margin-bottom: 15rpx;
 }
 .info-text.data-v-cc6613e0 {
   line-height: 45rpx;

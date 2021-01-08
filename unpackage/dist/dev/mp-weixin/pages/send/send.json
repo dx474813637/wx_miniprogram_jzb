@@ -1,5 +1,6 @@
 {
   "usingComponents": {
+    "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar",
     "u-steps": "/uview-ui/components/u-steps/u-steps",
     "send-step-one": "/components/sendStepOne/sendStepOne",
     "send-step-two": "/components/sendStepTwo/sendStepTwo",

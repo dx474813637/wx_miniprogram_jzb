@@ -99,14 +99,11 @@
 				let t2 = this.uid ? `【${this.reportInfo}...】` : ''
 				let t3 = `【${this.form.title}】`
 				let i = `【详细说明：${this.form.info}】`
-				let res = await this.$https.get('/Home/Jzbxcx/add_tip_off', {
-					params: {
+				let res = await this.$https.post('/Home/Jzbxcx/add_tip_off', {
 						id: this.tid,
 						cate: this.cate,
 						info: t1 + t2 + t3 + i						
-					}
-
-				})
+					})
 				if(res.data.code == 1) {
 					uni.showToast({
 						title: '提交成功',

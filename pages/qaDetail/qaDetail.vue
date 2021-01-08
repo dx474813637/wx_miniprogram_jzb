@@ -25,7 +25,7 @@
 			>
 				<view class="q-user-card-wrap ">
 					<q-a-user-profile
-						:userid="authorInfo.id"
+						:userid="authorInfo.poster"
 						:avatar="authorInfo.pic"
 						:name="authorInfo.name"
 						:label="authorInfo.auth_status == 2 ? authorInfo.type : '未认证'"
@@ -42,9 +42,9 @@
 				:loading="load"
 				:row="3"
 			>
-				<view class="q-content">
+				<text selectable decode space="ensp" class="q-content">
 					{{qList.intro}}
-				</view>
+				</text>
 				<view class="a-btn">
 					<u-button 
 						:custom-style="customStyle" 
@@ -61,9 +61,9 @@
 				<view class="qa-title">
 					<u-icon name="share" size="36"></u-icon><text class="qa-title-t">记者报道</text>
 				</view>
-				<navigator class="qa-content" url="/pages/search/search">
-					{{qList.url}}
-				</navigator>
+				<view class="qa-content" @click="setClipboard(qList.url)">
+					点击复制报道链接
+				</view>
 			</view>
 		</template> 
 		
@@ -204,6 +204,7 @@
 			Skeleton
 		},
 		async onLoad(opt) {
+			// console.log(uni.getsystemInfoSync())
 			// console.log(opt)
 			if(opt.id) {
 				this.uid = opt.id
@@ -381,6 +382,19 @@
 						this.pxIndex = res.tapIndex
 						this.replyList = this.replyList.sort((a, b) => {
 							return  !this.pxIndex? b.time - a.time : a.time - b.time
+						})
+					}
+				})
+			},
+			setClipboard(url) {
+				// uni.navigateTo({
+				// 	url: `/pages/webViewPath/webViewPath?url=${encodeURIComponent(url)}`
+				// })
+				uni.setClipboardData({
+					data: url,
+					success: () => {
+						uni.showToast({
+							title: '复制成功'
 						})
 					}
 				})

@@ -16,7 +16,7 @@ var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 
 var _common = __webpack_require__(/*! @/static/js/common.js */ 11);
 var _filters = _interopRequireDefault(__webpack_require__(/*! @/utils/filters.js */ 58));
 var _index2 = _interopRequireDefault(__webpack_require__(/*! @/router/index.js */ 59));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
-console.log(_index2.default);
+// console.log(router)
 // import { RouterMount } from 'uni-simple-router'
 // {RouterMount}  h5
 
@@ -142,9 +142,8 @@ var _common = __webpack_require__(/*! @/static/js/common.js */ 11);function _int
 
 
   onShow: function onShow() {
-    console.log('show');
-    this.$getSetting();
-
+    // console.log('show')
+    // this.$getSetting()
   },
   onHide: function onHide() {
   } };exports.default = _default;

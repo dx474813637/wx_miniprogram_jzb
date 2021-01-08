@@ -8,8 +8,11 @@ const store = new Vuex.Store({
 		authorize: false,
 		phone: '0',
 		phoneReg: false,
+		my_invite_code: '',
+		other_invite_code: '',
 		infoAuthorize: '', //obj.type 0:记者，1:专家，2：公关
 		goodStr: '[点赞]',
+		mixinMsg: {},
 		shareOptions: {
 			curPageUrl: 'pages/index/index',
 			name: '姓名',
@@ -52,7 +55,7 @@ const store = new Vuex.Store({
 			bgColor: '#ffffff',
 			borderTop: true,
 			list: [{
-					iconPath: "file-text",
+					iconPath: "file-text-fill",
 					selectedIconPath: "file-text-fill",
 					text: '资讯',
 					customIcon: false,
@@ -74,14 +77,14 @@ const store = new Vuex.Store({
 					pagePath: '/pages/index/index'
 				},
 				{
-					iconPath: "grid",
+					iconPath: "grid-fill",
 					selectedIconPath: "grid-fill",
-					text: '数据',
+					text: '维权',
 					customIcon: false,
-					pagePath: '/pages/data/data'
+					pagePath: '/pages/complain/complain'
 				},
 				{
-					iconPath: "account",
+					iconPath: "account-fill",
 					selectedIconPath: "account-fill",
 					text: "我的",
 					pagePath: '/pages/personal/personal',
@@ -89,8 +92,8 @@ const store = new Vuex.Store({
 				}
 			],
 			midButton: true,
-			inactiveColor: '#878787',
-			activeColor: '#007aff',
+			inactiveColor: '#007aff',
+			activeColor: '#aa00ff',
 		},
 	},
 	getters: {},
@@ -112,7 +115,16 @@ const store = new Vuex.Store({
 		},
 		changeShareOptions(state, shareOptions) {
 			Object.assign(state.shareOptions, shareOptions)
-		}
+		},
+		setInviteCode(state, code) {
+			state.my_invite_code = code
+		},
+		setOtherInviteCode(state, code) {
+			state.other_invite_code = code
+		},
+		setMixinMsg(state, mixinMsg) {
+			state.mixinMsg = mixinMsg
+		},
 	},
 	actions: {}
 })

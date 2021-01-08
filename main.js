@@ -6,7 +6,7 @@ import store from '@/store/index.js'
 import { getSetting, getlogin, getuserauthinfo } from '@/static/js/common.js'
 import filters from '@/utils/filters.js'
 import router from '@/router/index.js';
-console.log(router)
+// console.log(router)
 // import { RouterMount } from 'uni-simple-router'
 // {RouterMount}  h5
 

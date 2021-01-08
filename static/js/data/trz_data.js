@@ -3,237 +3,313 @@
 let dataField = [
 	{
 		label: '全部',
-		value: '',
+		value: '全部',
+		extra: 0,
 		children: [{
 			label: '全部',
-			value: '',
+			value: '全部',
+			extra: 0,
 		},]
 	},{
 		label: '零售电商',
-		value: 'b2c',
+		value: '零售电商',
+		extra: 1,
 		children: [{
 			label: '全部',
-			value: '',
+			value: '全部',
+			extra: 0,
 		},{
 			label: '综合电商',
-			value: 'zh',
+			value: '综合电商',
+			extra: 1,
 		},{
 			label: '社交电商',
-			value: 'sj',
+			value: '社交电商',
+			extra: 2,
 		},{
 			label: '社区电商',
-			value: 'sq',
+			value: '社区电商',
+			extra: 3,
 		},{
 			label: '农村电商',
-			value: 'nc',
+			value: '农村电商',
+			extra: 4,
 		},{
 			label: '医药电商',
-			value: 'yy',
+			value: '医药电商',
+			extra: 5,
 		},{
 			label: '生鲜电商',
-			value: 'sx',
+			value: '生鲜电商',
+			extra: 6,
 		},{
 			label: '无人零售',
-			value: 'wrls',
+			value: '无人零售',
+			extra: 7,
 		},{
 			label: '奢侈品电商',
-			value: 'scp',
+			value: '奢侈品电商',
+			extra: 8,
 		},{
 			label: '汽车电商',
-			value: 'qc',
+			value: '汽车电商',
+			extra: 9,
 		},{
 			label: '母婴电商',
-			value: 'my',
+			value: '母婴电商',
+			extra: 10,
 		},{
 			label: '二手电商',
-			value: 'es',
+			value: '二手电商',
+			extra: 11,
 		},{
 			label: '导购电商',
-			value: 'dg',
+			value: '导购电商',
+			extra: 12,
 		},{
 			label: '食品电商',
-			value: 'sp',
+			value: '食品电商',
+			extra: 13,
 		},{
 			label: '宠物电商',
-			value: 'cw',
+			value: '宠物电商',
+			extra: 14,
 		},{
 			label: '众筹电商',
-			value: 'zc',
+			value: '众筹电商',
+			extra: 15,
 		},{
 			label: '分期电商',
-			value: 'fq',
+			value: '分期电商',
+			extra: 16,
 		},{
 			label: '服装电商',
-			value: 'fz',
+			value: '服装电商',
+			extra: 17,
 		},{
 			label: '电商服务商',
-			value: 'fws',
+			value: '电商服务商',
+			extra: 18,
 		},{
 			label: '美妆电商',
-			value: 'mz',
+			value: '美妆电商',
+			extra: 19,
 		},{
 			label: '酒水电商',
-			value: 'js',
+			value: '酒水电商',
+			extra: 20,
 		},{
 			label: '直播电商',
-			value: 'zb',
+			value: '直播电商',
+			extra: 21,
 		},]
 	},{
 		label: '产业电商',
-		value: 'b2b',
+		value: '产业电商',
+		extra: 2,
 		children: [{
 			label: '全部',
-			value: '',
+			value: '全部',
+			extra: 0,
 		},{
 			label: '综合B2B',
-			value: 'zhb2b',
+			value: '综合B2B',
+			extra: 1,
 		},{
 			label: '钢铁电商',
-			value: 'gt',
+			value: '钢铁电商',
+			extra: 2,
 		},{
 			label: '塑化电商',
-			value: 'sh',
+			value: '塑化电商',
+			extra: 3,
 		},{
 			label: '农业B2B',
-			value: 'ny',
+			value: '农业B2B',
+			extra: 4,
 		},{
 			label: '汽车B2B',
-			value: 'qc',
+			value: '汽车B2B',
+			extra: 5,
 		},{
 			label: '纺服B2B',
-			value: 'ff',
+			value: '纺服B2B',
+			extra: 6,
 		},{
 			label: '能源电商',
-			value: 'ny2',
+			value: '能源电商',
+			extra: 7,
 		},{
 			label: '建材电商',
-			value: 'jc',
+			value: '建材电商',
+			extra: 8,
 		},{
 			label: '印包电商',
-			value: 'yb',
+			value: '印包电商',
+			extra: 9,
 		},{
 			label: '医疗电商',
-			value: 'yl',
+			value: '医疗电商',
+			extra: 10,
 		},{
 			label: '餐饮B2B',
-			value: 'cy',
+			value: '餐饮B2B',
+			extra: 11,
 		},{
 			label: '快消品B2B',
-			value: 'kxp',
+			value: '消品B2B',
+			extra: 12,
 		},{
 			label: '工业品电商',
-			value: 'gyp',
+			value: '工业品电商',
+			extra: 13,
 		},{
 			label: '元器件电商',
-			value: 'yqj',
+			value: '元器件电商',
+			extra: 14,
 		},{
 			label: 'B2B服务商',
-			value: 'b2bfws',
+			value: 'B2B服务商',
+			extra: 15,
 		},{
 			label: '其他电商',
-			value: 'qt',
+			value: '其他电商',
+			extra: 16,
 		},]
 	},{
 		label: '跨境电商',
-		value: 'kj',
+		value: '跨境电商',
+		extra: 3,
 		children: [{
 			label: '全部',
-			value: '',
+			value: '全部',
+			extra: 0,
 		},{
 			label: '进口电商',
-			value: 'jk',
+			value: '进口电商',
+			extra: 1,
 		},{
 			label: '出口电商',
-			value: 'ck',
+			value: '出口电商',
+			extra: 2,
 		},{
 			label: '跨境服务商',
-			value: 'kjfws',
+			value: '跨境服务商',
+			extra: 3,
 		},]
 	},{
 		label: '生活服务电商',
-		value: 'o2o',
+		value: '生活服务电商',
+		extra: 4,
 		children: [{
 			label: '全部',
-			value: '',
+			value: '全部',
+			extra: 0,
 		},{
 			label: '在线教育',
-			value: 'zxjy',
+			value: '在线教育',
+			extra: 1,
 		},{
 			label: '在线住宿',
-			value: 'zxzs',
+			value: '在线住宿',
+			extra: 2,
 		},{
 			label: '在线医疗',
-			value: 'zxyl',
+			value: '在线医疗',
+			extra: 3,
 		},{
 			label: '在线旅游',
-			value: 'zxly',
+			value: '在线旅游',
+			extra: 4,
 		},{
 			label: '社区服务',
-			value: 'sqfw',
+			value: '社区服务',
+			extra: 5,
 		},{
 			label: '在线票务',
-			value: 'zxpw',
+			value: '在线票务',
+			extra: 6,
 		},{
 			label: '交通出行',
-			value: 'jtcx',
+			value: '交通出行',
+			extra:7,
 		},{
 			label: '餐饮外卖',
-			value: 'cywm',
+			value: '餐饮外卖',
+			extra: 8,
 		},{
 			label: '家政服务',
-			value: 'jzfw',
+			value: '家政服务',
+			extra: 9,
 		},{
 			label: '美业服务',
-			value: 'myfw',
+			value: '美业服务',
+			extra: 10,
 		},{
 			label: '共享经济',
-			value: 'gxjj',
+			value: '共享经济',
+			extra: 11,
 		},{
 			label: '运动健身',
-			value: 'ydjs',
+			value: '运动健身',
+			extra: 12,
 		},{
 			label: '互联网家装',
-			value: 'hlwjz',
+			value: '互联网家装',
+			extra: 13,
 		},{
 			label: '其他',
-			value: 'qt',
+			value: '其他',
+			extra: 14,
 		},]
 	},{
 		label: '物流科技',
-		value: 'wl',
+		value: '物流科技',
+		extra: 5,
 		children: [{
 			label: '全部',
-			value: '',
+			value: '全部',
+			extra: 0,
 		},{
 			label: '物流网络',
-			value: 'wlwl',
+			value: '物流网络',
+			extra: 1,
 		},{
 			label: '电商自建物流',
-			value: 'zjwl',
+			value: '电商自建物流',
+			extra: 2,
 		},{
 			label: '第三方快递',
-			value: 'dsfkd',
+			value: '第三方快递',
+			extra: 3,
 		},{
 			label: '智能快递柜',
-			value: 'znkdg',
+			value: '智能快递柜',
+			extra: 4,
 		},{
 			label: '众包物流',
-			value: 'zbwl',
+			value: '众包物流',
+			extra: 5,
 		},{
 			label: '仓储物流',
-			value: 'ccwl',
+			value: '仓储物流',
+			extra: 6,
 		},{
 			label: '货运O2O',
-			value: 'hyo2o',
+			value: '货运O2O',
+			extra: 7,
 		},{
 			label: '同城配送',
-			value: 'tcps',
+			value: '同城配送',
+			extra: 8,
 		},{
 			label: '跨境物流',
-			value: 'kjwl',
+			value: '跨境物流',
+			extra: 9,
 		},{
 			label: '智能物流',
-			value: 'znwl',
+			value: '智能物流',
+			extra: 10,
 		},]
 	},
 ]
@@ -241,63 +317,78 @@ let dataField = [
 let dataRound =[
 	{
 		label: '全部',
-		value: ''
+		value: '全部',
+		extra: 0,
 	},
 	{
 		label: '未透露',
-		value: '未透露'
+		value: '未透露',
+		extra: 1,
 	},
 	{
 		label: '天使轮',
-		value: '天使'
+		value: '天使',
+		extra: 2,
 	},
 	{
 		label: '种子轮',
-		value: '种子'
+		value: '种子',
+		extra: 3,
 	},
 	{
 		label: 'Pre级',
-		value: 'Pre'
+		value: 'Pre',
+		extra: 4,
 	},
 	{
 		label: 'A级',
-		value: 'A'
+		value: 'A',
+		extra: 5,
 	},
 	{
 		label: 'B级',
-		value: 'B'
+		value: 'B',
+		extra: 6,
 	},
 	{
 		label: 'C级',
-		value: 'C'
+		value: 'C',
+		extra: 7,
 	},
 	{
 		label: 'D级',
-		value: 'D'
+		value: 'D',
+		extra: 8,
 	},
 	{
 		label: 'E级',
-		value: 'E'
+		value: 'E',
+		extra: 9,
 	},
 	{
 		label: 'F级',
-		value: 'F'
+		value: 'F',
+		extra: 10,
 	},
 	{
 		label: 'H级',
-		value: 'H'
+		value: 'H',
+		extra: 11,
 	},
 	{
 		label: 'IPO上市',
-		value: 'IPO'
+		value: 'IPO',
+		extra: 12,
 	},
 	{
 		label: '战略投资',
-		value: '战略投资'
+		value: '战略投资',
+		extra: 13,
 	},
 	{
 		label: '并购',
-		value: '并购'
+		value: '并购',
+		extra: 14,
 	},
 ]
 

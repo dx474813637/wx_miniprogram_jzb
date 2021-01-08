@@ -1,13 +1,28 @@
 <template>
 	<view>
-		<view class="u-steps w" v-if="infoAuthorize.type == 0">
-			<u-steps 
-				mode="number" 
-				:list="numList" 
-				:current="current"
-			></u-steps>
+		<template v-if="infoAuthorize.type == 0">
 			
-		</view>
+			<u-notice-bar
+				:list="['点击查看记者采访提问完整版攻略']"
+				close-icon
+				type="primary"
+				:autoplay="false"
+				mode="vertical"
+				play-state="paused"
+				:show="noticeShow"
+				@click="lookQuestion"
+				@close="this.noticeShow = false"
+			></u-notice-bar>
+			
+			<view class="u-steps w">
+				<u-steps 
+					mode="number" 
+					:list="numList" 
+					:current="current"
+				></u-steps>
+				
+			</view>
+		</template>
 		<template v-if="current == 0">
 			<send-step-one
 				@change-step="handleChangeStep"
@@ -44,11 +59,13 @@
 
 <script>
 	import { mapState } from 'vuex';
+	import { mixinUpRead } from '@/utils/mixin_msg.js'
 	import sendStepOne from '@/components/sendStepOne/sendStepOne.vue';
 	import sendStepTwo from '@/components/sendStepTwo/sendStepTwo.vue';
 	import sendStepThree from '@/components/sendStepThree/sendStepThree.vue';
 	import sendStepFour from '@/components/sendStepFour/sendStepFour.vue';
 	export default {
+		mixins: [mixinUpRead],
 		data() {
 			return {
 				id: '',
@@ -72,8 +89,8 @@
 				isSecond: false,
 				maxNum: 3,
 				uid: 0,
-				uidInfo: ''
-				
+				uidInfo: '',
+				noticeShow: true
 			}
 		}, 
 		watch: {
@@ -115,6 +132,11 @@
 			sendStepFour
 		},
 		methods: {
+			lookQuestion() {
+				uni.navigateTo({
+					url: `/pages/handbook/handbook`
+				})
+			},
 			async getUidInfo() {
 				let res = await this.$https.get('/Home/Jzbxcx/user_auth_detail', {params: {id: this.uid}})
 				let data = res.data.list
@@ -149,23 +171,26 @@
 				this.userList = []
 				uni.showLoading({title: '匹配中...'})
 				let res = await this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + newV)
-				let arr = this.uid? [this.uidInfo] : []
+				let arr = (this.uid && this.uidInfo) ? [this.uidInfo] : [];
+				// console.log(arr)
 				this.userList = arr.concat(...res.data.list.filter(ele => {
 					//不是记者 
 					// + 已认证身份 
 					// + 不是点击采访链接过来的id 去重
 					// + 不是自己 
 					// + 不是头一次邀请的人
-					return ele.type != 0 
+					return  ele 
+							&& ele.type != 0 
 							&& ele.auth_status == 2 
 							&& ele.auth_poster != this.uid
 							&& ele.auth_poster != this.$store.state.infoAuthorize.poster 
 							&& !this.firstUid.includes(ele.auth_poster)
+							
 				}).map(ele => {
 					ele.checked = false
 					return ele
 				})) 
-				console.log(this.userList)
+				// console.log(this.userList)
 				uni.hideLoading()
 			},
 			async handleChangeStep(num, obj) {
@@ -177,14 +202,26 @@
 							this.submitViewpoint()
 							return 
 						}
-						this.formInfo.keywords = obj.form.keywords
-						this.kw = obj.form.keywords
+						else if(!this.formInfo.isMate) {
+							if(this.uid) this.formInfo.uid = this.uid 
+							this.firstUid = [this.uid]
+							let res = await this.submitQuestion()
+							if(!res) return
+							this.isSecond = true
+							this.uid? num = 2 : num = 3
+						}
+						// else {
+							this.formInfo.keywords = obj.form.keywords
+							this.kw = obj.form.keywords
+						// }
+						
 					}
-					if(num == 2) {
+					else if(num == 2) {
 						this.formInfo.uid = obj.uid
 						this.firstUid = obj.uid.split(',')
+						let res = await this.submitQuestion()
+						if(!res) return
 						this.isSecond = true
-						this.submitQuestion()
 					}
 				}
 				else if(obj && obj.newInvite) {
@@ -195,7 +232,7 @@
 						this.uidInfo = ''
 						this.searchKwUser(kw)
 					}
-					if(num == 2) {
+					else if(num == 2) {
 						obj.uid && this.newInvite(obj.uid)
 					}
 				}
@@ -204,22 +241,36 @@
 			},
 			async submitQuestion() {
 				uni.showLoading({
-					title: '发送中...',
+					title: '发布中...',
 					mask: true
 				})
-				let res = await this.$https.get('/Home/Jzbxcx/add_questions', {params: this.formInfo})
+				let res = await this.$https.post('/Home/Jzbxcx/add_questions', this.formInfo)
 				uni.hideLoading()
 				if(res.data.code == 1) {
 					this.id = res.data.id
 					uni.showToast({
-						title: '发送成功！'
+						title: '发布成功！'
 					})
+				}else if(res.data.code == 2) {
+					uni.showModal({
+						title: '提示',
+						content: `发布错误原因：${res.data.msg == '已到最大提问数' ? '您同时进行的采访提问已达最大数量，是否跳转至列表处理未结束的采访？': res.data.msg }，`,
+						success: res => {
+							if(res.confirm) {
+								uni.navigateTo({
+									url: '/pages/cf/cf'
+								})
+							}
+						}
+					})
+					return false
 				}
 				uni.setStorageSync('indexRefresh', true)
+				return true
 			},
 			async newInvite(uid) {
 				uni.showLoading({
-					title: '发送中...',
+					title: '发布中...',
 					mask: true
 				})
 				let res = await this.$https.get('/Home/Jzbxcx/add_questions_answer', {
@@ -234,19 +285,20 @@
 					this.firstUid = this.firstUid.concat(...arr)
 					this.handleEndQ(this.id)
 					uni.showToast({
-						title: '发送成功！'
+						title: '发布成功！'
 					})
 				}
 			},
 			async submitViewpoint() {
 				uni.showLoading({
-					title: '发送中...',
+					title: '发布中...',
 					mask: true
 				})
-				let res = await this.$https.get('/Home/Jzbxcx/add_viewpoint', {params: this.formInfo})
+				let res = await this.$https.post('/Home/Jzbxcx/add_viewpoint', this.formInfo)
+				uni.hideLoading()
 				if(res.data.code == 1) {
 					uni.showToast({
-						title: '发送成功！'
+						title: '发布成功！'
 					})
 					this.handleReturnIndex()
 				}
@@ -263,7 +315,7 @@
 
 <style scoped lang="scss">
 	.w {
-	background-color: #fff;
+		background-color: #fff;
 	}
 	.u-steps {
 		padding: 40rpx 0;

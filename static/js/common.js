@@ -2,7 +2,7 @@ import {https} from '@/static/js/https.js'
 import store from '@/store/index.js'
 const promisify = require('@/utils/promisify.js');
 // const login = promisify(wx.login);
-
+let userid
 function getSetting () {
 	// 微信用户信息授权状态查询
 	uni.getSetting({
@@ -14,7 +14,7 @@ function getSetting () {
 				store.commit('checkAuthorize', false)
 				if(getCurrentPages()[0].$page.fullPath != '/pages/wxAuthorize/wxAuthorize') {
 					getApp().globalData.prePagePath = getCurrentPages()[0].$page.fullPath
-					uni.reLaunch({
+					uni.navigateTo({
 						url: '/pages/wxAuthorize/wxAuthorize'
 					})
 				}
@@ -25,12 +25,11 @@ function getSetting () {
 }
 async function getloginwxauth (code) {
 	//微信登陆请求userid
-	return await https.get('/Home/Jzbxcx/login_wx_auth?code=' + code)
+	return await https.get('/Home/Jzbxcx/login_wx_auth', {params: {code, share: store.state.other_invite_code}})
 }
 async function getuserauthinfo () {
 	//请求user身份认证(auth_status)状态 0未认证 1等待认证 2认证成功 3认证失败
 	let res = await https.get('/Home/Jzbxcx/user_auth_info')
-	// console.log(res)
 	store.commit('updateInfoAuthorize', res.data.list)
 }
 async function getlogin () {
@@ -38,8 +37,8 @@ async function getlogin () {
 	let res = await https.get('/Home/Jzbxcx/get_login')
 	// console.log(res)
 	if(res.data.code == 2) {
-		uni.removeStorageSync('userid')
-		await loginInit()
+		// uni.removeStorageSync('userid')
+		// await loginInit()
 		return false
 	}
 	//phone 手机认证状态 0没有绑定 1等待绑定 2绑定成功
@@ -49,37 +48,51 @@ async function getlogin () {
 		store.commit('checkPhoneReg', true)
 		store.commit('checkPhone', res.data.phone)
 	}
+	store.commit('setInviteCode', res.data.my_invite_code)
 	// store.commit('checkPhoneReg', true)
 	return res
 }
 async function loginInit() {
 	if(!uni.getStorageSync('userid') ) {
 		await getUserId()
+		// getSetting()
 	}
+	// else {
+		await haveUserIdEvent()
+		getSetting()
+	// }
+	
+	
+}
+async function haveUserIdEvent() {
+	
+	store.commit('changeUserId', userid)
 	let res = await getlogin()
 	if(res) {
 		await getuserauthinfo()
 	}
-	
 }
+
 
 function login () {
 	// 获取code
 	return new Promise(resolve => {
 		uni.login({
 			provider: 'weixin',
-			success: resolve
+			success: res => {
+				resolve(res)
+			}
 		})
 	}) 
 }
 async function getUserId() {
 	let loginRes = await login()
-	console.log(loginRes)
+	// console.log(loginRes)
 	let res = await getloginwxauth(loginRes.code)
-	console.log(res)
-	uni.setStorageSync('userid', res.data.userid);
-	store.commit('changeUserId', res.data.userid)
-	return res
+	
+	userid = res.data.userid
+	uni.setStorageSync('userid', userid);
+	// haveUserIdEvent()
 }
 
 export { getSetting, loginInit, getlogin, getuserauthinfo }

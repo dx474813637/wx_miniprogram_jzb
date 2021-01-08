@@ -37,6 +37,51 @@
 					:list="list"
 				></data-list-djs> 
 			</template>
+			<template v-else-if="value == 'bq'">
+				<data-list-bq
+					:list="list"
+				></data-list-bq> 
+			</template>
+			<template v-else-if="value == 'sw'">
+				<data-list-sw
+					:list="list"
+				></data-list-sw> 
+			</template>
+			<template v-else-if="value == 'cyy'">
+				<data-list-cyy
+					:list="list"
+				></data-list-cyy> 
+			</template>
+			<template v-else-if="value == 'qq'">
+				<data-list-qq
+					:list="list"
+				></data-list-qq> 
+			</template>
+			<template v-else-if="value == 'hy'">
+				<data-list-hy
+					:list="list"
+				></data-list-hy> 
+			</template>
+			<template v-else-if="value == 'cb'">
+				<data-list-cb
+					:list="list"
+				></data-list-cb> 
+			</template>
+			<template v-else-if="value == 'zsq'">
+				<data-list-zsq
+					:list="list"
+				></data-list-zsq> 
+			</template>
+			<template v-else-if="value == 'xsb'">
+				<data-list-xsb
+					:list="list"
+				></data-list-xsb> 
+			</template>
+			<template v-else-if="value == 'pj'">
+				<data-list-pj
+					:list="list.list"
+				></data-list-pj> 
+			</template>
 			<template v-if="list.length == 0">
 				<u-empty text="数据为空" mode="data" margin-top="90"></u-empty>
 			</template>
@@ -50,6 +95,15 @@
 	import obj from '@/static/js/data.js';
 	import dataListTrz from '@/components/DataListTrz/DataListTrz.vue'
 	import dataListDjs from '@/components/DataListDjs/DataListDjs.vue'
+	import dataListBq from '@/components/DataListBq/DataListBq.vue'
+	import dataListSw from '@/components/DataListSw/DataListSw.vue'
+	import dataListCyy from '@/components/DataListCyy/DataListCyy.vue'
+	import dataListQq from '@/components/DataListQq/DataListQq.vue'
+	import dataListHy from '@/components/DataListHy/DataListHy.vue'
+	import dataListCb from '@/components/DataListCb/DataListCb.vue'
+	import dataListZsq from '@/components/DataListZsq/DataListZsq.vue'
+	import dataListXsb from '@/components/DataListXsb/DataListXsb.vue'
+	import dataListPj from '@/components/DataListPj/DataListPj.vue'
 	import dataNav from '@/components/dataNav/dataNav.vue'
 	export default {
 		data() {
@@ -60,16 +114,35 @@
 				httpParams: {},
 				sortObj: {
 					trz: ['time', 0],
-					djs: ['shares', 0]
+					djs: ['shares', 0],
+					bq: ['shares', 0],
+					sw: ['dtime', 0],
+					qq: ['name', 0],
+					xsb: ['dtime', 0],
+					cb: ['dtime', 0],
+					pj: [],
+					hy: ['dtime', 0],
+					zsq: ['a111', 0],
+					cyy: []
 				},
 				list: [],
 				isSearch: 0,
+				tabsArr: []
 			}
 		},
 		components: {
 			dataNav,
 			dataListTrz,
-			dataListDjs
+			dataListDjs,
+			dataListBq,
+			dataListSw,
+			dataListCyy,
+			dataListQq,
+			dataListHy,
+			dataListCb,
+			dataListZsq,
+			dataListXsb,
+			dataListPj
 		},
 		computed: {
 			placeholder() {
@@ -83,9 +156,13 @@
 			this.config = obj[this.value]
 		},
 		methods: {
-			setHttpParams(obj) {
-				console.log(obj)
-				// console.log(this.httpParams)
+			setHttpParams(obj, arr)  {
+				this.tabsArr = arr
+				if(arr && arr.length != 0) {
+					this.config.sjkInfo.nav.forEach((ele, index) => {
+						ele.value = arr[index][ele.name]
+					})
+				}
 				let flag = false
 				for(let k in obj) {
 					if(!this.httpParams[k] || obj[k] != this.httpParams[k]) {
@@ -93,12 +170,19 @@
 						flag = true
 						this.httpParams[k] = obj[k]
 						if(k == 'cate') {
-							this.$set(this.httpParams, 'cate', obj[k].split('-')[0])
-							this.$set(this.httpParams, 'sub', obj[k].split('-')[1])
+							// this.$set(this.httpParams, 'cate', obj[k].split('-')[0])
+							this.httpParams.cate = obj[k].split('-')[0]
+							let sub = obj[k].split('-')[1]
+							this.httpParams.sub = sub=='全部'? '': sub
+							// this.$set(this.httpParams, 'sub', sub=='全部'? '': sub)
 						}
 					}
 				}
-				console.log(this.httpParams)
+				for(let k in this.httpParams) {
+					if(!this.httpParams[k]) {
+						delete this.httpParams[k]
+					}
+				}
 				if(flag) {
 					this.getData()
 				}
@@ -109,8 +193,7 @@
 					return
 				}
 				uni.showLoading({
-					title: '加载中',
-					mask: true
+					title: '加载中'
 				})
 				let [res1, res2] = await Promise.all([
 				    this.getSearchData('tz'),
@@ -130,13 +213,13 @@
 			},
 			async getData() {
 				uni.showLoading({
-					title: '加载中',
-					mask: true
+					title: '加载中'
 				})
 				this.searchName = ''
 				this.isSearch = 0
 				let res = await this.getApiFunc(this.config.sjkInfo.api, this.httpParams)
-				this.tbNavValue()
+				// console.log(res)
+				// this.tbNavValue()
 				let data = this.filterData(res.data.list)
 				this.list = this.sortData(data)
 				this.$nextTick(()=>{
@@ -144,36 +227,18 @@
 				})
 			},
 			async getApiFunc (api, obj) {
-				if(api.includes('new_data_json')) {
-					return await this.$https.post(api, obj)
+				// console.log(obj)
+				if(api.includes('new_data_json') || api.includes('json_315_post')) {
+					return await this.$https.request({
+						method: 'POST',
+						url: api,
+						data: obj
+					})
+					// post(api, obj)
 				}else {
 					return await this.$https.get(api, {params: obj})
 				}
 				
-			},
-			tbNavValue() {
-				let ym = this.httpParams['ym1']
-				let area = this.httpParams['area']
-				let round = this.httpParams['round']
-				let field = this.httpParams['field']
-				let sub = this.httpParams['sub']
-				let cate = this.httpParams['cate']
-				let chen = this.httpParams['chen']
-				let time = this.httpParams['time']
-				let nav = this.config.sjkInfo.nav
-					
-				if(this.value == 'trz') {
-					if(ym) nav[3].value = ym.slice(0, 4) + '-' + ym.slice(4, 6) 
-					nav[2].value = area 
-					nav[1].value = round 
-					if(cate) nav[0].value = cate + '-' + sub
-					else nav[0].value = ''
-				}
-				else if(this.value == 'djs') {
-					nav[1].value = cate 
-					if(chen) nav[0].value = chen 
-					if(time) nav[2].value = time + '年'
-				}
 			},
 			sortData(data) {
 				let arr = this.sortObj[this.value]
@@ -188,9 +253,9 @@
 					})
 					data = data.sort((a, b) => {
 						if(arr[1] === 1) {
-							return a[arr[0]] - b[arr[0]]
+							return parseFloat(a[arr[0]]) -parseFloat(b[arr[0]])
 						}else {
-							return b[arr[0]] - a[arr[0]]
+							return parseFloat(b[arr[0]]) -parseFloat(a[arr[0]])
 						}
 					})
 				}
@@ -215,13 +280,14 @@
 					})
 				}
 				if( this.httpParams.round) {
-					round = this.config.dataRound.filter(ele => {
-						if(this.httpParams.round == ele.label ) {
-							return ele.value
-						}
-					})[0].value
+					// round = this.config.dataRound.filter(ele => {
+					// 	if(this.httpParams.round == ele.label ) {
+					// 		return ele.value
+					// 	}
+					// })[0].value
+					
 					data = data.filter(ele => {
-						return ele.shares.includes(round)
+						return ele.shares.includes(this.httpParams.round)
 					})
 				}
 				if( this.httpParams.sub) {
@@ -252,7 +318,7 @@
 		text-align: center;
 		line-height: 70rpx;
 		font-weight: bold;
-		font-size: 36rpx;
+		font-size: 32rpx;
 		background-color: #fff;
 		border-bottom: 1rpx solid #f8f8f8;
 	}

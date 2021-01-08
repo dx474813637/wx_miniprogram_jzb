@@ -8,8 +8,8 @@
 			>
 				<view class="list-item" v-for="(item, index) in ele" :key="index">
 					
-					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`" class="title">
-						{{item.title}}
+					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`">
+						<text selectable decode space="ensp" class="title">{{item.title}}</text>
 					</navigator>
 					<navigator :url="`/pages/homePage/homePage?id=${item.poster}`" class="user-info" :class="{'author': item.title}">
 						<view class="user-avatar">
@@ -20,12 +20,12 @@
 								<view class="user-name">{{item.name}}</view>
 								<view class="user-label">{{item.type | typeToLabel}}</view>
 							</view>
-							<view class="user-profile-sub">{{item.auth_title || item.company}}</view>
+							<view class="user-profile-sub">{{item.type != 0 ? item.auth_title : item.company}}</view>
 						</view>
 					</navigator>
 					
 					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${type}`" class="user-content">
-						<view class="content">{{item.intro}}</view>
+						<text selectable decode space="ensp" class="content">{{item.intro}}</text>
 						<view class="item-footer-tools">
 							<view class="tools-item">
 								<navigator :url="url" class="item-data">
@@ -223,7 +223,7 @@
 		line-height: 48rpx;
 		// padding: 10rpx 0;
 		// margin-bottom: 10rpx;
-		white-space: pre-wrap;
+		// white-space: pre-wrap;
 		// word-break: break-all;
 	}
 	.post-time {

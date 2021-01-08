@@ -26,6 +26,9 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.empty.data-v-14b220a6 {
+  background-color: #f8f8f8;
+}
 .list-box.data-v-14b220a6 {
   height: calc(100% - 60rpx);
 }

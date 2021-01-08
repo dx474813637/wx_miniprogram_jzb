@@ -1,91 +1,108 @@
 
 let dataField = [
+	// {
+	// 	label: '全部',
+	// 	value: '全部',
+	// 	extra: 0,
+	// },
 	{
-		label: '全部',
-		value: '',
-	},{
 		label: '零售电商',
-		value: 'lsds',
+		value: '零售电商',
+		extra: 0,
 	},{
 		label: '产业电商',
-		value: 'b2bds',
+		value: '产业电商',
+		extra: 1,
 	},{
 		label: '生活服务电商',
-		value: 'shfwds',
+		value: '生活服务电商',
+		extra: 2,
 	},{
 		label: '物流科技',
-		value: 'wlkj',
+		value: '物流科技',
+		extra: 3,
 	},{
 		label: '金融科技',
-		value: 'jrkj',
+		value: '金融科技',
+		extra: 4,
 	},
 ]
 let dataType = [
 	{
 		label: '全部',
-		value: ''
+		value: '全部',
+		extra: 0,
 	},
 	{
 		label: '上市',
-		value: '1'
+		value: '上市',
+		extra: 1,
 	},
 	{
 		label: '独角兽',
-		value: '2'
+		value: '独角兽',
+		extra: 2,
 	},
 	{
 		label: '千里马',
-		value: '3'
+		value: '千里马',
+		extra: 3,
 	}
 ]
 let hotCities = [
 	{
 		label: '全部',
-		value: '',
+		value: '全部',
+		extra: 0,
 	},
 	{
 		label: '北京',
-		value: 'bj',
+		value: '北京',
+		extra: 1,
 	},
 	{
 		label: '上海',
-		value: 'sh',
+		value: '上海',
+		extra: 2,
 	},
 	{
 		label: '杭州',
-		value: 'hz',
+		value: '杭州',
+		extra: 3,
 	},
 	{
 		label: '深圳',
-		value: 'sz',
+		value: '深圳',
+		extra: 4,
 	},
 	{
 		label: '广州',
-		value: 'gz',
+		value: '广州',
+		extra: 5,
 	},
 ]
 
 
 let sjkInfo = {
-	api: '/Index/new_data_json?dataid=11',
+	api: '/Home/Jzbxcx/new_data_json?dataid=11',
 	name: '“百强”电商数据库',
 	nav: [
 			{
 				name: 'a104',
 				label: '规模',
 				icon: 'list',
-				value: '独角兽',
+				value: '',
 				selector:['select', 'single-column']
 			},
 			{
 				name: 'a101',
 				label: '分类',
 				icon: 'grid',
-				value: '',
+				value: '零售电商',
 				selector:['select', 'single-column']
 			},
 			{
-				name: 'hotCity',
+				name: 'a103',
 				label: '热门城市',
 				icon: 'map',
 				value: '',

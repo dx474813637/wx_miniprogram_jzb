@@ -93,7 +93,7 @@
         ,{
             "path" : "pages/wxAuthorize/wxAuthorize",
             "style" : {
-				"navigationStyle": "custom",
+				// "navigationStyle": "custom",
 				"disableScroll": true
 			}
         }
@@ -139,6 +139,51 @@
             }
             
         }
+        ,{
+            "path" : "pages/scoreRules/scoreRules",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/handbook/handbook",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/webViewPath/webViewPath",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/complain/complain",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/complainDeail/complainDeail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
@@ -158,7 +203,7 @@
 				"pagePath": "pages/index/index"
 			},
 			{
-				"pagePath": "pages/data/data"
+				"pagePath": "pages/complain/complain"
 			},
 			{
 				"pagePath": "pages/personal/personal"

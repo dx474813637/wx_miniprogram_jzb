@@ -5,12 +5,14 @@
 				<search-bar></search-bar>
 			</view>
 			<u-swiper 
-				:list="list" 
+				:list="topList" 
 				:interval="4000" 
 				:height="300"
-				mode="rect"
+				title
 				border-radius="15"
 				@click="handleNavigator"
+				mode="number"
+				indicator-pos="topRight"
 			></u-swiper>
 		</view>
 		
@@ -41,7 +43,7 @@
 		</view>
 		<template v-if="!freshShow">
 			<view class="add-btn" @click="handleSend">
-				<u-icon name="plus" color="#fff" size="50"></u-icon>
+				<u-icon name="plus" color="#fff" size="40"></u-icon>
 				<view class="add-btn-text">
 					{{infoAuthorize.type == 0 ? '提问' : '发声'}}
 				</view>
@@ -50,7 +52,7 @@
 		</template>
 		<template v-else>
 			<view class="add-btn" @click="handleFresh">
-				<u-icon name="reload" color="#fff" size="50"></u-icon>
+				<u-icon name="reload" color="#fff" size="40"></u-icon>
 				<view class="add-btn-text">刷新</view>
 			</view>
 		</template>
@@ -59,8 +61,12 @@
 			:show="rzModalShow"
 			@change-flag="handleShowRzBox"
 		></rz-select-modal>
-		
+		<new-msg-box
+			:show="mixinMsgShow"
+			@change-modal-flag="changeModalFlag"
+		></new-msg-box>
 		<u-top-tips ref="uTips"></u-top-tips>
+		<wx-authorize-modal></wx-authorize-modal>
 		<tab-bar></tab-bar>
 		
 	</view>
@@ -68,14 +74,16 @@
 
 <script>
 	import {sharePage} from '@/utils/sharePage.js'
+	import {mixinMsg} from '@/utils/mixin_msg.js'
 	import {mapState} from 'vuex'
 	import tabBar from '@/components/tabBar/tabBar.vue'
 	import searchBar from '@/components/searchBar/searchBar.vue'
+	import newMsgBox from '@/components/newMsgBox/newMsgBox.vue'
 	import qaList from '@/components/QAList/QAList.vue'
 	import rzSelectModal from '@/components/rzSelectModal/rzSelectModal.vue'
-	
+	 
 	export default {
-		mixins: [sharePage],
+		mixins: [sharePage, mixinMsg],
 		data() {
 			return {
 				current: 0,
@@ -89,21 +97,8 @@
 						name: '专家发声'
 					},
 				],
-				list: [
-					{
-						image: 'https://www.100ec.cn/zt/upload_data/19s11/images/tout.jpg',
-						url: '/pages/search/search'
-					},
-					{
-						image: 'https://www.100ec.cn/zt/upload_data/11_wfgl/images/banner3.jpg',
-						url: '/pages/search/search'
-					},
-					{
-						image: 'https://www.100ec.cn/zt/upload_data/19h5/images/top.jpg',
-						url: '/pages/search/search'
-					}
-					
-				],
+				list: [],
+				topList: [],
 				dataList: [],
 				swiperData: [
 					{
@@ -135,7 +130,8 @@
 			tabBar,
 			searchBar,
 			qaList,
-			rzSelectModal
+			rzSelectModal,
+			newMsgBox
 		},
 		computed: {
 			...mapState(['infoAuthorize', 'phoneReg']),
@@ -168,14 +164,14 @@
 		},
 		onReachBottom() {
 			let obj = this.swiperData[this.current]
-			if(obj.endFlag) return
+			if(obj.endFlag || obj.loading) return
 			obj.p++
 			this.renderList()
 			// console.log('reach')
 		},
 		onLoad() {
+			this.getSwiperData()
 			this.renderList()
-			
 		},
 		onShow(){
 			if(uni.getStorageSync('indexRefresh')) {
@@ -199,12 +195,36 @@
 			},
 			handleNavigator(index) {
 				uni.navigateTo({
-					url: this.list[index].url
+					url: this.topList[index].url
 				})
 			},
 			tabsChange(index) {
 				this.current = index
 				// this.renderList()
+			},
+			async getSwiperData() {
+				let res = await Promise.all([
+					this.$https.get('/Home/Jzbxcx/topping_list', {params: {cate: 1}})
+					,this.$https.get('/Home/Jzbxcx/topping_list', {params: {cate: 2}})
+					,this.$https.get('/Home/Jzbxcx/topping_list', {params: {cate: 3}})
+				])
+				res.forEach((ele, index) => {
+					if(ele.data.code == 1) {
+						this.topList.push(...ele.data.list.map(item => {
+							item.image = 'https://www.100ec.cn' + item.pic
+							if(index == 0) {
+								item.url = `/pages/newsDetail/newsDetail?id=${item.id}`
+							}else if(index == 1) {
+								item.url = `/pages/qaDetail/qaDetail?id=${item.id}&type=0`
+							}else if(index == 2) {
+								item.url = `/pages/qaDetail/qaDetail?id=${item.id}&type=1`
+							}
+							
+							return item
+						}))
+					}
+				})
+				
 			},
 			async renderList() {
 				// this.loading = true
@@ -316,4 +336,5 @@
 	.content {
 		background-color: #fff;
 	}
+	
 </style>

@@ -31,7 +31,7 @@
 			<template v-else>
 				<q-a-list
 					:list="dataList"
-					:type="type=='4'? 0 : 1"
+					:type="type=='1'? 0 : 1"
 				></q-a-list>
 				<!-- <view class="list-item"
 					v-for="(item, index) in list"

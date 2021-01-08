@@ -27,6 +27,11 @@
 				@change="change"
 				:show-bar="false"
 			></u-tabs>
+			<template v-if="dataList.length == 0">
+				<view class="empty">
+					<u-empty text="列表为空" mode="list"></u-empty>
+				</view>
+			</template>
 			<u-cell-group>
 				<u-cell-item 
 					:value="item.uptime | timeFilter " 
@@ -47,13 +52,13 @@
 					<view class="cell-label" slot="label">
 						
 						<template v-if="item.zt == 1">
-							<u-icon name="checkmark-circle-fill" color="#00aa7f" size="34"></u-icon>
+							<u-icon name="checkmark-circle-fill" color="#00aa7f" size="28"></u-icon>
 						</template>
 						<template v-else-if="item.zt == 2">
-							<u-icon name="close-circle-fill" color="#d80000" size="34"></u-icon>
+							<u-icon name="close-circle-fill" color="#d80000" size="28"></u-icon>
 						</template>
 						<template v-else>
-							<u-icon name="info-circle-fill" color="#f90" size="34"></u-icon>
+							<u-icon name="info-circle-fill" color="#f90" size="28"></u-icon>
 						</template>
 						<text class="cell-label-text">{{`互换邀请${msg[item.zt]}`}}</text>
 					</view>
@@ -101,7 +106,9 @@
 
 <script>
 	
+	import {mixinUpRead} from '@/utils/mixin_msg.js'
 	export default {
+		mixins: [mixinUpRead],
 		data() {
 			return {
 				show: false,
@@ -114,10 +121,10 @@
 				},
 				tabsList: [
 					{
-						name: '我收到的名片邀请'
+						name: '收到的名片邀请'
 					},
 					{
-						name: '我发出的名片邀请'
+						name: '发出的名片邀请'
 					}
 				],
 				tabsCurrent: 0,
@@ -128,36 +135,7 @@
 						icon: 'chat'
 					},
 				],
-				exchangeData: [
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/home/images/dyz.jpg',
-						name: '网经社',
-						label: '记者',
-						status: 0, //0：待处理， 1：已处理
-						time: '2020-10-14 10:46:44'
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2017/12/27/5a42f77ef17e2.png',
-						name: '网经社',
-						label: '专家',
-						status: 1, //0：待处理， 1：已处理
-						time: '2020-10-13 10:46:44'
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2018/07/12/5b471b720cb95.png',
-						name: '网经社',
-						label: '公关',
-						status: 1, //0：待处理， 1：已处理
-						time: '2019-10-12 10:46:44'
-					},
-					{
-						avatorUrl: 'https://www.100ec.cn/Public/attached/2018/12/13/5c11ca9a3ac90.jpg',
-						name: '网经社',
-						label: '未认证',
-						status: 0, //0：待处理， 1：已处理
-						time: '2020-10-14 3:46:44'
-					}
-				]
+				exchangeData: []
 			}
 		},
 		computed: {
@@ -252,12 +230,16 @@
 </script>
 
 <style scoped lang="scss">
+	.empty {
+		padding: 60rpx 0;
+	}
 	.cell-label {
 		display: flex;
-		align-items: center;
+		align-items: baseline;
 	}
 	.cell-label .cell-label-text {
 		margin-left: 5rpx;
+		font-size: 24rpx;
 	}
 	.msg-box {
 		padding: 20rpx;
@@ -309,9 +291,9 @@
 		display: inline-block;
 		font-size: 24rpx;
 		line-height: 32rpx;
-		padding: 2rpx 16rpx;
+		padding: 0rpx 16rpx;
 		border-radius: 6rpx;
-		font-weight: bold;
+		// font-weight: bold;
 		border: 1rpx solid #ccc;
 	}
 </style>

@@ -22,6 +22,7 @@
 			</u-sticky>
 			<view class=""
 				v-for="(item, index) in navList"
+				:key="index"
 			>
 				<template v-if="(current == 0 || current == index) && index != 0">
 					<search-res-list

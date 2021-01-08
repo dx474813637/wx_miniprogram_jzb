@@ -15,7 +15,7 @@
 					v-model="replyV" 
 					placeholder-class="t" 
 					cursor-spacing="170"
-					:maxlength="500"
+					:maxlength="repLen"
 				/>
 			</view>
 			<view class="reply-bottom-w">
@@ -23,7 +23,7 @@
 					清空<u-icon name="trash"></u-icon>
 				</view>
 				<view class="rp-bottom-item count">
-					<text :class="{'error': rpLenError}">{{rpLen}}</text>/500
+					<text :class="{'error': rpLenError}">{{rpLen}}</text>/{{repLen}}
 				</view>
 				<view class="rp-bottom-item">
 					<u-button type="primary" @click="handleReply" :disabled="rpLenError || replyV.length == 0" size="mini">回复</u-button>
@@ -49,6 +49,10 @@
 			repInfo: {
 				type: String,
 				default: ''
+			},
+			repLen: {
+				type: String | Number,
+				default: 500
 			}
 		},
 		data() {
@@ -82,7 +86,7 @@
 				return this.replyV.length
 			},
 			rpLenError() {
-				return this.replyV.length >= this.maxlength ? true : false
+				return this.replyV.length >= this.repLen ? true : false
 			},
 		},
 		methods: {

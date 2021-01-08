@@ -28,6 +28,10 @@
 		<view class="news-bqsm">
 			【版权声明】秉承互联网开放、包容的精神，网经社欢迎各方(自)媒体、机构转载、引用我们原创内容，但要严格注明来源网经社；同时，我们倡导尊重与保护知识产权，如发现本站文章存在版权问题，烦请将版权疑问、授权证明、版权证明、联系方式等，发邮件至law@netsun.com，我们将第一时间核实、处理。
 		</view>
+		<button class="share-btn" open-type="share" @click="handelShareNews">
+			<u-icon name="zhuanfa" size="34"></u-icon>
+			<text class="share-text">分享</text>
+		</button>
 	</view>
 </template>
 
@@ -67,12 +71,38 @@
 			},
 			async getData() {
 				return await this.$https.get('/Home/Jzbxcx/news_detail', {params: {id: this.id}})
+			},
+			handelShareNews() {
+				
 			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.share-btn {
+		position: fixed;
+		right: 20rpx;
+		bottom: 160rpx;
+		background-color: $jzb-theme-color;
+		border: 8rpx solid #fff;
+		color: #fff;
+		// font-weight: bold;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 130rpx;
+		height: 130rpx;
+		font-size: 30rpx;
+		border-radius: 50%;
+		box-sizing: border-box;
+		box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+	}
+	.share-text {
+		font-size: 24rpx;
+		line-height: 40rpx;
+	}
 	.item-sub {
 		margin-right: 40rpx;
 	}

@@ -138,6 +138,7 @@
 			:show="showReply"
 			:rep-person="qList.title"
 			:repInfo="selfAnswer.intro"
+			:repLen="1500"
 			@change-flag="handleShowReply"
 			@reply-event="handleReply"
 		></q-a-reply>
@@ -147,7 +148,9 @@
 <script>
 	import QAUserProfile from '@/components/QAUserProfile/QAUserProfile.vue';
 	import QAReply from '@/components/QAReply/QAReply.vue'
+	import { mixinUpRead } from '@/utils/mixin_msg.js'
 	export default {
+		mixins: [mixinUpRead],
 		data() {
 			return {
 				flag: false,
@@ -162,11 +165,19 @@
 				selectList: [
 					{
 						value: 0,
-						label: '原因1'
+						label: '话题敏感'
 					},
 					{
 						value: 1,
-						label: '原因2'
+						label: '时间不充分'
+					},
+					{
+						value: 2,
+						label: '专业知识不对口'
+					},
+					{
+						value: 3,
+						label: '其他原因'
 					}
 				],
 				zt: 0,
@@ -234,12 +245,10 @@
 					}
 				})
 				if(res.data.code == 1) {
-					uni.showLoading({
-						title: '提交成功',
-						mask: true
-					})
 					await this.renderList()
-					uni.hideLoading()
+					uni.showToast({
+						title: '提交成功',
+					})
 				}
 			},
 			handleSelectFlag() {
@@ -296,9 +305,7 @@
 				}
 			},
 			async handleReplyHttp(intro) {
-				return await this.$https.get('/Home/Jzbxcx/questions_answer_up', {
-					params: {id: this.qid, intro: intro},
-				})
+				return await this.$https.post('/Home/Jzbxcx/questions_answer_up', {id: this.qid, intro: intro})
 			},
 			handlecheckReply() {
 				this.zt = 2;

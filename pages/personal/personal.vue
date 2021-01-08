@@ -25,7 +25,7 @@
 							{{infoAuthorType}}
 						</view>
 						<view class="per-info-item per-sub">
-							{{infoAuthorize.company || infoAuthorize.title}}
+							{{infoAuthorize.type == 0 ? infoAuthorize.company : infoAuthorize.title}}
 						</view>
 					</view>
 				</view>
@@ -56,6 +56,9 @@
 							<u-icon name="file-text-fill" class="cell-icon" size="40" color="#aa21ff" slot="icon"></u-icon>
 						</u-cell-item>
 					</template>
+					<u-cell-item  title="数据" hover-class="cell-hover-class" @click="handleToPage('data')">
+						<u-icon name="eye-fill" class="cell-icon" size="40" color="#007aff" slot="icon"></u-icon>
+					</u-cell-item>
 					
 					<u-cell-item  title="关注" hover-class="cell-hover-class" @click="handleToPage('follow')">
 						<u-icon name="eye-fill" class="cell-icon" size="40" color="#ff5500" slot="icon"></u-icon>
@@ -78,9 +81,9 @@
 					<u-cell-item  title="EDM" hover-class="cell-hover-class" @click="handleToPage('edm')">
 						<u-icon name="email-fill" class="cell-icon" size="40" color="#007aff" slot="icon"></u-icon>
 					</u-cell-item>
-					<u-cell-item  title="邀请好友" hover-class="cell-hover-class" :border-bottom="false" @click="handleToPage('invite')">
+					<!-- <u-cell-item  title="邀请好友" hover-class="cell-hover-class" :border-bottom="false" @click="handleToPage('invite')">
 						<u-icon name="plus-people-fill" class="cell-icon" size="40" color="#8215ff" slot="icon"></u-icon>
-					</u-cell-item>
+					</u-cell-item> -->
 				</u-cell-group>
 			</view>
 		</template>
@@ -150,34 +153,6 @@
 				uni.navigateTo({
 				    url: '/pages/'+name+'/'+name
 				});
-			},
-			handleGetUserInfo(e) {
-				console.log(e)
-				let {rawData, signature, iv, encryptedData, errMsg, userInfo} = e.detail
-				if(errMsg == 'getUserInfo:ok' ) {
-					
-					uni.login({
-						provider: 'weixin',
-						success: (loginRes) => {
-							console.log(loginRes)
-							return this.$https.get('/Home/Jzbxcx/login_wx', {
-								params: {
-									code: loginRes.code,
-									rawData: rawData,
-									signature: signature,
-									iv: iv,
-									encryptedData: encryptedData
-								}
-							})
-							.then(res => {
-								this.$store.commit('checkAuthorize', true)
-								console.log(res)
-							})
-						}
-					})
-					
-				}
-				
 			},
 			gotoReg() {
 				uni.navigateTo({

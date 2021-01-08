@@ -26,10 +26,17 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
+.new-msg-label.data-v-79629d66 {
+  color: #ff0000;
+  padding-right: 10rpx;
+}
+.name-sub.data-v-79629d66 {
+  font-weight: normal;
+  color: #007aff;
+  margin-left: 5rpx;
+  font-size: 24rpx;
+}
 .footer-item.data-v-79629d66 {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 45%;
-          flex: 0 0 45%;
   font-size: 28rpx;
 }
 .item-footer.data-v-79629d66 {
@@ -70,8 +77,7 @@
 }
 .item-title.data-v-79629d66 {
   font-weight: bold;
-  font-size: 32rpx;
-  line-height: 50rpx;
+  font-size: 30rpx;
   margin-bottom: 5rpx;
 }
 .w.data-v-79629d66 {

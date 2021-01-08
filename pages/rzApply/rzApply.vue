@@ -265,7 +265,7 @@
 					title: '提交中',
 					mask: true
 				})
-				let res = await this.$https.get('/Home/Jzbxcx/update_user_auth', {params: this.form})
+				let res = await this.$https.post('/Home/Jzbxcx/update_user_auth', this.form)
 				if(res.data.code == 1) {
 					await this.$getuserauthinfo()
 					uni.hideLoading()
@@ -292,10 +292,10 @@
 				this.keywordsArr.splice(index, 1)
 			},
 			avatarImgUpChange(res) {
-				console.log(res)
+				// console.log(res)
 				this.$set(this.form, 'pic', JSON.parse(res.data).url)
 				// this.form.pic = JSON.parse(res.data).url
-				console.log(this.form)
+				// console.log(this.form)
 			},
 			licenseImgUpChange(res, index, lists) {
 				this.$set(this.licenseArr, index, lists[index].response.url)

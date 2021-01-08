@@ -86,6 +86,7 @@
 				uni.showShareMenu({
 					withShareTicket: true,
 					success: res => {
+						console.log('showShareMenu')
 						console.log(res)
 					}
 				})

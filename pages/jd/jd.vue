@@ -11,10 +11,15 @@
 		
 		<view class="w-list">
 			<view class="list-item"
-				v-for="(item, index) in list"
+				v-for="(item, index) in handleData"
 				:key="index"
 			>
-				<view class="item-title">{{item.title}}</view>
+				<view class="item-title">
+					<template v-if="item.new_msg">
+						<text class="new-msg-label">[新采访]</text>
+					</template>
+					{{item.title}}
+				</view>
 				<view class="item-sub">
 					<view class="sub-date">
 						{{item.post_time | timeFilter}}发出采访邀请
@@ -78,10 +83,10 @@
 				
 				<view class="item-footer">
 					<view class="footer-item">
-						<u-button type="primary" plain @click="handleSeeDetail(index)" :custom-style="customStyle">处理详情</u-button>
+						<u-button type="primary" size="mini" plain @click="handleSeeDetail(index)" :custom-style="customStyle">处理详情</u-button>
 					</view>
 					<view class="footer-item">
-						<u-button type="primary" plain @click="handleSeeOrigin(index)" :custom-style="customStyle">查看原文</u-button>
+						<u-button type="primary" size="mini" plain @click="handleSeeOrigin(index)" :custom-style="customStyle">查看原文</u-button>
 					</view>
 				</view>
 			</view>
@@ -92,7 +97,10 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
+	import {mixinMsg} from '@/utils/mixin_msg.js'
 	export default {
+		mixins: [mixinMsg],
 		data() {
 			return {
 				list: [],
@@ -117,6 +125,27 @@
 			this.p++
 			this.renderList()
 			
+		},
+		computed: {
+			...mapState({
+				newMsg: 'mixinMsg'
+			}),
+			handleData() {
+				// let msgArr = this.newMsg.list && this.newMsg.list.map(ele => ele.mid)
+				if(!this.newMsg.list) return this.list
+				let arr = this.list.map(ele => {
+					let arr= []
+					this.newMsg.list.forEach(item => {
+						
+						if(item.mid == ele.qid) {
+							arr.push(item.id)
+						}
+					})
+					ele.new_msg = arr.join(',')
+					return ele
+				})
+				return arr
+			}
 		},
 		methods: {
 			async renderList() {
@@ -147,7 +176,7 @@
 			handleSeeDetail(index) {
 				let item = this.list[index]
 				uni.navigateTo({
-					url: `/pages/jdDetail/jdDetail?id=${item.id}&qid=${item.qid}&zt=${item.zt}`
+					url: `/pages/jdDetail/jdDetail?id=${item.id}&qid=${item.qid}&zt=${item.zt}&newMsg=${this.handleData[index].new_msg}`
 				})
 			}
 			
@@ -156,12 +185,17 @@
 </script>
 
 <style scoped lang="scss">
+	.new-msg-label {
+		color: #ff0000;
+		padding-right: 10rpx;
+	}
 	.footer-item {
-		flex: 0 0 45%
+		// flex: 0 0 45%
 	}
 	.item-footer {
 		display: flex;
 		justify-content: space-between;
+		padding-top: 10rpx;
 		// padding: 20rpx 0;
 	}
 	.sub-status {
@@ -178,16 +212,15 @@
 	.item-sub {
 		display: flex;
 		justify-content: space-between;
-		margin-bottom: 25rpx;
+		margin-bottom: 10rpx;
 	}
 	.sub-date {
 		color: #999;
 	}
 	.item-title {
 		font-weight: bold;
-		font-size: 32rpx;
-		line-height: 50rpx;
-		margin-bottom: 20rpx;
+		font-size: 30rpx;
+		margin-bottom: 10rpx;
 		
 	}
 	.w {

@@ -5,8 +5,22 @@ const typeToLabel = v => {
 	else if(v == 2) return '公关'
 	else return '未认证'
 }
+const dsbStatusToLabel = v => {
+	if(v == 1) return '未审核'
+	else if(v == 2) return '已移交'
+	else if(v == 3) return '已受理'
+	else if(v == 4)  return '已评价'
+}
+
+const dsbPjToLevel = v => {
+	if(v == 'bad') return '不满意'
+	else if(v == 'pleased') return '满意'
+	else if(v == 'perfect') return '非常满意'
+	else if(v == 'common') return '一般'
+}
 
 const timeFilter = v => {
+	if(!v) return null
 	let dateArr = v.split(' ')[0].split('-')
 	let timeArr = v.split(' ')[1].split(':')
 	let arr = [...dateArr, ...timeArr]
@@ -46,5 +60,7 @@ const timeFilter = v => {
 
 module.exports = {
     typeToLabel,
-    timeFilter
+    timeFilter,
+	dsbStatusToLabel,
+	dsbPjToLevel
 }

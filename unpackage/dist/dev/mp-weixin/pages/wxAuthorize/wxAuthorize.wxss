@@ -65,6 +65,10 @@
   background-color: #aa55ff;
   color: #fff;
   font-size: 32rpx;
+  margin-bottom: 20rpx;
+}
+.authorize-btn.authorize-cancel-btn.data-v-5e50a4d0 {
+  background-color: #007aff;
 }
 .xy.data-v-5e50a4d0 {
   display: -webkit-box;

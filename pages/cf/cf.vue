@@ -1,5 +1,18 @@
 <template>
 	<view class="w">
+		
+		<u-notice-bar
+			:list="['点击查看记者采访提问完整版攻略']"
+			close-icon
+			type="primary"
+			:autoplay="false"
+			mode="vertical"
+			play-state="paused"
+			:show="noticeShow"
+			@click="lookQuestion"
+			@close="this.noticeShow = false"
+		></u-notice-bar>
+		
 		<view class="w-name">
 			<view class="name-item">
 				<u-icon name="file-text-fill" color="#007aff" size="36"></u-icon>
@@ -8,18 +21,24 @@
 			<view class="name-item">
 				<navigator url="/pages/send/send">
 					<u-icon name="edit-pen" color="#007aff"></u-icon>
+					<text class="name-sub">新增</text>
 				</navigator>
 				
 			</view>
 			
 		</view>
+		
+		
 		<view class="w-list">
 			<view 
 				class="list-item"
-				v-for="(item, index) in list"
+				v-for="(item, index) in handleData"
 				:key="index"
 			>
 				<view class="item-title">
+					<template v-if="item.new_msg">
+						<text class="new-msg-label">[新消息]</text>
+					</template>
 					{{item.title}}
 				</view>
 				<view class="item-sub">
@@ -42,10 +61,10 @@
 				</view>
 				<view class="item-footer">
 					<view class="footer-item">
-						<u-button type="primary" :custom-style="customStyle" plain @click="handleSeeStep(index)">查看进度</u-button>
+						<u-button type="primary" size="mini" :custom-style="customStyle" plain @click="handleSeeStep(index)">查看进度</u-button>
 					</view>
 					<view class="footer-item">
-						<u-button type="primary" :custom-style="customStyle" plain @click="handleSeeOrigin(item.id)">查看原文</u-button>
+						<u-button type="primary" size="mini" :custom-style="customStyle" plain @click="handleSeeOrigin(item.id)">查看原文</u-button>
 					</view>
 				</view>
 					
@@ -55,7 +74,10 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
+	import {mixinMsg} from '@/utils/mixin_msg.js'
 	export default {
+		mixins: [mixinMsg],
 		data() {
 			return {
 				list: [],
@@ -64,7 +86,8 @@
 				},
 				p: 1,
 				pFlag: true,
-				pLoading: false
+				pLoading: false,
+				noticeShow: true,
 			}
 		},
 		async onShow() {
@@ -81,8 +104,34 @@
 			this.getList()
 			
 		},
+		computed: {
+			...mapState({
+				newMsg: 'mixinMsg'
+			}),
+			handleData() {
+				// let msgArr = this.newMsg.list && this.newMsg.list.map(ele => ele.mid)
+				if(!this.newMsg.list) return this.list
+				let arr = this.list.map(ele => {
+					let arr= []
+					this.newMsg.list.forEach(item => {
+						if(item.mid.split(',')[0] == ele.id) {
+							arr.push(item.id)
+						}
+					})
+					ele.new_msg = arr.join(',')
+					return ele
+				})
+				return arr
+			}
+		},
 		methods: {
+			lookQuestion() {
+				uni.navigateTo({
+					url: `/pages/handbook/handbook`
+				})
+			},
 			async getList() {
+				// let res = await this.$https.post('/Home/Jzbxcx/my_questions_list', {p: this.p})
 				let res = await this.$https.get('/Home/Jzbxcx/my_questions_list', {params: {p: this.p}})
 				// console.log(res)
 				if(res.data.code == 1) {
@@ -103,7 +152,7 @@
 					cur = 2
 				}
 				uni.navigateTo({
-					url: '/pages/send/send?id=' + id + '&current=' + cur
+					url: '/pages/send/send?id=' + id + '&current=' + cur + '&newMsg=' + this.handleData[index].new_msg
 				})
 			},
 			handleSeeOrigin(id) {
@@ -116,8 +165,19 @@
 </script>
 
 <style scoped lang="scss">
+	.new-msg-label {
+		color: #ff0000;
+		padding-right: 10rpx;
+	}
+	.name-sub {
+		font-weight: normal;
+		color: $jzb-theme-color;
+		margin-left: 5rpx;
+		font-size: 24rpx;
+		
+	}
 	.footer-item {
-		flex: 0 0 45%;
+		// flex: 0 0 45%;
 		font-size: 28rpx;
 	}
 	.item-footer {
@@ -146,8 +206,7 @@
 	}
 	.item-title {
 		font-weight: bold;
-		font-size: 32rpx;
-		line-height: 50rpx;
+		font-size: 30rpx;
 		margin-bottom: 5rpx;
 		
 	}

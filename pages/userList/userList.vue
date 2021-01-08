@@ -34,35 +34,44 @@
 				</view>
 				<scroll-view class="list-box" scroll-y>
 					<view class="list">
-						<u-cell-group>
-							<navigator 
-								v-for="(item, index) in userList"
-								:key="index"
-								:url="`/pages/homePage/homePage?id=${item.id}`"
-							>
-								<u-cell-item
-									:arrow="false"
+						<template v-if="userList.length == 0">
+							<view class="empty">
+								<u-empty margin-top="100" text="列表为空" mode="list"></u-empty>
+							</view>
+						</template>
+						<template v-else>
+							<u-cell-group>
+								<navigator 
+									v-for="(item, index) in userList"
+									:key="index"
+									:url="`/pages/homePage/homePage?id=${item.poster}`"
 								>
-									<image 
-										class="cell-avator"
-										slot="icon" 
-										:src="item.pic" 
-									/>
-									<view class="cell-title" slot="title">
-										<text class="name">{{item.name}}</text>
-										<!-- <text class="sub" >{{item.sub}}</text> -->
-									</view>
-									<view class="cell-label" slot="label">
-										<text class="label-item" >{{item.title}}</text>
-										<!-- <text class="label-item">评分：<text class="label-color">{{item.score}}</text></text>
-										<text class="label-item">采访次数：<text class="label-color">{{item.count}}</text></text>
-										 -->
-										
-									</view>
-								</u-cell-item>
-							</navigator>
-							
-						</u-cell-group>
+									<u-cell-item
+										:arrow="false"
+									>
+										<image 
+											class="cell-avator"
+											slot="icon" 
+											:src="item.pic" 
+										/>
+										<view class="cell-title" slot="title">
+											<text class="name">{{item.name}}</text>
+											<!-- <text class="sub" >{{item.sub}}</text> -->
+										</view>
+										<view class="cell-label" slot="label">
+											<text class="label-item" >{{item.title}}</text>
+											<!-- <text class="label-item">评分：<text class="label-color">{{item.score}}</text></text>
+											<text class="label-item">采访次数：<text class="label-color">{{item.count}}</text></text>
+											 -->
+											
+										</view>
+									</u-cell-item>
+								</navigator>
+								
+							</u-cell-group>
+						</template>
+						
+						
 					</view>
 					
 				</scroll-view>
@@ -139,14 +148,14 @@
 			userList() {
 				
 				let key = this.navList[this.current].value;
-				return this.dataList.filter(ele => key.some(item => ele.field.includes(item)) )
+				let arr = this.dataList.filter(ele => key.some(item => ele.field.includes(item)) )
+				return arr
 			}
 		},
 		methods: {
 			async renderList(index) {
 				uni.showLoading({
 					title: '加载中',
-					mask: true
 				})
 				let params
 				params = {p: this.p, cid: index}
@@ -170,6 +179,9 @@
 </script>
 
 <style scoped lang="scss">
+	.empty {
+		background-color: #f8f8f8;
+	}
 	.list-box {
 		height: calc(100% - 60rpx);
 	}

@@ -4,6 +4,15 @@
     "u-empty": "/uview-ui/components/u-empty/u-empty",
     "data-nav": "/components/dataNav/dataNav",
     "data-list-trz": "/components/DataListTrz/DataListTrz",
-    "data-list-djs": "/components/DataListDjs/DataListDjs"
+    "data-list-djs": "/components/DataListDjs/DataListDjs",
+    "data-list-bq": "/components/DataListBq/DataListBq",
+    "data-list-sw": "/components/DataListSw/DataListSw",
+    "data-list-cyy": "/components/DataListCyy/DataListCyy",
+    "data-list-qq": "/components/DataListQq/DataListQq",
+    "data-list-hy": "/components/DataListHy/DataListHy",
+    "data-list-cb": "/components/DataListCb/DataListCb",
+    "data-list-zsq": "/components/DataListZsq/DataListZsq",
+    "data-list-xsb": "/components/DataListXsb/DataListXsb",
+    "data-list-pj": "/components/DataListPj/DataListPj"
   }
 }

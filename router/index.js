@@ -13,7 +13,7 @@ const router = new Router({
 
 //全局路由前置守卫
 router.beforeEach((to, from, next) => {
-	console.log(to, from)
+	// console.log(to, from)
   next()
 })
 // 全局路由后置守卫

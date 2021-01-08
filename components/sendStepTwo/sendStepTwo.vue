@@ -5,6 +5,12 @@
 			<text>成功发送</text>
 		</view> -->
 		<view class="list-w">
+			<template v-if="userList.length == 0">
+				<view>
+					<u-empty text="列表为空" mode="list"></u-empty>
+				</view>
+			</template>
+			
 			<view class="list-item" v-for="(item, index) in userList" :key="index">
 				<view class="header">
 					<view class="header-item">
@@ -32,7 +38,7 @@
 		</view>
 		
 		<view class="main">	
-			<u-button type="primary" @click="handleFindZJ">提交</u-button>
+			<u-button type="primary" @click="handleFindZJ">{{checkedNum == 0 ? '跳过' : '发送邀请'}}</u-button>
 		</view>	
 	</view>
 </template>
@@ -89,10 +95,11 @@
 					}
 				})
 				this.uid = arr.join(',')
-				console.log(this.uid)
+				// console.log(this.uid)
 			},
 			handleFindZJ() {
 				this.setUid()
+				// console.log(this.isSecond)
 				this.$emit('change-step', 2, {uid: this.uid, newInvite: this.isSecond})
 			},
 			handleReturnIndex() {

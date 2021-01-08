@@ -25,6 +25,7 @@
 				<view class="qa-content">
 					<u-read-more 
 						ref="uReadMore"
+						text-indent="0"
 						toggle
 					>
 						<view class="r-content">

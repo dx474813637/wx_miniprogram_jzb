@@ -8,6 +8,8 @@
 				:bar-style="barStyle"
 				@change="tabsChange"
 				:is-scroll="true"
+				font-size="28"
+				inactive-color="#666"
 			></u-tabs>
 		</view>
 		<swiper 
@@ -21,8 +23,12 @@
 			>	
 				<scroll-view 
 					class="list" 
+					enable-back-to-top
 					scroll-y
 					@scrolltolower="handleScrollLower(index)"
+					:refresher-enabled="item.refresher"
+					:refresher-triggered="item.pullRefresher"
+					@refresherpulling="handleRefresherPulling(index)"
 				>
 					<navigator :url="`/pages/newsDetail/newsDetail?id=${ele.id}`"
 						class="list-item" 
@@ -139,7 +145,6 @@
 		onLoad() {
 			this.initList()
 			this.handleChange(0)
-			this.$https.get('/Home/Jzbxcx/category')
 		},
 		methods: {
 			initList() {
@@ -163,24 +168,25 @@
 					});
 					this.list.splice(index, 1, {list: []})
 				}
-				let curData = this.list[index].list
 				this.list[index].p ? '' : this.list[index].p = 1
 				// this.wzApi[this.tabsList[index].type]
 				let res = await this.$https.get('/Home/Jzbxcx/news_list', {
 					params: {
 						p: this.list[index].p,
 						cid: this.tabsList[index].value
-						// n: curData.length + 10,
-						// terms: this.tabsList[index].value
 					}
 				})
+				//判断是否为下拉刷新决定数据更新类型
+				let curData = this.list[index].pullRefresher ? [] : this.list[index].list
 				if(curData && curData.length > 0) {
 					this.list[index].list = [].concat(...curData, ...res.data.list)
 				}else {
 					this.list[index].list = res.data.list
+					this.list[index].refresher = true
 				}
 				// this.$set(this.list[index], 'list', res.data.list)
 				this.$set(this.list[index], 'loading', false)
+				console.log(this.list)
 				uni.hideLoading();
 			},
 			handleScrollLower(index) {
@@ -188,6 +194,17 @@
 				this.list[index].p ++
 				this.$set(this.list[index], 'loading', true)
 				this.getData(index)
+			},
+			async handleRefresherPulling(index) {
+				if(this.list[index].pullRefresher) return
+				this.$set(this.list[index], 'pullRefresher', true)
+				this.$set(this.list[index], 'p', 1)
+				await this.getData(index)
+				uni.showToast({
+					title: '刷新成功',
+					icon: 'none'
+				})
+				this.$set(this.list[index], 'pullRefresher', false)
 			}
 		}
 	}
@@ -204,6 +221,8 @@
 		top: 0;
 		left: 0;
 		width: 100%;
+		box-shadow: 0 0 8rpx rgba(0,0,0,.1);
+		// border-bottom: 1rpx solid #f8f8f8;
 	}
 	.news-page {
 		height: 100%;
@@ -228,8 +247,9 @@
 		border-radius: 10rpx;
 	}
 	.title {
-		color: $jzb-theme-color;
-		// font-weight: bold;
+		// color: $jzb-theme-color;
+		color: #333;
+		font-weight: bold;
 		line-height: 50rpx;
 		font-size: 28rpx;
 		margin-bottom: 10rpx;

@@ -1,5 +1,4 @@
 {
-  "navigationStyle": "custom",
   "disableScroll": true,
   "usingComponents": {
     "u-form": "/uview-ui/components/u-form/u-form",

@@ -55,7 +55,11 @@
 					/>
 				</u-cell-item>
 			</u-cell-group>
-			
+			<template v-if="qData.answer.length == 0">
+				<view class="empty-w">
+					<u-empty text="无邀请对象" mode="list"></u-empty>
+				</view>
+			</template>
 		</view>
 		<view class="fanhui-w">
 			<u-button type="primary" @click="handleNextStep">下一步</u-button>
@@ -148,6 +152,9 @@
 
 
 <style scoped lang="scss">
+	.empty-w {
+		padding: 60rpx;
+	}
 	.sub {
 		color: #999;
 		text-align: center;
@@ -177,7 +184,7 @@
 		margin-right: 20rpx;
 	}
 	.name {
-		font-weight: bold;
+		// font-weight: bold;
 	}
 	.label.rz {
 		background-color: $jzb-sup-color;
@@ -191,14 +198,14 @@
 		display: inline-block;
 		font-size: 24rpx;
 		line-height: 32rpx;
-		padding: 2rpx 16rpx;
+		padding: 0rpx 16rpx;
 		border-radius: 6rpx;
-		font-weight: bold;
+		// font-weight: bold;
 		border: 1rpx solid #ccc;
 	}
 	.cell-label {
 		display: flex;
-		align-items: center;
+		align-items: baseline;
 	}
 	.cell-label text {
 		margin-left: 10rpx;

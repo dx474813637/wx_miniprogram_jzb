@@ -40,6 +40,8 @@
   top: 0;
   left: 0;
   width: 100%;
+  -webkit-box-shadow: 0 0 8rpx rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 8rpx rgba(0, 0, 0, 0.1);
 }
 .news-page.data-v-c454de34 {
   height: 100%;
@@ -66,7 +68,8 @@
           border-radius: 10rpx;
 }
 .title.data-v-c454de34 {
-  color: #007aff;
+  color: #333;
+  font-weight: bold;
   line-height: 50rpx;
   font-size: 28rpx;
   margin-bottom: 10rpx;

@@ -44,9 +44,9 @@
   padding: 0 10rpx;
 }
 .nav-item.data-v-47caff90 {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 25%;
-          flex: 0 0 25%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 25%;
+          flex: 1 1 25%;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

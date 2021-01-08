@@ -160,7 +160,6 @@
   -webkit-box-orient: vertical;
   color: #666;
   line-height: 48rpx;
-  white-space: pre-wrap;
 }
 .post-time.data-v-7f1b0c84 {
   color: #999;

@@ -17,22 +17,12 @@
 					</view>
 					<view class="content">
 						<view class="content-item content-title">
-							授权后，我可以获得什么？
+							网经社小程序尊重并保护所有使用网经社小程序网络服务用户的个人隐私权。授权将会给您提供更准确、更有个性化的服务。
 						</view>
-						<view class="content-item content-ans">
-							获取电商行业人士权威解读来自记者的热点话题采访。
-						</view>
-						<view class="content-item content-ans">
-							获取电商行业人士对热点事件的观点。
-						</view>
-						<view class="content-item content-ans">
-							获取一手电商圈内资讯，24小时无间断更新。
-						</view>
-						<view class="content-item content-ans">
-							获得本平台认证资格，认证通过后可与行业专家在线互动、参与话题采访、发布个人观点、获取电商数据等。
-						</view>
+						
 					</view>
 					<button class="authorize-btn" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" >我要授权</button>
+					<button class="authorize-btn authorize-cancel-btn" @click="returnPage">取消</button>
 				</view>
 				
 				
@@ -189,19 +179,13 @@
 					})
 				})
 			},
-			handleLogin() {
-				return new Promise((res, rej) => {
-					uni.login({ success: r => res(r)})
-				})
-			},
 			async bindGetUserInfo() {
-				uni.showLoading({
-				    title: '授权中',
-					mask: true
-				});
+				uni.showLoading();
 				let that = this;
 				uni.login({
+					provider: 'weixin',
 					success: function(res) {
+						console.log(res)
 						let code = res.code; //获取code
 						uni.getUserInfo({
 							//得到rawData, signatrue, encryptData
@@ -221,49 +205,31 @@
 										}
 									})
 									.then(function(response) {
-										//获取后操作
+										//获取后操作 
 										uni.hideLoading()
 										that.$store.commit('checkAuthorize', true)
-										uni.reLaunch({
-										    url: getApp().globalData.prePagePath
-										});
+										uni.navigateBack({
+											delta: 1
+										})
+										// uni.reLaunch({
+										//     url: getApp().globalData.prePagePath
+										// });
 									});
 							},
 							fail(err) {
 								
 								uni.hideLoading()
-								uni.showToast({
-									title: '授权失败，请重新授权',
-									duration: 1500,
-									icon: 'none'
-								})
+								
+								that.returnPage()
+								// uni.showToast({
+								// 	title: '授权失败',
+								// 	duration: 1500,
+								// 	icon: 'none'
+								// })
 							}
 						});
 					}
 				});
-				// let loginRes = await this.handleLogin()
-				// // console.log(loginRes)
-				// let code = loginRes.code;
-				// let data = await this.handleGetUserInfo()
-				// // console.log(data)
-				// let {rawData, signature, iv, encryptedData, errMsg, userInfo} = data
-				// let res = await this.$https.get('/Home/Jzbxcx/login_wx', {
-				// 	params: {
-				// 		code: code,
-				// 		rawData: rawData,
-				// 		signature: signature,
-				// 		iv: iv,
-				// 		encryptedData: encryptedData
-				// 	}
-				// })
-				// // console.log(res)
-				
-				// uni.hideLoading()
-				// this.$store.commit('checkAuthorize', true)
-				// uni.reLaunch({
-				//     url: getApp().globalData.prePagePath
-				// });
-			   
 			},
 			handleXyFlag() {
 				this.xyFlag = !this.xyFlag
@@ -323,6 +289,14 @@
 				let res = await this.$https.get('/Home/Jzbxcx/check_phone_code', {params: {phone: this.form.phone, code: this.form.code}})
 				return res
 			},
+			returnPage() {
+				uni.navigateBack({
+					delta: 1
+				})
+				// uni.reLaunch({
+				//     url: getApp().globalData.prePagePath
+				// });
+			}
 		}
 	}
 </script>
@@ -366,6 +340,10 @@
 		background-color: #aa55ff;
 		color: #fff;
 		font-size: 32rpx;
+		margin-bottom: 20rpx;
+	}
+	.authorize-btn.authorize-cancel-btn {
+		background-color: $jzb-theme-color;
 	}
 	.xy {
 		display: flex;

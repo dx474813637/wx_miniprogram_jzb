@@ -19,13 +19,22 @@
 						<view class="user-avatar">
 							<image :src="list.pic"></image>
 						</view>
-						<template v-if="phoneReg && list.poster != infoAuthorize.poster">
+						<template v-if="list.poster == infoAuthorize.poster">
+							<view class="header-item">
+								<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle" @click="updateSelfInfo">
+									<!-- <u-icon name="plus" size="28"></u-icon> -->
+									<u-icon name="edit-pen-fill" size="28"></u-icon>
+									<text class="eye">更新信息</text>
+								</u-button>
+							</view>
+						</template>
+						<template v-else-if="phoneReg">
 							<view class="header-item">
 								<u-button type="primary" shape="circle" size="mini" ripple  :custom-style="!eyeFlag? eyeStyle: noEyeStyle " @click="handleEyeFlag">
 									<u-icon :name="!eyeFlag? 'heart': 'eye-off'" size="30"></u-icon>
 									<text class="eye">{{eyeFlag? '取消': ''}}关注</text>
 								</u-button>
-								<template v-if="eyeFlag">
+								<template v-if="eyeFlag && infoAuthorize.auth_status == 2">
 									<u-button type="primary" shape="circle" size="mini" ripple :custom-style="cfStyle" @click="applyBtn">
 										<!-- <u-icon name="plus" size="28"></u-icon> -->
 										<u-icon name="account-fill" size="28"></u-icon>
@@ -51,7 +60,7 @@
 							<text class="label">{{list.type | typeToLabel}}</text>
 						</view>
 						<view class="user-sub">
-							{{list.title}}
+							{{list.type != 0 ? list.title : list.company}}
 						</view>
 						<view class="user-data">
 							<view class="data-item">
@@ -86,8 +95,9 @@
 								ref="uReadMore"
 								toggle
 								:shadow-style="shadowStyle"
-								show-height="300"
+								show-height="330"
 								close-text="展开"
+								text-indent="0"
 							>	
 								<view class="itro-input" >
 									{{list.intro}}
@@ -197,8 +207,7 @@
 		async onLoad(opt) {
 			
 			uni.showLoading({
-				title: '加载中',
-				mask: true
+				title: '加载中'
 			})
 			if(opt.id) {
 				this.id = opt.id
@@ -362,6 +371,31 @@
 			},
 			canvasCancel(val) {
 			  this.canvasFlag = val
+			},
+			updateSelfInfo() {
+				let secondsLimit = 7 * 24 * 3600; //7天内只能更新一次简介
+				let lastTime = Math.round(new Date(this.list.uptime).getTime()/1000)
+				let now = Math.round(new Date().getTime()/1000)
+				uni.showModal({
+					title: '提示',
+					content: '您最近的信息更新时间在'+this.list.uptime + '，提交更新的信息需要平台重新审核。',
+					success: res => {
+						if(res.confirm) {
+							if(now - lastTime > secondsLimit) {
+								uni.navigateTo({
+									url: '/pages/rzApply/rzApply?update=1'
+								})
+							}else {
+								uni.showToast({
+									icon: 'none',
+									title: '7天内身份信息只能更新一次'
+								})
+							}
+						}
+					}
+				})
+				
+				
 			}
 		}
 	}
@@ -377,7 +411,7 @@
 		margin-bottom: 10rpx;
 	}
 	.content {
-		font-size: 30rpx;
+		font-size: 28rpx;
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
@@ -387,7 +421,7 @@
 		line-height: 48rpx;
 		// padding: 10rpx 0;
 		// margin-bottom: 10rpx;
-		white-space: pre-wrap;
+		// white-space: pre-wrap;
 		// word-break: break-all;
 	}
 	.sub-title, .sub-time {
@@ -423,7 +457,7 @@
 		padding: 10rpx;
 	}
 	.noIndex .content {
-		color: $jzb-theme-color;
+		// color: $jzb-theme-color;
 	}
 	.w-icon-btn {
 		position: absolute;
@@ -518,7 +552,7 @@
 	}
 	.user-name {
 		display: flex;
-		align-items: baseline;
+		align-items: center;
 		margin-bottom: 15rpx;
 	}
 	.name {
@@ -535,7 +569,7 @@
 		line-height: 32rpx;
 		padding: 2rpx 16rpx;
 		border-radius: 6rpx;
-		font-weight: bold;
+		// font-weight: bold;
 		margin-left: 15rpx;
 	}
 	.w {

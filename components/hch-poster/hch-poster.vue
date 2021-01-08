@@ -611,6 +611,7 @@ export default {
                 duration: 2000,
                 icon: "none"
               })
+			  _this.$https.get('/Home/Jzbxcx/share', {params: {url: getCurrentPages()[getCurrentPages().length - 1].$page.fullPath}})
               _this.handleCanvasCancel()
             },
             fail() {

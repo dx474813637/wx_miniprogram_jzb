@@ -1,0 +1,80 @@
+<template>
+	<view class="list">
+		<view class="title">
+			媒体采访提问流程以及重点须知
+		</view>
+		<view class="title-item">
+			一、进入采访提问发布编辑页
+		</view>
+		<view class="content">
+			你可通过两种方式进入采访提问发布编辑页：1、点击首页“圈内”右下角的“提问”按钮直接跳转页面；2、你还可以指定一位专家进入其个人主页点击右上方按钮“采访”按钮跳转采访提问页面。
+		</view>
+		<view class="title-item">
+			二、编辑内容
+		</view>
+		<view class="content">
+			根据提示，按需填写/勾选内容。最后若勾选“开启智能匹配专家”选项。点击下一步将进入“找专家”，反之则直接发布问题于平台。
+		</view>
+		<view class="title-item">
+			三、智能匹配专家
+		</view>
+		<view class="content">
+			针对在“提问题”中勾选了“开启智能匹配专家”选项的用户，平台会根据您选择的领域标签从而匹配相关标签的专家，显示顺序将根据匹配度越高（相同标签越多）依次从高到低排序。若你在进入提问界面前有指定专家，那该专家将置顶于第一位显示并默认为勾选状态。
+		</view>
+		<view class="content">
+			当然你也可以在此步骤不勾专家进入下一步骤，当点击“跳过”或者“发送邀请”按钮时，此时系统将会发布问题于平台并且给被勾选的对象发送采访提问邀请（邮件短信一并通知）。其中要注意的是一个采访提问可邀请的对象至多为3人。
+		</view>
+		<view class="title-item">
+			三、等待响应及评价/截稿
+		</view>
+		<view class="content">
+			关于等待响应及评价：发布问题与邀请后，等待被邀请对象对此次采访提问做出处理，当然你可以通过“我的”“采访”后台列表查看每一个被邀请对象的最新响应状态。每当一个被邀请对象确认接受采访并且提交解读内容后，你都会立即收到一条来自系统的短信提醒。并且对于每一个被邀请对象的解读你都可以单独评价打分处理。
+		</view>
+		<view class="content">
+			关于截稿/完成采访状态：无论时间是否到你填写的截稿时间，无论被邀请对象是否都对你的采访提问做出响应和回复，你都可以自己手动来结束该次采访提问的状态，平台为了每次采访提问的完整性，希望每位媒体用户能够在填写完稿件地址后再点击完成采访提问按钮。当然，如果因为一些特殊原因你也可以勾选免链接选项结束本次采访提问。
+		</view>
+		<view class="content">
+			即使被邀请对象在此次采访提问截稿时间后或者已结束采访状态后才做出接受响应并进行解读，该用户的解读依然会在此次采访提问原文中的“特邀解读”区域中显示，同样作者也会收到短信提醒在后台对其进行评分。
+		</view>
+		<view class="content">
+			需要注意的是，每次媒体用户在发布新的采访提问时需要确保没有其他正在进行（未结束状态）的采访提问。否则将发布失败。
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+	.list {
+		padding: 20rpx;
+		background-color: #fff;
+	}
+	.title {
+		border-bottom: 1rpx solid #f8f8f8;
+		text-align: center;
+		font-weight: bold;
+		line-height: 70rpx;
+		margin-bottom: 10rpx;
+		font-size: 30rpx;
+	}
+	.title-item {
+		line-height: 60rpx;
+		font-weight: bold;
+		margin-top: 10rpx;
+	}
+	.content {
+		line-height: 50rpx;
+		text-indent: 2em;
+	}
+</style>

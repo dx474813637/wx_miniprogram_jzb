@@ -81,56 +81,5 @@
 
 <style scoped lang="scss">
 
-	.content {
-		padding: 10rpx;
-	}
-	.list {
-		background-color: #f8f8f8;
-	}
-	.list-item {
-		background-color: #fff;
-		margin-bottom: 15rpx;
-	}
-	.item-header {
-		display: flex;
-		align-items: center;
-		height: 70rpx;
-		padding-bottom: 10rpx;
-		border-bottom: 1rpx solid #f8f8f8;
-		margin-bottom: 15rpx;
-		padding: 5rpx 20rpx;
-	}
-	.xuhao {
-		font-style: italic;
-		margin-right: 20rpx;
-		color: #999;
-	}
-	.name {
-		font-weight: bold;
-		font-size: 32rpx;
-		color: $jzb-theme-color;
-	}
-	.content-invest-info {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 15rpx;
-	}
-	.info-label {
-		color: #999;
-	}
-	.info-label text {
-		margin-left: 5rpx;
-	}
-	.item-content {
-		padding: 5rpx 20rpx;
-		border-bottom: 1rpx solid #f8f8f8;
-	}
-	.info-item {
-		flex: 0 0 50%
-	}
-	.info-text {
-		line-height: 45rpx;
-		padding-left: 5rpx;
-		// color: $jzb-theme-color;
-	}
+@import "@/static/css/sjk.scss";
 </style>

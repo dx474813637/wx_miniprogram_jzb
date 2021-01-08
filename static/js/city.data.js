@@ -1304,4 +1304,17 @@ let cityData = [{
 	}]
 }]
 
-export {cityData}
+function exchangeCityData(data) {
+	return data.map((ele, index) => {
+		if(ele.children && ele.children.length != 0) {
+			ele.children = exchangeCityData(ele.children)
+		}
+		ele.value = ele.label
+		ele.extra = index
+		return ele
+	})
+}
+
+let cityData2 = exchangeCityData(cityData)
+
+export {cityData, cityData2}

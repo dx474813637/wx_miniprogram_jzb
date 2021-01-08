@@ -47,6 +47,21 @@ const open = [
 	,{
 		path : "/pages/send/send",
 	}
+	,{
+		path : "/pages/data/data",
+	}
+	,{
+		path : "/pages/dataItem/dataItem",
+	}
+	,{
+		path : "/pages/ideaFeed/ideaFeed",
+	}
+	,{
+		path : "/pages/handbook/handbook",
+	}
+	,{
+		path : "/pages/complain/complain",
+	}
 	
 ]
 export default open
