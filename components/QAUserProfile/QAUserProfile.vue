@@ -1,16 +1,31 @@
 <template>
 	<view>
 		<view class="q-user u-skeleton">
-			<navigator :url="userHomePath" class="q-user-item user-avatar u-skeleton-circle">
-				<image :src="avatar" class="avatar-img"></image>
-			</navigator>
-			<navigator :url="userHomePath" class="q-user-item user-profile">
-				<view class="user-profile-item u-skeleton-fillet">
-					<view class="user-name">{{name}}</view>
-					<view class="user-label">{{label | typeToLabel}}</view>
+			<template v-if="isActived">
+				<navigator :url="userHomePath" class="q-user-item user-avatar u-skeleton-circle">
+					<image :src="avatar" class="avatar-img"></image>
+				</navigator>
+				<navigator :url="userHomePath" class="q-user-item user-profile">
+					<view class="user-profile-item u-skeleton-fillet">
+						<view class="user-name">{{name}}</view>
+						<view class="user-label">{{label | typeToLabel}}</view>
+					</view>
+					<view class="user-profile-sub u-skeleton-fillet">{{sub}}</view>
+				</navigator>
+			</template>
+			<template v-else>
+				<view class="q-user-item user-avatar u-skeleton-circle">
+					<image :src="avatar" class="avatar-img"></image>
 				</view>
-				<view class="user-profile-sub u-skeleton-fillet">{{sub}}</view>
-			</navigator>
+				<view class="q-user-item user-profile">
+					<view class="user-profile-item u-skeleton-fillet">
+						<view class="user-name">{{name}}</view>
+						<view class="user-label">{{label | typeToLabel}}</view>
+					</view>
+					<view class="user-profile-sub u-skeleton-fillet">{{sub}}</view>
+				</view>
+			</template>
+			
 			<template v-if="phoneReg && followBtn && infoAuthorize.poster != userid">
 				<view class="q-user-item">
 					<u-button v-if="!followStatus" type="primary" size="mini" shape="circle" @click="handleEyeFlag(followStatus)">关注ta</u-button>
@@ -33,7 +48,7 @@
 			},
 			avatar: {
 				type: String,
-				default: 'https://www.100ec.cn/Public/home/images/icon-rw.png'
+				default: 'https://www.100ec.cn/Public/home/images/icon-rw.png',
 			},
 			name: {
 				type: String,
@@ -52,6 +67,10 @@
 				default: false
 			},
 			followBtn: {
+				type: Boolean,
+				default: true
+			},
+			isActived: {
 				type: Boolean,
 				default: true
 			},

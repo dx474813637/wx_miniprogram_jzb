@@ -121,6 +121,9 @@
 				this.uid = opt.uid
 				this.getUidInfo()
 			}
+			// this.handleChangeStep(1, {form: {keywords: '零售电商', isMate: true} })
+			
+			
 		},
 		computed: {
 			...mapState(['infoAuthorize'])
@@ -170,10 +173,19 @@
 			async searchKwUser(newV) {
 				this.userList = []
 				uni.showLoading({title: '匹配中...'})
-				let res = await this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + newV)
+				// let [res1, res2] = await Promise.all([this.searchActivedUser(newV), this.searchAllUser(2, newV)])
+				// let res = [].concat(res1, res2)
+				let res = await this.searchActivedUser(newV)
+				this.userList = res
+				// console.log(this.userList)
+				uni.hideLoading()
+			},
+			async searchActivedUser(kw) {
+				//搜索已激活的用户
+				let res = await this.$https.get('/Home/Jzbxcx/keywords_user?keywords=' + kw)
 				let arr = (this.uid && this.uidInfo) ? [this.uidInfo] : [];
 				// console.log(arr)
-				this.userList = arr.concat(...res.data.list.filter(ele => {
+				return arr.concat(...res.data.list.filter(ele => {
 					//不是记者 
 					// + 已认证身份 
 					// + 不是点击采访链接过来的id 去重
@@ -190,8 +202,21 @@
 					ele.checked = false
 					return ele
 				})) 
-				// console.log(this.userList)
-				uni.hideLoading()
+			},
+			async searchAllUser(cate, keywords) {
+				//从网经社对应cate分类里搜索用户
+				let res = await this.$https.get('/Home/Jzbxcx/keywords_ku', {params: {cate, keywords}})
+				return res.data.list.filter(ele =>{
+					// 无手机将剔除
+					if(ele.tel) {
+						ele.auth_name = ele.name
+						ele.auth_intro = ele.description
+						ele.type = (cate - 1) || 4
+						ele.auth_title = '该用户暂未激活'
+						ele.pic = ele.pic_name1? 'https://www.100ec.cn' + ele.pic_name1 : "https://www.100ec.cn/Public/home/images/icon-rw.png"
+						return ele.tel
+					}
+				})
 			},
 			async handleChangeStep(num, obj) {
 				if(obj && !obj.newInvite) {

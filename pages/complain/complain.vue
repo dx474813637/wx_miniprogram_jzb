@@ -44,7 +44,7 @@
 									<view class="time">{{ele.post_time | timeFilter}} 发布</view>
 								</view>
 								<view class="location-item">
-									<view class="status-label" :class="{'status-one': ele.state == 1, 'status-two': ele.state == 2, 'status-three': ele.state == 3, 'status-four': ele.state == 4}">
+									<view class="status-label" :class="{'status-one': ele.state == 1, 'status-two': ele.state == 2, 'status-three': ele.state == 3, 'status-four': ele.state == 4, 'status-five': ele.state == 5}">
 										{{ele.state | dsbStatusToLabel}}
 										<template v-if="ele.state == 4">
 											：{{ele.review | dsbPjToLevel}}
@@ -53,7 +53,12 @@
 								</view>
 							</view>
 							<view class="item-content">
-								{{ele.remark2}}
+								{{ele.remark2 | personalInfoFilter}}
+							</view>
+							<view class="kw-list">
+								<view class="kw" v-for="(k, kIndex) in ele.kw" :key="kIndex">
+									{{k}}
+								</view>
 							</view>
 						</navigator> 
 					</template>
@@ -149,7 +154,7 @@
 					});
 					// this.$set(this.list, index, {list: []})
 				}
-				this.list[index].p ? '' : this.list[index].p = 0
+				this.list[index].p ? '' : this.list[index].p = 1
 				// this.wzApi[this.tabsList[index].type]
 				let res = await this.$https.post('/Home/Jzbxcx/json_315_post_product', {
 					f: this.tabsList[index].type,
@@ -157,12 +162,16 @@
 					p: this.list[index].p,
 					state: this.tabsList[index].value
 				})
+				let getdata = res.data.list.pw_rec_list.map(ele => {
+					ele.kw = [ele.to_company, ele.remark, ele.concrete_area]
+					return ele
+				})
 				//判断是否为下拉刷新决定数据更新类型
 				let curData = this.list[index].pullRefresher ? [] : this.list[index].list
 				if(curData && curData.length > 0) {
-					this.$set(this.list[index], 'list', [].concat(...curData, ...res.data.list.pw_rec_list))
+					this.$set(this.list[index], 'list', [].concat(...curData, ...getdata))
 				}else {
-					this.$set(this.list[index], 'list', res.data.list.pw_rec_list)
+					this.$set(this.list[index], 'list', getdata)
 					this.$set(this.list[index], 'refresher', true)
 				}
 				// this.$set(this.list[index], 'list', res.data.list)
@@ -192,6 +201,20 @@
 </script>
 
 <style scoped lang="scss">
+	.kw-list {
+		display: flex;
+		align-items: center;
+		padding-top: 10rpx;
+		flex-wrap: wrap;
+	}
+	.kw {
+		font-size: 24rpx;
+		padding: 8rpx 14rpx;
+		border-radius: 10rpx;
+		background-color: #f5f5f5;
+		color: #8d8d8d;
+		margin-right: 10rpx;
+	}
 	.status-label {
 		margin-right: 20rpx;
 		font-size: 24rpx;
@@ -207,12 +230,16 @@
 		color: #ee8f00;
 	}
 	.status-label.status-three {
-		background-color: #007aff;
-		color: #fff;
+		background-color: #caf3fd;
+		color: #007aff;
 	}
 	.status-label.status-four {
-		background-color: #00aa7f;
-		color: #fff;
+		background-color: #daf9dc;
+		color: #00aa7f;
+	}
+	.status-label.status-five {
+		background-color: #ffe5e5;
+		color: #ff0000;
 	}
 	.address {
 		padding: 0 10rpx;

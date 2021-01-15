@@ -1,17 +1,29 @@
-
+//type => 认证身份
 const typeToLabel = v => {
 	if(v == 0) return '记者'
 	else if(v == 1) return '专家'
 	else if(v == 2) return '公关'
 	else return '未认证'
 }
+
+//电诉宝state状态转化
 const dsbStatusToLabel = v => {
 	if(v == 1) return '未审核'
 	else if(v == 2) return '已移交'
 	else if(v == 3) return '已受理'
 	else if(v == 4)  return '已评价'
+	else if(v == 5)  return '受理无效'
 }
 
+//对联系数字字母组合的信息打码
+const personalInfoFilter = v => {
+	if(!v) return v
+	return v.replace(/([0-9]{10,})/g, function(str) {
+		return str.slice(0, 3) + ("*").repeat(str.length - 7) + str.slice(-4)
+	})
+}
+
+//电诉宝评级等级转化
 const dsbPjToLevel = v => {
 	if(v == 'bad') return '不满意'
 	else if(v == 'pleased') return '满意'
@@ -19,6 +31,7 @@ const dsbPjToLevel = v => {
 	else if(v == 'common') return '一般'
 }
 
+//时间格式
 const timeFilter = v => {
 	if(!v) return null
 	let dateArr = v.split(' ')[0].split('-')
@@ -62,5 +75,6 @@ module.exports = {
     typeToLabel,
     timeFilter,
 	dsbStatusToLabel,
-	dsbPjToLevel
+	dsbPjToLevel,
+	personalInfoFilter
 }

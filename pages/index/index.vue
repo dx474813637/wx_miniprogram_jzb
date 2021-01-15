@@ -144,16 +144,11 @@
 			}
 		},
 		async onPullDownRefresh() {
-			// console.log('down')
 			this.swiperData.forEach(ele => {
 				this.$set(ele, 'data', [])
 				this.$set(ele, 'p', 1)
 				this.$set(ele, 'endFlag', false)
 			})
-			// let obj = this.swiperData[this.current]
-			// obj.p = 1
-			// obj.endFlag = false
-			// this.$set(obj, 'data', [])
 			await this.renderList()
 			uni.stopPullDownRefresh()
 			this.$refs.uTips.show({
@@ -172,6 +167,7 @@
 		onLoad() {
 			this.getSwiperData()
 			this.renderList()
+			this.$https.get('https://www.100ec.cn/searchjsona.html', {params: {p: 1, terms: '原创', n: 10}})
 		},
 		onShow(){
 			if(uni.getStorageSync('indexRefresh')) {

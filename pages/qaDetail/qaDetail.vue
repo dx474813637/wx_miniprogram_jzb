@@ -288,7 +288,7 @@
 					sub: this.authorInfo.title || this.authorInfo.company,
 					contentTitle: `${this.authorInfo.name}于${time}${this.type == 1 ? itype : '发布'+itype}${this.qList.title}：`,
 					contentText: this.qList.intro,
-					curPageUrl: getCurrentPages()[0]['$page'].fullPath.slice(1),
+					curPageUrl: getCurrentPages()[getCurrentPages().length - 1]['$page'].fullPath.slice(1)
 				}
 				this.load = false
 				uni.hideLoading()

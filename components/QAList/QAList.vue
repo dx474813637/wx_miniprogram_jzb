@@ -9,7 +9,7 @@
 				<view class="list-item" v-for="(item, index) in ele" :key="index">
 					
 					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.id}&type=${type}`">
-						<text selectable decode space="ensp" class="title">{{item.title}}</text>
+						<view class="title">{{item.title}}</view>
 					</navigator>
 					<navigator :url="`/pages/homePage/homePage?id=${item.poster}`" class="user-info" :class="{'author': item.title}">
 						<view class="user-avatar">
@@ -25,7 +25,7 @@
 					</navigator>
 					
 					<navigator :url="`/pages/qaDetail/qaDetail?id=${item.qid || item.id}&type=${type}`" class="user-content">
-						<text selectable decode space="ensp" class="content">{{item.intro}}</text>
+						<view class="content">{{item.intro}}</view>
 						<view class="item-footer-tools">
 							<view class="tools-item">
 								<navigator :url="url" class="item-data">

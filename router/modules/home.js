@@ -62,6 +62,15 @@ const open = [
 	,{
 		path : "/pages/complain/complain",
 	}
+	,{
+		path : "/pages/complainDetail/complainDetail",
+	}
+	,{
+		path : "/pages/scoreTop/scoreTop",
+	}
+	,{
+		path : "/pages/homePageInactive/homePageInactive",
+	}
 	
 ]
 export default open

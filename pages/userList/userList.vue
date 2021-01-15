@@ -2,8 +2,18 @@
 	<view class="w">
 		<view class="header">
 			<view class="search-w">
-				<search-bar></search-bar>
+				<u-subsection 
+					:list="subList" 
+					:current="subCurrent" 
+					height="60" 
+					font-size="24"
+					@change="subChange"
+				></u-subsection>
+				<!-- <search-bar></search-bar> -->
 			</view>
+			<navigator class="search-icon" url="/pages/search/search">
+				<u-icon name="search" size="34" color="#999"></u-icon>
+			</navigator>
 		</view>
 		<view class="main">
 			<scroll-view class="main-left-nav" scroll-y>
@@ -25,14 +35,19 @@
 						:list="tabsList" 
 						height="60" 
 						font-size="26" 
-						bar-height="4" 
-						bar-width="60" 
+						:show-bar="false"
 						:is-scroll="false" 
 						:current="tabsCurrent" 
 						@change="handleTabsChange"
 					></u-tabs>
 				</view>
-				<scroll-view class="list-box" scroll-y>
+				<scroll-view 
+					class="list-box" 
+					scroll-y
+					enable-back-to-top
+					@scrolltolower="handleScrollLower"
+					
+				>
 					<view class="list">
 						<template v-if="userList.length == 0">
 							<view class="empty">
@@ -41,32 +56,41 @@
 						</template>
 						<template v-else>
 							<u-cell-group>
-								<navigator 
+								<u-cell-item
+									:arrow="subCurrent == 0 ? true : false"
 									v-for="(item, index) in userList"
 									:key="index"
-									:url="`/pages/homePage/homePage?id=${item.poster}`"
+									@click="handlePath({id: item.poster || item.id, cate: tabsCurrent + 2})"
 								>
-									<u-cell-item
-										:arrow="false"
-									>
-										<image 
-											class="cell-avator"
-											slot="icon" 
-											:src="item.pic" 
-										/>
-										<view class="cell-title" slot="title">
-											<text class="name">{{item.name}}</text>
-											<!-- <text class="sub" >{{item.sub}}</text> -->
-										</view>
-										<view class="cell-label" slot="label">
-											<text class="label-item" >{{item.title}}</text>
-											<!-- <text class="label-item">评分：<text class="label-color">{{item.score}}</text></text>
-											<text class="label-item">采访次数：<text class="label-color">{{item.count}}</text></text>
-											 -->
-											
-										</view>
-									</u-cell-item>
-								</navigator>
+									<image 
+										class="cell-avator"
+										slot="icon" 
+										:src="item.pic" 
+									/>
+									<view class="cell-title" slot="title">
+										<text class="name">{{item.name}}</text>
+										<!-- <text class="sub" >{{item.sub}}</text> -->
+									</view>
+									<view class="cell-label" slot="label">
+										<text class="label-item" >
+											<template v-if="subCurrent == 0">
+												{{item.title}}
+											</template>
+											<template v-else-if="subCurrent == 1">
+												<template v-if="tabsCurrent == 0">
+													{{item.field}}
+												</template>
+												<template v-else-if="tabsCurrent == 1">
+													{{`${item.company}-${item.position}`}}
+												</template>
+											</template>
+										</text>
+										<!-- <text class="label-item">评分：<text class="label-color">{{item.score}}</text></text>
+										<text class="label-item">采访次数：<text class="label-color">{{item.count}}</text></text>
+										 -->
+										
+									</view>
+								</u-cell-item>
 								
 							</u-cell-group>
 						</template>
@@ -77,6 +101,10 @@
 				</scroll-view>
 			</view>
 		</view>
+		<navigator class="score-top" url="/pages/scoreTop/scoreTop">
+			<u-icon name="scoretop" color="#fff" size="40" custom-prefix="custom-icon"></u-icon>
+			<view class="score-top-text">活跃榜</view>
+		</navigator>
 		<tab-bar></tab-bar>
 	</view>
 </template>
@@ -133,8 +161,19 @@
 						name: '公关',
 					}
 				],
+				subList: [
+					{
+						name: '已激活'
+					},
+					{
+						name: '全部'
+					},
+				],
+				subCurrent: 0,
 				dataList: [],
-				p: 1
+				p: 1,
+				flag: true,
+				loading: false
 			}
 		},
 		components: {
@@ -142,43 +181,164 @@
 			searchBar
 		},
 		onLoad() {
-			this.renderList(this.tabsCurrent + 1)
+			this.initData()
 		},
 		computed: {
 			userList() {
-				
+				if(this.current == 0) return this.dataList
 				let key = this.navList[this.current].value;
-				let arr = this.dataList.filter(ele => key.some(item => ele.field.includes(item)) )
+				let arr = this.dataList.filter(ele => key.some(item => {
+					if(this.tabsCurrent == 1 && this.subCurrent == 1) {
+						return ele.lingyu && ele.lingyu.includes(item)
+					}
+					return ele.field && ele.field.includes(item)
+				}) )
 				return arr
 			}
 		},
 		methods: {
-			async renderList(index) {
+			async initData() {
+				this.p = 1
+				this.flag = true
+				this.dataList = []
+				this.loading = true
+				await this.renderList(this.tabsCurrent, this.subCurrent)
+				this.loading = false
+			},
+			async renderList(index, subIndex) {
+				if(!this.flag) return 
 				uni.showLoading({
 					title: '加载中',
 				})
 				let params
-				params = {p: this.p, cid: index}
-				let res = await this.getData(params)
-				this.dataList = res.data.list //.filter(ele => ele.)
+				let data
+				let res 
+				if(subIndex == 1) {
+					params = {p: this.p, cate: index + 2}
+					res = await this.getData('/Home/Jzbxcx/ku_list', params)
+					data = res.data.list.map(ele => {
+						if(this.tabsCurrent == 1 && this.subCurrent == 1) {
+							ele.pic = ele.logo || "https://www.100ec.cn/Public/home/images/icon-rw.png"
+						}else if(ele.pic_name1 && ele.pic_name1.includes('/Public/attached')){
+							ele.pic = 'https://www.100ec.cn' + ele.pic_name1
+						}else {
+							ele.pic = "https://www.100ec.cn/Public/home/images/icon-rw.png"
+						}
+						
+						if(!ele.field) ele.field = ''
+						return ele
+					})
+				}else if(subIndex == 0) {
+					params = {p: this.p, cid: index + 1}
+					res = await this.getData('/Home/Jzbxcx/user_auth_list', params)
+					data = res.data.list
+					
+				}
+				
+				this.dataList = [...this.dataList, ...data]
+				
+				if(res.data.pages == this.p) {
+					this.flag = false
+				}
 				uni.hideLoading()
+				uni.showToast({
+					title: '加载成功',
+					icon: 'none'
+				})
+				
 			},
-			async getData(params) {
-				return await this.$https.get('/Home/Jzbxcx/user_auth_list', {params})
+			async getData(api, params) {
+				return await this.$https.get(api, {params})
 			},
 			handleNavClick(index) {
 				this.current = index
 			},
 			handleTabsChange(index) {
 				this.tabsCurrent = index
-				this.renderList(index + 1)
+				this.initData()
 			},
+			subChange(index) {
+				this.subCurrent = index
+				this.initData()
+			},
+			handlePath(opt) {
+				if(this.subCurrent == 0) {
+					uni.navigateTo({
+						url: `/pages/homePage/homePage?id=${opt.id}`
+					})
+				}
+				if(this.subCurrent == 1) {
+					uni.navigateTo({
+						url: `/pages/homePageInactive/homePageInactive?id=${opt.id}&cate=${opt.cate}`
+					})
+				}
+				
+			},
+			async handleScrollLower() {
+				if(!this.flag || this.loading) return
+				this.loading = true
+				this.p += 1
+				await this.renderList(this.tabsCurrent, this.subCurrent)
+				this.loading = false
+			}
 			
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+	.score-top {
+		position: fixed;
+		right: 20rpx;
+		bottom: 160rpx;
+		background-color: #aa00ff;
+		border: 8rpx solid #fff;
+		color: #fff;
+		// font-weight: bold;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 130rpx;
+		height: 130rpx;
+		font-size: 30rpx;
+		border-radius: 50%;
+		box-sizing: border-box;
+		box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+	}
+	.score-top-text {
+		font-size: 24rpx;
+	}
+	.search-icon {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin-top: auto;
+		margin-bottom: auto;
+		right: 30rpx;
+		width: 40rpx;
+		height: 40rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.top-btn {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		margin-top: auto;
+		margin-bottom: auto;
+		left: 20rpx;
+		line-height: 40rpx;
+		height: 40rpx;
+		display: flex;
+		justify-content: center;
+		color: #007AFF;
+	}
+	.search-w {
+		width: 350rpx;
+		position: relative;
+	}
 	.empty {
 		background-color: #f8f8f8;
 	}
@@ -227,8 +387,12 @@
 		overflow: hidden;
 	}
 	.header {
+		position: relative;
 		background-color: #fff;
 		padding: 8px 15px 8px;
+		display: flex;
+		justify-content: center;
+		border-bottom: 1rpx solid #f8f8f8;
 	}
 	.search-w {
 		// margin-bottom: 8px;

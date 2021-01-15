@@ -71,6 +71,10 @@ export default {
       type:Boolean,
       default:false
     },
+	complainFlag: {
+      type:Boolean,
+      default:false
+	},
 	billType: {//海报类型
       type:String,
       default: 'user'  ,//用户名片user； 解读qJd； 提问q； 资讯news；
@@ -81,7 +85,7 @@ export default {
     this.system = this.getSystem()
   },
   computed: {
-	  ...mapState(['shareOptions'])
+	  ...mapState(['shareOptions', 'dsbShareOptions'])
   },
   methods: {
     /**
@@ -92,9 +96,11 @@ export default {
      */
     posterShow(){
       this.canvasShow = true
-      Object.assign(this.attrs,this.shareOptions)
+      Object.assign(this.attrs, this.complainFlag? this.dsbShareOptions : this.shareOptions)
         this.attrs={
+			kw: this.attrs.kw,
 			curPageUrl: this.attrs.curPageUrl,
+			logo: this.attrs.logo,
 			name:this.attrs.name,
 			label:this.attrs.label,
 			sub: this.attrs.sub,
@@ -124,11 +130,12 @@ export default {
 			desTextMT:this.attrs.desTextMT*this.systemScale,
 			desTextML:this.attrs.desTextML*this.systemScale,
       }
-      // if(this.simpleFlag){
-      //   this.creatSimplePoster(this.attrs)
-      // }else{
+	  
+      if(this.complainFlag){
+        this.creatComplainPoster(this.attrs)
+      }else{
         this.creatPoster(this.attrs)
-      // }
+      }
     },
     /**
      * @description: 生成海报
@@ -167,11 +174,8 @@ export default {
 		  ,this.system.w-2*canvasAttr.marginLR
 		  ,(this.scale*this.system.w)-2*canvasAttr.marginTB-100
 		  ,0
-		  ,'#000'
 	  );
-      // if(this.posterBgFlag){
       await this.creatBgImg(ctx,canvasAttr)
-      // }
       // 绘制标题 textY 绘制文本的y位置
       let textY = this.creatTitle(ctx,canvasAttr)
 	  let maxLine = 8
@@ -188,6 +192,8 @@ export default {
 	  
       // 绘制小程序码
       this.creatCode(ctx,canvasAttr,textY)
+		// 绘制logo
+		this.creatLogo(ctx,canvasAttr,textY)
       // 小程序的名称
       // this.creatCodeText(ctx,canvasAttr,canvasAttr.codeName,textY,14,"#fff")
       // 长按/扫描识别查看商品
@@ -196,7 +202,43 @@ export default {
 	  
       wx.hideLoading()
     },
-
+	async creatComplainPoster(canvasAttr) {
+		wx.showLoading({
+			title: "生成海报中..."
+		})
+		await this.getCodeUrl()
+		const ctx = wx.createCanvasContext("myCanvas",this)
+		ctx.draw()//清空之前的海报
+		// 根据设备屏幕大小和距离屏幕上下左右距离，及圆角绘制背景
+		this.roundRect(ctx
+			,canvasAttr.marginLR
+			,canvasAttr.marginTB
+			,this.system.w-2*canvasAttr.marginLR
+			,(this.scale*this.system.w)-2*canvasAttr.marginTB-100
+			,0
+		);
+		await this.creatBgImg(ctx, canvasAttr)
+		// 绘制标题 textY 绘制文本的y位置
+		let textY = this.creatTitle(ctx,canvasAttr) + 10
+		let maxLine = 8
+		let textLine = 1
+		let obj = this.createContentTitle(ctx,canvasAttr, textY, '#666')
+		textY = obj.textY + 10
+		obj = this.createContentText(ctx,canvasAttr, textY, maxLine - obj.textLine, '#666')
+		this.createContentKw(ctx,canvasAttr, obj.textY, 2, canvasAttr.fillColor)
+		
+		// 绘制小程序码
+		this.creatCode(ctx,canvasAttr,textY)
+		// 绘制logo
+		this.creatLogo(ctx,canvasAttr,textY)
+		// 小程序的名称
+		// this.creatCodeText(ctx,canvasAttr,canvasAttr.codeName,textY,14,"#fff")
+		// 长按/扫描识别查看商品
+		let codeTextY = canvasAttr.marginTB+canvasAttr.innerTB + 0.8*(this.system.w-2*canvasAttr.marginLR-2*canvasAttr.innerLR)*this.scale+this.system.w*canvasAttr.codeWidth*canvasAttr.codeRatio+10
+		this.creatCodeText(ctx,canvasAttr,canvasAttr.tips, codeTextY,10,canvasAttr.fillColor) 
+		
+		wx.hideLoading()
+	},
     async creatSimplePoster(canvasAttr){
       wx.showLoading({
         title: "生成海报中..."
@@ -282,8 +324,8 @@ export default {
             ctx.drawImage(res.path
 			,canvasAttr.marginLR
 			,canvasAttr.marginTB
-			, _this.system.w-2*canvasAttr.marginLR+5
-			,(_this.scale*_this.system.w)-2*canvasAttr.marginTB-100+5
+			, _this.system.w-2*canvasAttr.marginLR
+			,(_this.scale*_this.system.w)-2*canvasAttr.marginTB-100
 			)
             ctx.restore()
             ctx.draw(true)
@@ -351,8 +393,9 @@ export default {
     creatTitle(ctx,canvasAttr){
       ctx.restore() //恢复之前保存的绘图上下文
       ctx.save() 
-      ctx.setFontSize(canvasAttr.titleFontSize)
-	  ctx.setFillStyle('#ffffff')
+	  ctx.font="normal bold " + canvasAttr.titleFontSize + "px sans-serif"
+      // ctx.setFontSize(canvasAttr.titleFontSize)
+	  ctx.setFillStyle(canvasAttr.fillColor)
 	  // ctx.textAlign = 'center'
 	  // ctx.fillText(canvasAttr.title, this.system.w/2, canvasAttr.marginLR+canvasAttr.innerLR)
       let textY = this.drawText(
@@ -366,6 +409,7 @@ export default {
 						true
 					).y
       ctx.draw(true)
+	  ctx.font="14px sans-serif"
       return textY
     },
     /**
@@ -440,33 +484,62 @@ export default {
 		  ctx.fillText(text,this.system.w/2,textY)
 		  // 小程序的名称end
     },
-	createContentTitle(ctx, canvasAttr, textY) {
-		let marTop = 10
-		let lineH = 20
+	createContentTitle(ctx, canvasAttr, textY, color='#54beff') {
+		let marTop = 30
+		let lineH = 25
 		let maxLine = 0
-		textY = lineH + marTop + textY
+		textY = marTop + textY
 		ctx.setFontSize(14)
-		ctx.setFillStyle('#54beff')
+		ctx.setFillStyle(color)
 		let maxW = this.system.w-2*canvasAttr.marginLR-2*canvasAttr.innerLR
-		let {textY:y, textLine} = this.drawText(ctx, canvasAttr.contentTitle, canvasAttr.marginLR+canvasAttr.innerLR, textY, maxW, 18, false)
+		let {textY:y, textLine} = this.drawText(ctx, canvasAttr.contentTitle, canvasAttr.marginLR+canvasAttr.innerLR, textY, maxW, lineH, false)
 		ctx.draw(true)
-		textY = textY + (textLine - 1)*lineH
+		textY = textY + (textLine )*lineH
 		// ctx.fillText(canvasAttr.contentTitle, canvasAttr.marginLR+canvasAttr.innerLR ,textY)
 		return {textY, textLine}
 	},
-	createContentText(ctx, canvasAttr, textY, maxLine) {
-		let marTop = 8
-		let lineH = 20
-		textY = lineH + marTop + textY
-		// ctx.setFontSize(20)
-		// ctx.setFillStyle('#ffffff')
-		// ctx.fillText('“', canvasAttr.marginLR+canvasAttr.innerLR, textY)
+	createContentText(ctx, canvasAttr, textY, maxLine, color='#54beff') {
+		let marTop = 0
+		let lineH = 25
+		textY = marTop + textY
 		ctx.setFontSize(14)
-		ctx.setFillStyle('#54beff')
+		ctx.setFillStyle(color)
 		let maxW = this.system.w-2*canvasAttr.marginLR-2*canvasAttr.innerLR
-		this.drawText(ctx, canvasAttr.contentText, canvasAttr.marginLR+canvasAttr.innerLR, textY, maxW, 22, false, maxLine)
+		let {textY:y, textLine} = this.drawText(ctx, canvasAttr.contentText, canvasAttr.marginLR+canvasAttr.innerLR, textY, maxW, lineH, false, maxLine)
 		ctx.draw(true)
-		// ctx.fillText(canvasAttr.contentTitle, canvasAttr.marginLR+canvasAttr.innerLR ,textY)
+		textY = textY + (textLine )*lineH
+		return {textY, textLine}
+	},
+	createContentKw(ctx, canvasAttr, textY, maxLine, color='#54beff') {
+		let marTop = 10
+		let lineH = 25
+		textY = marTop + textY
+		ctx.setFontSize(12)
+		ctx.setFillStyle(color)
+		let maxW = this.system.w-2*canvasAttr.marginLR-2*canvasAttr.innerLR
+		let x = canvasAttr.marginLR + canvasAttr.innerLR
+		let y = textY
+		let sW = 0
+		canvasAttr.kw.forEach(ele => {
+			if(ele) {
+				let metrics = ctx.measureText(ele);
+				let testWidth = metrics.width; 
+				sW += testWidth + 16
+				if(sW >= maxW) {
+					y += lineH
+					x = canvasAttr.marginLR + canvasAttr.innerLR
+					sW = 0
+				}
+				this.roundRect(
+					ctx, x, y-14, testWidth+16, 18, 3, '#f5f5f5'
+				);
+				ctx.restore()
+				ctx.fillText(ele, x + 8, y)
+				x += testWidth+16 +10
+			}
+		})
+		// this.drawText(ctx, canvasAttr.contentText, canvasAttr.marginLR+canvasAttr.innerLR, textY, maxW, lineH, false, maxLine)
+		// ctx.draw(true)
 		
 	},
 	createUserInfo (ctx,canvasAttr, textY) {
@@ -474,7 +547,7 @@ export default {
 		let x = canvasAttr.marginLR+canvasAttr.innerLR + 70
 		ctx.textAlign = 'left';
 		let textW = this.createUserText(ctx,canvasAttr, canvasAttr.name, x, textY, 16)
-		console.log(canvasAttr)
+		
 		this.createUserLabel(ctx,canvasAttr, this.typeToLabel(canvasAttr.label), x+textW+15, textY, 12)
 		
 		this.createUserText(ctx,canvasAttr, canvasAttr.sub, x, textY + 25, 12, '#54beff')
@@ -516,6 +589,40 @@ export default {
     creatTextLine(){
 
     },
+	creatLogo(ctx,canvasAttr,textY) {
+		const _this = this
+		  wx.getImageInfo({
+			src: canvasAttr.logo,
+			success(res) {
+			  ctx.restore()
+			  ctx.draw(true)
+			  let w = _this.system.w; //-canvasAttr.marginLR*2
+			  let logo_w = w*canvasAttr.codeWidth*1.5
+			  _this.roundRect(
+							ctx,
+							(w-w*canvasAttr.codeWidth)/4*1, 
+							canvasAttr.marginTB+canvasAttr.innerTB + 0.7*(w-2*canvasAttr.marginLR-2*canvasAttr.innerLR)*_this.scale +40 ,
+							// textY+canvasAttr.codeMT, 
+							logo_w + 20,
+							logo_w/2, 
+							(w*canvasAttr.codeWidth*canvasAttr.codeRatio)*0.05
+						);
+			  ctx.drawImage(
+						res.path,
+						(w-w*canvasAttr.codeWidth)/4*1 + 10, 
+						canvasAttr.marginTB+canvasAttr.innerTB + 0.7*(w-2*canvasAttr.marginLR-2*canvasAttr.innerLR)*_this.scale +50 ,
+						// textY+canvasAttr.codeMT, 
+						logo_w, 
+						logo_w/3
+					)
+			  ctx.restore()
+			  ctx.draw(true)
+			},
+			fail() {
+			  uni.showToast({ title: "海报生成失败", duration: 2000, icon: "none" })
+			}
+		  })
+	},
     /**
      * @description: 小程序码
      * @param {type} 
@@ -532,7 +639,7 @@ export default {
 		  let w = _this.system.w; //-canvasAttr.marginLR*2
           _this.roundRect(
 						ctx,
-						(w-w*canvasAttr.codeWidth)/2, 
+						(w-w*canvasAttr.codeWidth)/4*3, 
 						canvasAttr.marginTB+canvasAttr.innerTB + 0.7*(_this.system.w-2*canvasAttr.marginLR-2*canvasAttr.innerLR)*_this.scale +30 ,
 						// textY+canvasAttr.codeMT, 
 						_this.system.w*canvasAttr.codeWidth,
@@ -541,7 +648,7 @@ export default {
 					);
           ctx.drawImage(
 					res.path,
-					(w-w*canvasAttr.codeWidth)/2, 
+					(w-w*canvasAttr.codeWidth)/4*3, 
 					canvasAttr.marginTB+canvasAttr.innerTB + 0.7*(_this.system.w-2*canvasAttr.marginLR-2*canvasAttr.innerLR)*_this.scale +30 ,
 					// textY+canvasAttr.codeMT, 
 					_this.system.w*canvasAttr.codeWidth, 
@@ -594,7 +701,7 @@ export default {
       uni.canvasToTempFilePath({
         x: canvasAttr.marginLR+1,
         y: canvasAttr.marginTB+1,
-        width: this.system.w-2*canvasAttr.marginLR-8, // 画布的宽
+        width: this.system.w-2*canvasAttr.marginLR-2, // 画布的宽
         height: (this.scale*this.system.w)-2*canvasAttr.marginTB-100-2, // 画布的高
         destWidth: (this.system.w-2*canvasAttr.marginLR) * 4,
         destHeight: ((this.scale*this.system.w)-2*canvasAttr.marginTB-100) * 4,

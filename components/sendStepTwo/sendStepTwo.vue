@@ -13,10 +13,11 @@
 			
 			<view class="list-item" v-for="(item, index) in userList" :key="index">
 				<view class="header">
-					<view class="header-item">
+					<view class="header-item" @click="isError(item.checked)">
 						<u-checkbox 
 							:value="item.checked" 
 							:name="index"
+							:disabled="!item.checked && (checkedNum == maxNum)"
 							@change="checkboxChange"
 						></u-checkbox>
 					</view>
@@ -28,6 +29,8 @@
 							:label="item.type"
 							:sub="item.auth_title || item.company"
 							:isFollow="item.follow"
+							:followBtn="item.auth_status == 2 ? true : false"
+							:isActived="item.auth_status == 2 ? true : false"
 						></q-a-user-profile>
 					</view>
 				</view>
@@ -109,17 +112,17 @@
 				});
 			},
 			checkboxChange(e) {
-				if(this.checkedNum == this.maxNum && !e.value) {
+				this.$set(this.userList[e.name], 'checked', !this.userList[e.name].checked)
+				
+			},
+			isError(flag) {
+				if(this.checkedNum == this.maxNum && !flag) {
 					uni.showToast({
 						title: `最多选择${this.maxNum}位用户`,
 						duration: 1000,
 						icon: 'none'
 					})
-					return
 				}
-				this.$set(this.userList[e.name], 'checked', !this.userList[e.name].checked)
-				
-				
 			}
 		}
 	}

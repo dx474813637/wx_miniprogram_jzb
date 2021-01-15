@@ -28,6 +28,7 @@
 			<view class="share-w-footer" @click="handleExit">取消</view>
 		</u-popup>
 		<hch-poster
+			:complainFlag="complainFlag"
 			ref="hchPoster"
 		></hch-poster>
 	</view>
@@ -44,6 +45,10 @@
 			},
 			opt: {
 				type: Object
+			},
+			complainFlag: {
+				type: Boolean,
+				default: false
 			}
 		},
 		watch: {
@@ -76,7 +81,7 @@
 			shareSavePic() {
 				this.handleExit()
 				// this.$emit('render-event')
-				this.changeShareOptions(this.opt)
+				this.opt && this.changeShareOptions(this.opt)
 				this.$nextTick(() => {
 					this.$refs.hchPoster.posterShow()
 				})

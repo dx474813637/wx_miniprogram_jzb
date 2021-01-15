@@ -35,12 +35,14 @@
     "pages/handbook/handbook",
     "pages/webViewPath/webViewPath",
     "pages/complain/complain",
-    "pages/complainDeail/complainDeail"
+    "pages/complainDetail/complainDetail",
+    "pages/scoreTop/scoreTop",
+    "pages/homePageInactive/homePageInactive"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "电商圈",
+    "navigationBarTitleText": "媒公宝",
     "navigationBarBackgroundColor": "#007aff",
     "backgroundColor": "#F8F8F8"
   },

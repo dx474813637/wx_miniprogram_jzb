@@ -11,9 +11,7 @@
   "compileType": "miniprogram",
   "libVersion": "",
   "appid": "wx6bcac999af0cc86d",
-  "projectname": "jzb",
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
+  "projectname": "媒公宝",
   "condition": {
     "plugin": {
       "list": []
@@ -27,27 +25,26 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pagesjd",
-          "pathName": "pages/jd/jd",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/cf/cf",
-          "pathName": "pages/cf/cf",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/personal/personal",
-          "pathName": "pages/personal/personal",
-          "query": "",
-          "scene": null
-        },
-        {
           "name": "pages/complain/complain",
           "pathName": "pages/complain/complain",
           "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/search/search",
+          "pathName": "pages/search/search",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/userList/userList",
+          "pathName": "pages/userList/userList",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/homePageInactive/homePageInactive",
+          "pathName": "pages/homePageInactive/homePageInactive",
           "scene": null
         }
       ]

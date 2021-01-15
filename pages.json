@@ -176,7 +176,7 @@
             
         }
         ,{
-            "path" : "pages/complainDeail/complainDeail",
+            "path" : "pages/complainDetail/complainDetail",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -184,10 +184,26 @@
             }
             
         }
+        ,{
+            "path" : "pages/scoreTop/scoreTop",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/homePageInactive/homePageInactive",
+            "style" : {
+				"disableScroll": true
+			}
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "电商圈",
+		"navigationBarTitleText": "媒公宝",
 		"navigationBarBackgroundColor": "#007aff",
 		"backgroundColor": "#F8F8F8"
 	},

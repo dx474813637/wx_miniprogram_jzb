@@ -46,6 +46,8 @@
 				keyHis: []
 			}
 		},
+		onLoad() {
+		},
 		onShow() {
 			this.keyHis = uni.getStorageSync('jzb_search_history') || []
 		},
