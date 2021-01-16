@@ -27,8 +27,7 @@
 /* 文章场景相关 */
 /* jzb颜色 */
 .search-w.data-v-08eb9f1c {
-  -webkit-border-radius: 15px;
-          border-radius: 15px;
+  border-radius: 15px;
   height: 30px;
   background-color: #f8f8f8;
   border: 1px solid #eee;

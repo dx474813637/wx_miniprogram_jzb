@@ -13,39 +13,26 @@
   "appid": "wx6bcac999af0cc86d",
   "projectname": "媒公宝",
   "condition": {
-    "plugin": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
       "list": []
     },
     "game": {
-      "list": []
-    },
-    "gamePlugin": {
+      "current": -1,
       "list": []
     },
     "miniprogram": {
+      "current": 0,
       "list": [
         {
-          "name": "pages/complain/complain",
-          "pathName": "pages/complain/complain",
+          "name": "",
+          "path": "",
           "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/search/search",
-          "pathName": "pages/search/search",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/userList/userList",
-          "pathName": "pages/userList/userList",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/homePageInactive/homePageInactive",
-          "pathName": "pages/homePageInactive/homePageInactive",
-          "scene": null
+          "id": 0
         }
       ]
     }

@@ -51,8 +51,7 @@
 .cell-avator.data-v-e334c14c {
   width: 90rpx;
   height: 90rpx;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   margin-right: 20rpx;
 }
 .label.rz.data-v-e334c14c {
@@ -68,8 +67,7 @@
   font-size: 24rpx;
   line-height: 32rpx;
   padding: 0rpx 16rpx;
-  -webkit-border-radius: 6rpx;
-          border-radius: 6rpx;
+  border-radius: 6rpx;
   border: 1rpx solid #ccc;
 }
 .cell-label.data-v-e334c14c {

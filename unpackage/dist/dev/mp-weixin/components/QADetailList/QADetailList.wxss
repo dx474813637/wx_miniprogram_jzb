@@ -47,8 +47,7 @@
 .qa-reply.data-v-c2fd6838 {
   background-color: #f8f8f8;
   padding: 15rpx;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   color: #666;
   font-size: 30rpx;
 }
@@ -104,8 +103,7 @@
   position: relative;
   background-color: #f8f8f8;
   padding: 20rpx;
-  -webkit-border-radius: 15rpx;
-          border-radius: 15rpx;
+  border-radius: 15rpx;
   font-size: 28rpx;
   margin-top: 15rpx;
 }

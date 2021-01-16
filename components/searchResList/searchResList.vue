@@ -32,6 +32,7 @@
 						<view class="list-item user"
 							v-for="(item, index) in allUserData"
 							:key="index"
+							@click="handlePath({id: item.id, cate: Number(this.val) + 1})"
 						>	
 							<!-- <view class="user-item avatar"> -->
 								<image 
@@ -169,8 +170,14 @@
 		methods: {
 			handleChangeIndex() {
 				this.$emit('change-current', this.typeIndex)
-			}
-		}
+			},
+			handlePath(opt) {
+				uni.navigateTo({
+					url: `/pages/homePageInactive/homePageInactive?id=${opt.id}&cate=${opt.cate}`
+				})
+					
+			},
+		},
 	}
 </script>
 

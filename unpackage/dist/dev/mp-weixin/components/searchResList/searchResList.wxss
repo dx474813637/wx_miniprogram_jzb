@@ -27,14 +27,12 @@
 /* 文章场景相关 */
 /* jzb颜色 */
 .icard.data-v-b454f71c {
-  padding: 10rpx;
+  padding: 10rpx 10rpx 0 10rpx;
 }
 .list.data-v-b454f71c {
-  margin-bottom: 20rpx;
   background-color: #fff;
   border: 1rpx solid #f2f2f2;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  border-radius: 20rpx;
   padding-bottom: 10rpx;
 }
 .title.data-v-b454f71c {
@@ -60,5 +58,32 @@
 }
 .list-item.data-v-b454f71c {
   padding: 20rpx;
+}
+.list-item.user.data-v-b454f71c {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+.user-item.avatar.data-v-b454f71c {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 20rpx;
+}
+.user-item.name.data-v-b454f71c {
+  margin-right: 20rpx;
+}
+.user-item.desc.data-v-b454f71c {
+  color: #007AFF;
+}
+.desc-item.position.data-v-b454f71c {
+  color: #f90;
+  font-size: 24rpx;
 }
 

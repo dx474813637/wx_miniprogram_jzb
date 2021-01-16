@@ -194,10 +194,7 @@
             
         }
         ,{
-            "path" : "pages/homePageInactive/homePageInactive",
-            "style" : {
-				"disableScroll": true
-			}
+            "path" : "pages/homePageInactive/homePageInactive"
             
         }
     ],

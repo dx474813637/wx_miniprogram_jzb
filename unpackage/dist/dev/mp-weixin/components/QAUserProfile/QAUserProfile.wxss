@@ -47,8 +47,7 @@
   width: 80rpx;
   height: 80rpx;
   overflow: hidden;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  border-radius: 50%;
   margin-right: 20rpx;
 }
 .author .user-avatar.data-v-025f9ba2 {
@@ -84,8 +83,7 @@
   display: inline-block;
   font-size: 24rpx;
   padding: 0rpx 16rpx;
-  -webkit-border-radius: 6rpx;
-          border-radius: 6rpx;
+  border-radius: 6rpx;
   margin-right: 10rpx;
   border: 2rpx solid #54c9ff;
 }

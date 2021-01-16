@@ -37,8 +37,7 @@
 .author-pic.data-v-2f62b6b4 {
   width: 50rpx;
   height: 50rpx;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  border-radius: 50%;
   overflow: hidden;
 }
 .author-name.data-v-2f62b6b4 {
@@ -64,8 +63,7 @@
   background-color: #f8f8f8;
   padding: 10rpx;
   line-height: 50rpx;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
   color: #666;
 }
 .item-sub.data-v-2f62b6b4 {

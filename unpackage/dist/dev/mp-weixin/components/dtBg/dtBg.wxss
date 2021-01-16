@@ -335,7 +335,6 @@
 }
 .CPT_DYBG .background .circle.data-v-18de70b8 {
   position: absolute;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  border-radius: 50%;
 }
 

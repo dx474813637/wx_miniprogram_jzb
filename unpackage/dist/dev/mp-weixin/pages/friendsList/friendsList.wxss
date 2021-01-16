@@ -78,8 +78,7 @@
 .cell-avator.data-v-448385ae {
   width: 90rpx;
   height: 90rpx;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   margin-right: 20rpx;
 }
 .name.data-v-448385ae {
@@ -98,8 +97,7 @@
   font-size: 24rpx;
   line-height: 32rpx;
   padding: 2rpx 16rpx;
-  -webkit-border-radius: 6rpx;
-          border-radius: 6rpx;
+  border-radius: 6rpx;
   font-weight: bold;
   border: 1rpx solid #ccc;
 }

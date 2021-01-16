@@ -89,8 +89,7 @@
   background-color: #f8f8f8;
   color: #666;
   border: 1rpx solid #ddd;
-  -webkit-border-radius: 30rpx;
-          border-radius: 30rpx;
+  border-radius: 30rpx;
   display: inline-block;
   padding: 6rpx 18rpx;
   margin-right: 10rpx;

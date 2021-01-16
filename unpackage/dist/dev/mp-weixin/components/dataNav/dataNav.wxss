@@ -66,8 +66,7 @@
   min-height: 60rpx;
   line-height: 60rpx;
   background-color: #f8f8f8;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   padding: 0 10rpx;
 }
 .popup-item.data-v-47caff90 {

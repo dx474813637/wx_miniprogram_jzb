@@ -60,7 +60,7 @@
 									:arrow="subCurrent == 0 ? true : false"
 									v-for="(item, index) in userList"
 									:key="index"
-									@click="handlePath({id: item.poster || item.id, cate: tabsCurrent + 2})"
+									@click="handlePath({id: subCurrent == 0 ?item.poster : item.id, cate: tabsCurrent + 2})"
 								>
 									<image 
 										class="cell-avator"

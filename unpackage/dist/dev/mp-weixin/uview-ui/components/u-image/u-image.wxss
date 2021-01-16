@@ -26,30 +26,38 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
-.sub.data-v-f1cea0b4 {
-  padding: 20rpx 10rpx 15rpx;
-  color: #999;
+.u-image.data-v-32babe48 {
+  position: relative;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
-.content.data-v-f1cea0b4 {
-  font-size: 30rpx;
-  line-height: 50rpx;
-  padding: 0 10rpx;
+.u-image__image.data-v-32babe48 {
+  width: 100%;
+  height: 100%;
 }
-.reply-title.data-v-f1cea0b4 {
-  font-size: 30rpx;
-  line-height: 50rpx;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.u-image__loading.data-v-32babe48, .u-image__error.data-v-32babe48 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  background-color: #f2f2f2;
-  color: #666;
-  padding: 10rpx;
-  -webkit-border-radius: 5rpx;
-          border-radius: 5rpx;
-}
-.feed.data-v-f1cea0b4 {
-  padding: 20rpx 0;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  background-color: #f3f4f6;
+  color: #909399;
+  font-size: 46rpx;
 }
 

@@ -30,10 +30,8 @@
   padding: 30rpx;
   max-height: 50vh;
   font-size: 30rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  box-sizing: border-box;
+  border-radius: 20rpx;
 }
 .content-item.data-v-fdfeb94c {
   display: -webkit-box;

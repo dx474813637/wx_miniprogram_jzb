@@ -70,8 +70,7 @@
 }
 .noIndex .user-content.data-v-4e60a646 {
   background-color: #f8f8f8;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   padding: 10rpx;
 }
 .w-icon-btn.data-v-4e60a646 {
@@ -116,15 +115,13 @@
   margin-bottom: 14rpx;
   color: #fff;
   background-color: #007aff;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
   font-size: 24rpx;
   padding: 3rpx 12rpx;
 }
 .box-card.data-v-4e60a646 {
   background-color: #fff;
-  -webkit-border-radius: 15rpx;
-          border-radius: 15rpx;
+  border-radius: 15rpx;
   padding: 15rpx 0;
 }
 .user-intro rich-text.data-v-4e60a646 {
@@ -198,8 +195,7 @@
   font-size: 24rpx;
   line-height: 32rpx;
   padding: 2rpx 16rpx;
-  -webkit-border-radius: 6rpx;
-          border-radius: 6rpx;
+  border-radius: 6rpx;
   margin-left: 15rpx;
 }
 .w.data-v-4e60a646 {
@@ -208,8 +204,7 @@
   height: 100%;
 }
 .w-main.data-v-4e60a646 {
-  -webkit-border-radius: 20rpx 20rpx 0 0;
-          border-radius: 20rpx 20rpx 0 0;
+  border-radius: 20rpx 20rpx 0 0;
   background-color: #001f33;
   min-height: 1500rpx;
   margin-top: 100rpx;
@@ -234,8 +229,7 @@
   left: 20rpx;
   width: 180rpx;
   height: 180rpx;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  border-radius: 50%;
   border: 4rpx solid #001f33;
   bottom: 0;
   overflow: hidden;

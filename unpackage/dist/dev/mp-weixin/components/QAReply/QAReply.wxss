@@ -33,8 +33,7 @@
   background-color: #eee;
   width: calc(100% - 30rpx);
   padding: 15rpx;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
 }
 .error.data-v-92205d0c {
   color: red;

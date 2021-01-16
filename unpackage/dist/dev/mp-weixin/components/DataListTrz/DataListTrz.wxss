@@ -40,8 +40,7 @@
 .list-item.data-v-2a1452ae {
   background-color: #fff;
   margin-bottom: 15rpx;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  border-radius: 20rpx;
 }
 .item-header.data-v-2a1452ae {
   display: -webkit-box;

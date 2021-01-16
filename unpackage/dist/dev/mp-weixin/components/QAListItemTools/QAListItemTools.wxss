@@ -80,8 +80,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   font-size: 24rpx;
 }
 

@@ -74,8 +74,7 @@
   -webkit-align-items: center;
           align-items: center;
   background: #f4f5f6;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
 }
 .slot-btn2.data-v-bc3cc5d8 {
   width: 600rpx;
@@ -90,8 +89,7 @@
   -webkit-align-items: center;
           align-items: center;
   background: #f4f5f6;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
 }
 .slot-btn__hover.data-v-bc3cc5d8 {
   background-color: #ebecee;

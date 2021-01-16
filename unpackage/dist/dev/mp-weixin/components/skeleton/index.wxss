@@ -15,8 +15,7 @@
   margin-right: 8px;
 }
 .skeleton-avatar.round.data-v-914242ea {
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  border-radius: 50%;
 }
 .skeleton-content.data-v-914242ea {
   width: 100%;

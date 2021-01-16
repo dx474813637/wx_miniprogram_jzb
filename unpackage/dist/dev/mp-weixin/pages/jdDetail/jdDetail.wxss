@@ -133,8 +133,7 @@
   padding: 10rpx 20rpx;
   background-color: #f8f8f8;
   color: #666;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   line-height: 60rpx;
 }
 .q-post-date.data-v-357b3234 {
@@ -153,8 +152,7 @@
 .q-user-card-wrap.data-v-357b3234 {
   background-color: #f8f8f8;
   border: 2rpx solid #eee;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   margin-bottom: 20rpx;
   padding: 20rpx;
 }
