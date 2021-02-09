@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "u-select": "/uview-ui/components/u-select/u-select",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-toast": "/uview-ui/components/u-toast/u-toast"
+  }
+}

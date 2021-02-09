@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="w">
 		<view class="header">
 			<view class="search-w">
 				<search-bar></search-bar>
@@ -28,16 +28,16 @@
 			></u-tabs>
 				
 			<view
-				:style="{'display': current == i? 'block':'none'}"
+				:class="{'hide': current != i}"
 				v-for="(item, i) in swiperData"
 				:key="i"
 			>	
-					<qa-list
-						:type="i"
-						:end-flag="item.endFlag"
-						:list="item.data"
-						:loading="item.loading"
-					></qa-list>
+				<qa-list
+					:type="i"
+					:end-flag="item.endFlag"
+					:list="item.data"
+					:loading="item.loading"
+				></qa-list>
 
 			</view>
 		</view>
@@ -66,7 +66,7 @@
 			@change-modal-flag="changeModalFlag"
 		></new-msg-box>
 		<u-top-tips ref="uTips"></u-top-tips>
-		<wx-authorize-modal></wx-authorize-modal>
+		<!-- <wx-authorize-modal></wx-authorize-modal> -->
 		<tab-bar></tab-bar>
 		
 	</view>
@@ -167,7 +167,7 @@
 		onLoad() {
 			this.getSwiperData()
 			this.renderList()
-			this.$https.get('https://www.100ec.cn/searchjsona.html', {params: {p: 1, terms: '原创', n: 10}})
+			
 		},
 		onShow(){
 			if(uni.getStorageSync('indexRefresh')) {
@@ -289,48 +289,43 @@
 </script>
 
 <style scoped lang="scss">
-	.list {
-		height: 100%;
+	.w {
+		.header {
+			background-color: #fff;
+			padding: 16rpx 30rpx 30rpx;
+			margin-bottom: 30rpx;
+			.search-w {
+				margin-bottom: 16rpx;
+			}
+		}
+		.content {
+			background-color: #fff;
+			.hide {
+				display: none;
+			}
+		}
+		
+		.add-btn {
+			position: fixed;
+			right: 20rpx;
+			bottom: 160rpx;
+			background-color: $jzb-theme-color;
+			border: 8rpx solid #fff;
+			color: #fff;
+			// font-weight: bold;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 130rpx;
+			height: 130rpx;
+			font-size: 30rpx;
+			border-radius: 50%;
+			box-sizing: border-box;
+			box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+			.add-btn-text {
+				font-size: 24rpx;
+			}
+		}
 	}
-	.swiper-w {
-		height: 100%;
-		width: 100%;
-	}
-	.add-btn {
-		position: fixed;
-		right: 20rpx;
-		bottom: 160rpx;
-		background-color: $jzb-theme-color;
-		border: 8rpx solid #fff;
-		color: #fff;
-		// font-weight: bold;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 130rpx;
-		height: 130rpx;
-		font-size: 30rpx;
-		border-radius: 50%;
-		box-sizing: border-box;
-		box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
-	}
-	.add-btn-text {
-		font-size: 24rpx;
-	}
-	.xx {
-		color: $jzb-sup3-color;
-	}
-	.header {
-		background-color: #fff;
-		padding: 8px 15px 15px;
-		margin-bottom: 15px;
-	}
-	.search-w {
-		margin-bottom: 8px;
-	}
-	.content {
-		background-color: #fff;
-	}
-	
 </style>

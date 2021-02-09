@@ -61,12 +61,25 @@
 									v-for="(item, index) in userList"
 									:key="index"
 									@click="handlePath({id: subCurrent == 0 ?item.poster : item.id, cate: tabsCurrent + 2})"
-								>
-									<image 
+								>	
+									<view 
+										class="cell-avator"
+										slot="icon" 
+									>
+										<u-image
+											height="100%"
+											:src="item.pic"
+											lazy-load
+											shape="circle"
+										>
+											<u-loading slot="loading" mode="flower"></u-loading>
+										</u-image>
+									</view>
+									<!-- <image 
 										class="cell-avator"
 										slot="icon" 
 										:src="item.pic" 
-									/>
+									/> -->
 									<view class="cell-title" slot="title">
 										<text class="name">{{item.name}}</text>
 										<!-- <text class="sub" >{{item.sub}}</text> -->
@@ -287,41 +300,140 @@
 </script>
 
 <style scoped lang="scss">
-	.score-top {
-		position: fixed;
-		right: 20rpx;
-		bottom: 160rpx;
-		background-color: #aa00ff;
-		border: 8rpx solid #fff;
-		color: #fff;
-		// font-weight: bold;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 130rpx;
-		height: 130rpx;
-		font-size: 30rpx;
-		border-radius: 50%;
-		box-sizing: border-box;
-		box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+	.w {
+		height: 100%;
+		overflow: hidden;
+		
+		.header {
+			position: relative;
+			background-color: #fff;
+			padding: 8px 15px 8px;
+			display: flex;
+			justify-content: center;
+			border-bottom: 1rpx solid #f8f8f8;
+			.search-w {
+				width: 350rpx;
+				position: relative;
+			}
+			.search-icon {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				margin-top: auto;
+				margin-bottom: auto;
+				right: 30rpx;
+				width: 40rpx;
+				height: 40rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+		.main {
+			width: 100%;
+			height: calc(100% - 196rpx);
+			display: flex;
+			.main-left-nav {
+				flex: 0 0 140rpx;
+				background-color: #fff;
+				border-right: 1rpx solid #f8f8f8;
+				.left-nav {
+					.nav-item {
+						width: 100%;
+						text-align: center;
+						height: 110rpx;
+						line-height: 110rpx;
+						font-size: 28rpx;
+						color: #666;
+						position: relative;
+						border-bottom: 1rpx solid #f8f8f8;
+						transition: all .3s;
+						&.active {
+							font-weight: bold;
+							color: $jzb-theme-color;
+							background-color: $jzb-sup-color;
+						}
+						&::after {
+							content: '';
+							position: absolute;
+							top: 0;
+							bottom: 0;
+							left: -6rpx;
+							width: 6rpx;
+							height: 100%;
+							margin-top: auto;
+							margin-bottom: auto;
+							background-color: #fff;
+							// border-radius: 0 8rpx 8rpx 0;
+							transition: all .3s;
+							&.active {
+								background-color: $jzb-theme-color;
+								left: 0;
+							}
+						}
+					}
+				}
+				
+			}
+			.main-right-list {
+				flex: 1;
+				.list-box {
+					height: calc(100% - 60rpx);
+					.list {
+						padding-bottom: 40rpx;
+						.empty {
+							background-color: #f8f8f8;
+						}
+						.cell-avator {
+							width: 90rpx;
+							height: 90rpx;
+							// border-radius: 10rpx;
+							margin-right: 20rpx;
+						}
+						.cell-title {
+							display: flex;
+							.name {
+								font-weight: bold;
+							}
+						}
+						.cell-label {
+							.label-item {
+								margin-right: 16rpx;
+							}
+							.label-color {
+								color: $jzb-theme-color;
+							}
+						}
+					}
+				}
+			}
+		}
+		.score-top {
+			position: fixed;
+			right: 20rpx;
+			bottom: 160rpx;
+			background-color: #aa00ff;
+			border: 8rpx solid #fff;
+			color: #fff;
+			// font-weight: bold;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 130rpx;
+			height: 130rpx;
+			font-size: 30rpx;
+			border-radius: 50%;
+			box-sizing: border-box;
+			box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+			.score-top-text {
+				font-size: 24rpx;
+			}
+		}
 	}
-	.score-top-text {
-		font-size: 24rpx;
-	}
-	.search-icon {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		margin-top: auto;
-		margin-bottom: auto;
-		right: 30rpx;
-		width: 40rpx;
-		height: 40rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+	
+	
+	
 	.top-btn {
 		position: absolute;
 		top: 0;
@@ -335,135 +447,6 @@
 		justify-content: center;
 		color: #007AFF;
 	}
-	.search-w {
-		width: 350rpx;
-		position: relative;
-	}
-	.empty {
-		background-color: #f8f8f8;
-	}
-	.list-box {
-		height: calc(100% - 60rpx);
-	}
-	.list {
-		padding-bottom: 40rpx;
-	}
-	.nav-item {
-		width: 100%;
-		text-align: center;
-		height: 110rpx;
-		line-height: 110rpx;
-		font-size: 28rpx;
-		color: #666;
-		position: relative;
-		border-bottom: 1rpx solid #f8f8f8;
-		transition: all .3s;
-	}
-	.nav-item.active {
-		font-weight: bold;
-		color: $jzb-theme-color;
-		background-color: $jzb-sup-color;
-	}
-	.nav-item::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: -6rpx;
-		width: 6rpx;
-		height: 100%;
-		margin-top: auto;
-		margin-bottom: auto;
-		background-color: #fff;
-		// border-radius: 0 8rpx 8rpx 0;
-		transition: all .3s;
-	}
-	.nav-item.active::after {
-		background-color: $jzb-theme-color;
-		left: 0;
-	}
-	.w {
-		height: 100%;
-		overflow: hidden;
-	}
-	.header {
-		position: relative;
-		background-color: #fff;
-		padding: 8px 15px 8px;
-		display: flex;
-		justify-content: center;
-		border-bottom: 1rpx solid #f8f8f8;
-	}
-	.search-w {
-		// margin-bottom: 8px;
-	}
-	.main {
-		width: 100%;
-		height: calc(100% - 196rpx);
-		display: flex;
-		
-		// background-color: #007AFF;
-	}
-	.main-left-nav {
-		flex: 0 0 140rpx;
-		background-color: #fff;
-		border-right: 1rpx solid #f8f8f8;
-	}
-	.main-right-list {
-		flex: 1;
-	}
-	.cell-title {
-		display: flex;
-	}
-	// .cell-label {
-	// 	display: flex;
-	// 	align-items: center;
-	// }
-	.cell-label .label-item {
-		margin-right: 16rpx;
-	}
-	.cell-label .label-color {
-		color: $jzb-theme-color;
-	}
-	.sub {
-		flex: 1;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-	.cell-avator {
-		width: 90rpx;
-		height: 90rpx;
-		border-radius: 10rpx;
-		margin-right: 20rpx;
-	}
-	.name {
-		font-weight: bold;
-	}
-	.label.rz {
-		background-color: $jzb-sup-color;
-		color: $jzb-theme-color;
-		border-color: #54c9ff;
-	}
-	.label {
-		margin-left: 8rpx;
-		background-color: #f8f8f8;
-		color: #666;
-		display: inline-block;
-		font-size: 24rpx;
-		line-height: 32rpx;
-		padding: 2rpx 16rpx;
-		border-radius: 6rpx;
-		font-weight: bold;
-		border: 1rpx solid #ccc;
-	}
-	.label.rz {
-		background-color: $jzb-sup-color;
-		color: $jzb-theme-color;
-		border-color: #54c9ff;
-	}
-	.sub {
-		margin-left: 8rpx;
-		color: #999;
-	}
+	
+	
 </style>

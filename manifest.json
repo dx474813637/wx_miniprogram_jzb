@@ -63,7 +63,23 @@
             "es6" : true,
             "minified" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "optimization" : {
+            "subPackages" : true
+        }
+    },
+    "h5" : {
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        },
+        "router" : {
+            "base" : "/h5/",
+            "mode" : "hash"
+        },
+        "domain" : "www.100ec.cn",
+        "title" : "媒公宝"
     },
     "mp-alipay" : {
         "usingComponents" : true

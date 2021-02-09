@@ -1,6 +1,9 @@
 <template>
 	<view class="news-page">
 		<view class="news-top">
+			<navigator url="/pages/newsSearch/newsSearch" class="news-search">
+				<u-icon name="search"></u-icon>
+			</navigator>
 			<u-tabs 
 				:list="tabsList" 
 				:current="current" 
@@ -30,19 +33,13 @@
 					:refresher-triggered="item.pullRefresher"
 					@refresherpulling="handleRefresherPulling(index)"
 				>
-					<navigator :url="`/pages/newsDetail/newsDetail?id=${ele.id}`"
-						class="list-item" 
-						v-for="(ele, i) in item.list" 
-						:key="i"
-					>
-						<view class="title">{{ele.title}}</view>
-						<view class="post-date">
-							{{ele.post_date}}
-						</view>
-					</navigator> 
-					<view class="loading">
-						<u-loading :show="item.loading" size="40" mode="circle"></u-loading>
-					</view>
+					<news-list
+						:list="item.list"
+						:end-flag="item.endFlag"
+						:loading="item.loading"
+						titleWeight
+					></news-list>
+					
 					
 				</scroll-view>
 				
@@ -57,12 +54,18 @@
 <script>
 	import tabBar from '@/components/tabBar/tabBar.vue'
 	import {sharePage} from '@/utils/sharePage.js'
+	import newsList from "@/components/newsList/newsList.vue"
 	export default {
 		mixins: [sharePage],
 		data() {
 			return {
 				current: 0,
 				tabsList: [
+					{
+						name: '原创',
+						type: 'key_search',
+						value: '原创'
+					},
 					{
 						name: '最新',
 						type: 'lm',
@@ -140,7 +143,8 @@
 			}
 		},
 		components: {
-			tabBar
+			tabBar,
+			newsList
 		},
 		onLoad() {
 			this.initList()
@@ -170,12 +174,20 @@
 				}
 				this.list[index].p ? '' : this.list[index].p = 1
 				// this.wzApi[this.tabsList[index].type]
-				let res = await this.$https.get('/Home/Jzbxcx/news_list', {
-					params: {
+				let res
+				if(this.tabsList[index].type == 'lm') {
+					res = await this.handleGetLmData({
 						p: this.list[index].p,
 						cid: this.tabsList[index].value
-					}
-				})
+					})
+				}
+				else if(this.tabsList[index].type == 'key_search') {
+					res = await this.handleGetKeySearchData({
+						p: this.list[index].p,
+						terms: this.tabsList[index].value
+					})
+				}
+				
 				//判断是否为下拉刷新决定数据更新类型
 				let curData = this.list[index].pullRefresher ? [] : this.list[index].list
 				if(curData && curData.length > 0) {
@@ -186,8 +198,14 @@
 				}
 				// this.$set(this.list[index], 'list', res.data.list)
 				this.$set(this.list[index], 'loading', false)
-				console.log(this.list)
+				
 				uni.hideLoading();
+			},
+			async handleGetLmData(params) {
+				return await this.$https.get('/Home/Jzbxcx/news_list', { params })
+			},
+			async handleGetKeySearchData(params) {
+				return await this.$https.get('/Home/Jzbxcx/searchjsona.html', { params })
 			},
 			handleScrollLower(index) {
 				if(this.list[index].loading) return
@@ -211,51 +229,45 @@
 </script>
 
 <style scoped lang="scss">
-	.loading  {
-		display: flex;
-		justify-content: center;
-		padding-bottom: 80rpx;
-	}
-	.news-top {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		box-shadow: 0 0 8rpx rgba(0,0,0,.1);
-		// border-bottom: 1rpx solid #f8f8f8;
-	}
 	.news-page {
 		height: 100%;
 		overflow: hidden;
-		padding-top: 95rpx;
+		padding-top: 88rpx;
 		background-color: #fff;
+		
+		.news-top {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			box-shadow: 0 0 8rpx rgba(0,0,0,.1);
+			padding-right: 70rpx;
+			// border-bottom: 1rpx solid #f8f8f8;
+			
+			.news-search {
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 70rpx;
+				height: 84rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 32rpx;
+			}
+		}
+		
+		.swiper-w {
+			height: calc(100% - 88rpx);
+			width: 100%;
+			.list {
+				background-color: #f8f8f8;
+				padding-bottom: 15rpx;
+				height: 100%;
+				box-sizing: border-box;
+			}
+		}
+		
 	}
-	.swiper-w {
-		height: calc(100% - 100rpx);
-		width: 100%;
-	}
-	.list {
-		background-color: #f8f8f8;
-		padding: 0 20rpx 15rpx;
-		height: 100%;
-		box-sizing: border-box;
-	}
-	.list-item {
-		padding: 20rpx;
-		margin-bottom: 20rpx;
-		background-color: #FFFFFF;
-		border-radius: 10rpx;
-	}
-	.title {
-		// color: $jzb-theme-color;
-		color: #333;
-		font-weight: bold;
-		line-height: 50rpx;
-		font-size: 28rpx;
-		margin-bottom: 10rpx;
-	}
-	.post-date {
-		color: #999;
-		font-size: 24rpx;
-	}
+	
 </style>

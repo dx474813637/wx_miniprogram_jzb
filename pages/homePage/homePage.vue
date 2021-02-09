@@ -1,5 +1,10 @@
 <template>
-	<scroll-view class="w" scroll-y>
+	<scroll-view
+		class="w" 
+		scroll-y
+		enable-back-to-top
+		@scrolltolower="handleScrollLower"
+	>
 		<view class="w-icon-btn">
 			<button class="zf-btn btn-item" open-type="share">
 				<u-icon name="share-fill" color="#fff" size="40"></u-icon>
@@ -17,7 +22,13 @@
 				<view>
 					<view class="user-header">
 						<view class="user-avatar">
-							<image :src="list.pic"></image>
+							<u-image
+								height="100%"
+								:src="list.pic"
+								:fade="false"
+								shape="circle"
+							></u-image>
+							<!-- <image :src="list.pic"></image> -->
 						</view>
 						<template v-if="list.poster == infoAuthorize.poster">
 							<view class="header-item">
@@ -41,7 +52,7 @@
 										<text class="eye">换名片</text>
 									</u-button>
 								</template>
-								<template v-if="infoAuthorize.type == 0 && list.type != 0">
+								<template v-if="infoAuthorize.type == 0 && infoAuthorize.auth_status == 2 && list.type != 0">
 									<u-button @click="inviteBtn" type="primary" shape="circle" ripple size="mini" :custom-style="cfStyle">
 										<u-icon name="mic" size="28"></u-icon>
 										<text class="eye">采访</text>
@@ -111,13 +122,26 @@
 			
 			<view class="box">
 				<view class="box-card">
-					<view class="title">
-						<u-icon name="file-text-fill" size="30" color="#007aff"></u-icon>
-						<text class="title-name">{{!isAnswer ? 'Ta的提问' : 'Ta的解读'}}</text> 
-					</view>
-					<view class="list-w noIndex">
-						<template v-if="dataList.length > 0">
-							<view class="list-item" v-for="(item, index) in dataList" :key="index">
+					<u-tabs 
+						:list="tabsList" 
+						:is-scroll="false" 
+						:current="tabsCurrent" 
+						:show-bar="false"
+						@change="tabsChange"
+					></u-tabs>
+					<view class="list-w noIndex"
+						:class="{'hide': tabsCurrent != i}"
+						v-for="(ele, i) in dataList"
+						:key="i"
+					>
+						<template v-if="i == 0">
+							<template v-if="ele.list.length == 0">
+								<view class="e">
+									<u-empty text="无内容" mode="list"></u-empty>
+								</view>
+								
+							</template>
+							<view class="list-item" v-for="(item, index) in ele.list" :key="index">
 								<view class="noIndex-sub">
 									Ta于
 									<text class="sub-time">{{(item.post_time || item.uptime) | timeFilter}}</text>
@@ -128,6 +152,13 @@
 									<view class="content">{{item.intro}}</view>
 								</navigator>
 							</view>
+						</template>
+						<template v-if="i == 1">
+							<news-list
+								:list="ele.list"
+								:end-flag="ele.endFlag"
+								:loading="ele.loading"
+							></news-list>
 						</template>
 					</view>
 					<!-- <q-a-list
@@ -152,7 +183,8 @@
 	import {sharePage} from '@/utils/sharePage.js'
 	import Skeleton from '@/components/skeleton/index.vue'
 	// import QAList from '@/components/QAList/QAList.vue'
-	import hchPoster from "../../components/hch-poster/hch-poster.vue"
+	import hchPoster from "@/components/hch-poster/hch-poster.vue"
+	import newsList from "@/components/newsList/newsList.vue"
 	import {mapState, mapMutations} from 'vuex'
 	export default {
 		mixins: [sharePage],
@@ -177,7 +209,7 @@
 				},
 				noEyeStyle: {
 					height: '60rpx',
-					backgroundColor: '#aaa',
+					backgroundColor: '#00428a',
 					width: '180rpx'
 				},
 				field: [],
@@ -197,12 +229,30 @@
 				posterObj: {
 					title: "网经社名片海报",
 				},
+				sharePageOpt: {
+					title: ''
+				},
+				tabsList: [
+					{
+						name: '提问'
+					},
+					{
+						name: '相关',
+						val: 'wz'
+					}
+				],
+				tabsCurrent: 0,
+				dataList: [
+					{list: []}, 
+					{list: [], p:1, endFlag: false, loading: false},
+				],
 			}
 		},
 		components: {
 			// QAList,
 			Skeleton,
-			hchPoster
+			hchPoster,
+			newsList
 		},
 		async onLoad(opt) {
 			
@@ -212,6 +262,7 @@
 			if(opt.id) {
 				this.id = opt.id
 				await this.renderInit()
+				// this.renderZlData(1)
 				// console.log(res)
 				
 			}
@@ -219,12 +270,41 @@
 		},
 		computed: {
 			...mapState(['phoneReg', 'infoAuthorize', 'shareOptions']),
-			dataList() {
-				return this.list.type == 0 ? this.questions : this.answer
-			}
 		},
 		methods: {
 			...mapMutations(['changeShareOptions']),
+			handleScrollLower() {
+				if(this.tabsCurrent == 0) return
+				let index = this.tabsCurrent
+				this.dataList[index].p++
+				this.renderZlData(index)
+			},
+			async tabsChange(index) {
+				this.tabsCurrent = index
+				if(this.tabsList[index].val == 'wz' && this.dataList[index].p == 1 && this.dataList[index].list.length == 0) {
+					this.renderZlData(index)
+				}
+			},
+			async renderZlData(index) {
+				if(this.dataList[index].endFlag || this.dataList[index].loading) return
+				this.$set(this.dataList[index], 'loading', true)
+				let res = await this.getZlData(index)
+				this.$set(this.dataList[index], 'list', [...this.dataList[index].list, ...res.data.list])
+				if(res.data.pages == this.dataList[index].p || res.data.pages == 0) {
+					this.$set(this.dataList[index], 'endFlag', true)
+				}
+				
+				this.$set(this.dataList[index], 'loading', false)
+			},
+			async getZlData(index) {
+				return await this.$https.get('/Home/Jzbxcx/searchjsona.html', {
+					params: {
+						p: this.dataList[index].p,
+						n: 20,
+						terms: this.list.name
+					}
+				})
+			},
 			async getUser() {
 				return await this.$https.get('/Home/Jzbxcx/user_auth_detail', {params: {id: this.id}})
 			},
@@ -245,13 +325,16 @@
 				this.follow_me = follow_me
 				this.my_follow = my_follow
 				this.list = list
+				this.sharePageOpt.title = `【媒公宝】${list.name}的个人主页`
 				this.isAnswer = this.list.type
+				this.isAnswer != 0 ? this.$set(this.tabsList[0], 'name', '解读') : ''
 				//score 保留2位小数
 				this.score = Math.round(Number(this.isAnswer != 0 ? answer_avg_score : questions_avg_score )*100 )/100
 				this.eyeFlag = follow
 				// this.dataList.push(list.type == 0 ? questions : answer.filter(ele => ele.zt == 2))
 				this.questions = questions
 				this.answer = answer.filter(ele => ele.zt == 2)
+				this.$set(this.dataList[0], 'list', this.list.type == 0 ? this.questions : this.answer)
 				// if(this.isAnswer != 0) {
 				// 	this.score = Math.floor(this.answer.reduce((sum, cur) => {
 				// 		return sum + Number(cur['score_answer'])
@@ -296,9 +379,6 @@
 				
 				
 			},
-			tabsChange(index) {
-				this.tabsCurrent = index
-			},
 			applyBtn() {
 				if(this.id == this.infoAuthorize.poster) return
 				uni.showModal({
@@ -327,7 +407,7 @@
 						success: res => {
 							if(res.confirm) {
 								uni.navigateTo({
-									url: '/pages/messageList/messageList'
+									url: '/pagesPersonal/messageList/messageList'
 								})
 							}
 						}
@@ -346,20 +426,7 @@
 				})
 			},
 			async shareHomePage() {
-				// let res = await this.$https.get('/Home/Jzbxcx/get_xcx_code', {
-				// 	params: {
-				// 		url: 'pages/homePage/homePage?id=' + this.id
-				// 	}
-				// })
-				// if(res.data.code == 1) {
-				// 	this.shareEwm = res.data.ewm
-					
-				// 	this.$set(this.posterObj, 'posterCodeUrl', res.data.ewm)
-					// this.$nextTick(() => {
-						this.$refs.hchPoster.posterShow()
-					// })
-					
-				// }
+				this.$refs.hchPoster.posterShow()
 			},
 			zfHomePage() {
 				uni.showShareMenu({
@@ -373,8 +440,9 @@
 			  this.canvasFlag = val
 			},
 			updateSelfInfo() {
-				let secondsLimit = 7 * 24 * 3600; //7天内只能更新一次简介
-				let lastTime = Math.round(new Date(this.list.uptime).getTime()/1000)
+				let secondsLimit =  7 * 24 * 3600; //7天内只能更新一次简介
+				let timeStr = new Date(this.list.uptime.replace(/-/g, '/'))
+				let lastTime = Math.round(timeStr.getTime()/1000)
 				let now = Math.round(new Date().getTime()/1000)
 				uni.showModal({
 					title: '提示',
@@ -383,7 +451,7 @@
 						if(res.confirm) {
 							if(now - lastTime > secondsLimit) {
 								uni.navigateTo({
-									url: '/pages/rzApply/rzApply?update=1'
+									url: '/pagesPersonal/rzApply/rzApply?update=1'
 								})
 							}else {
 								uni.showToast({
@@ -402,221 +470,231 @@
 </script>
 
 <style scoped lang="scss">
-	.list-w {
-		background-color: #f8f8f8;
-	}
-	.list-item {
-		padding: 20rpx 40rpx;
-		background-color: #fff;
-		margin-bottom: 10rpx;
-	}
-	.content {
-		font-size: 28rpx;
-		overflow : hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		color: #666;
-		line-height: 48rpx;
-		// padding: 10rpx 0;
-		// margin-bottom: 10rpx;
-		// white-space: pre-wrap;
-		// word-break: break-all;
-	}
-	.sub-title, .sub-time {
-		color: $jzb-theme-color;
-		display: inline;
-		// word-break: break-all;
-	}
-	.post-time {
-		color: #999;
-		font-size: 26rpx;
-		// margin-bottom: 10px;
-	}
-	.title {
-		font-weight: bold;
-		font-size: 32rpx;
-		// line-height: 50rpx;
-		margin-bottom: 15rpx;
-		overflow : hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-	}
-	.noIndex-sub {
-		font-size: 28rpx;
-		line-height: 40rpx;
-		color: #666;
-		margin-bottom: 10rpx;
-	}
-	.noIndex .user-content {
-		background-color: #f8f8f8;
-		border-radius: 10rpx;
-		padding: 10rpx;
-	}
-	.noIndex .content {
-		// color: $jzb-theme-color;
-	}
-	.w-icon-btn {
-		position: absolute;
-		top: 0;
-		right: 0;
-		padding: 20rpx;
-		display: flex;
-		align-items: center;
-	}
-	.data-t {
-		font-size: 28rpx;
-	}
-	.title {
-		padding: 10rpx 20rpx;
-		font-weight: bold;
-		color: $jzb-theme-color;
-		font-size: 30rpx;
-	}
-	.title-name {
-		margin-left: 5rpx;
-	}
-	.itro-input {
-		width: 100%;
-		color: #c8c8c8;
-		white-space: pre-wrap;
-	}
-	.user-key-label {
-		display: flex;
-		flex-wrap: wrap;
-		margin: 20rpx auto 10rpx;
-	}
-	.key-item {
-		margin-right: 20rpx;
-		margin-bottom: 14rpx;
-		color: #fff;
-		background-color: $jzb-theme-color;
-		border-radius: 8rpx;
-		font-size: 24rpx;
-		padding: 3rpx 12rpx;
-	}
-	.box-card {
-		background-color: #fff;
-		border-radius: 15rpx;
-		padding: 15rpx 0;
-	}
-	.user-intro rich-text{
-		color: #ccc;
-	}
-	.box {
-		padding: 20rpx;
-	}
-	.data-item {
-		flex: 0 0 25%;
-		// display: flex;
-		justify-content: center;
-		align-items: baseline;
-		// margin-right: 10rpx;
-	}
-	.data-item:first-child {
-		justify-content: flex-start;
-	}
-	.data-item:last-child {
-		justify-content: flex-end;
-	}
-	// .data-item:last-child {
-	// 	margin-right: 0;
-	// }
-	.user-data {
-		display: flex;
-		// justify-content: space-between;
-		color: #fff;
-		margin-bottom: 15rpx;
-		padding-bottom: 25rpx;
-		border-bottom: 1rpx solid #182432;
-	}
-	.num {
-		color: $jzb-theme-color;
-		// font-family: 'Times New Roman', Times, serif;
-		font-family: 'Trebuchet MS';
-		font-size: 40rpx;
-		padding-right: 10rpx;
-	}
-	.user-sub {
-		color: #c8c8c8;
-		margin-bottom: 15rpx;
-		padding-bottom: 15rpx;
-		border-bottom: 1rpx solid #182432;
-		
-	}
-	.user-info {
-		color: #fff;
-	}
-	.user-name {
-		display: flex;
-		align-items: center;
-		margin-bottom: 15rpx;
-	}
-	.name {
-		// font-weight: bold;
-		font-size: 40rpx;
-		letter-spacing: 4rpx;
-	}
-	.label {
-		color:#fff;
-		// border: 1rpx solid $jzb-theme-color;
-		background-color: $jzb-theme-color;
-		display: inline-block;
-		font-size: 24rpx;
-		line-height: 32rpx;
-		padding: 2rpx 16rpx;
-		border-radius: 6rpx;
-		// font-weight: bold;
-		margin-left: 15rpx;
-	}
 	.w {
 		background-color: $jzb-theme-color;
 		padding: 0rpx 0rpx 10rpx;
 		height: 100%;
+		
+		.w-icon-btn {
+			position: absolute;
+			top: 0;
+			right: 0;
+			padding: 20rpx;
+			display: flex;
+			align-items: center;
+			
+			.btn-item{
+				margin-left: 25rpx;
+				&.zf-btn {
+					background-color: transparent;
+					border: none;
+				}
+			}
+		}
+		
+		.w-main {
+			border-radius: 20rpx 20rpx 0 0 ;
+			background-color: #001f33;
+			min-height: 1500rpx;
+			margin-top: 100rpx;
+			padding-top: 40rpx;
+			
+			.user-header {
+				position: relative;
+				display: flex;
+				justify-content: flex-end;
+				height: 90rpx;
+				align-items: center;
+				padding: 0 20rpx;
+				
+				.user-avatar {
+					position: absolute;
+					left: 20rpx;
+					width: 180rpx;
+					height: 180rpx;
+					border-radius: 50%;
+					border: 4rpx solid #001f33;
+					bottom: 0;
+					overflow: hidden;
+				}
+				.header-item {
+					.eye {
+						margin-left: 15rpx;
+					}
+				}
+			}
+			
+			.user-info {
+				color: #fff;
+				&.box {
+					padding: 20rpx;
+					
+					.user-name {
+						display: flex;
+						align-items: center;
+						margin-bottom: 15rpx;
+						
+						.name {
+							// font-weight: bold;
+							font-size: 40rpx;
+							letter-spacing: 4rpx;
+						}
+						
+						.label {
+							color:#fff;
+							// border: 1rpx solid $jzb-theme-color;
+							background-color: $jzb-theme-color;
+							display: inline-block;
+							font-size: 24rpx;
+							line-height: 32rpx;
+							padding: 2rpx 16rpx;
+							border-radius: 6rpx;
+							// font-weight: bold;
+							margin-left: 15rpx;
+						}
+					}
+					
+					.user-sub {
+						color: #c8c8c8;
+						margin-bottom: 15rpx;
+						padding-bottom: 15rpx;
+						border-bottom: 1rpx solid #182432;
+						
+					}
+					.user-data {
+						display: flex;
+						// justify-content: space-between;
+						color: #fff;
+						margin-bottom: 15rpx;
+						padding-bottom: 25rpx;
+						border-bottom: 1rpx solid #182432;
+						
+						.data-item {
+							flex: 0 0 25%;
+							justify-content: center;
+							align-items: baseline;
+							
+							&:first-child {
+								justify-content: flex-start;
+							}
+							&:last-child {
+								justify-content: flex-end;
+							}
+							
+							.num {
+								color: $jzb-theme-color;
+								// font-family: 'Times New Roman', Times, serif;
+								font-family: 'Trebuchet MS';
+								font-size: 40rpx;
+								padding-right: 10rpx;
+							}
+							
+							.data-t {
+								font-size: 28rpx;
+							}
+						}
+					}
+					
+					.user-key-label {
+						display: flex;
+						flex-wrap: wrap;
+						margin: 20rpx auto 10rpx;
+						
+						.key-item {
+							margin-right: 20rpx;
+							margin-bottom: 14rpx;
+							color: #00c4ff;
+							background-color: #003a79;
+							border-radius: 8rpx;
+							font-size: 24rpx;
+							padding: 3rpx 12rpx;
+						}
+					}
+					.user-intro {
+						
+						.itro-input {
+							width: 100%;
+							color: #c8c8c8;
+							white-space: pre-wrap;
+						}
+					}
+					
+				}
+			}
+			
+			.box {
+				padding: 20rpx;
+				
+				.box-card {
+					background-color: #fff;
+					border-radius: 15rpx;
+					padding: 15rpx 0;
+					
+					.list-w {
+						background-color: #f8f8f8;
+						
+						&.hide {
+							display: none;
+						}
+						.e {
+							padding-top: 80rpx;
+						}
+						.list-item {
+							padding: 20rpx 40rpx;
+							background-color: #fff;
+							margin-bottom: 10rpx;
+							
+							.noIndex-sub {
+								font-size: 28rpx;
+								line-height: 40rpx;
+								color: #666;
+								margin-bottom: 10rpx;
+								.sub-time,
+								.sub-title {
+									color: $jzb-theme-color;
+									display: inline;
+									// word-break: break-all;
+								}
+							}
+							.user-content {
+								background-color: #f8f8f8;
+								border-radius: 10rpx;
+								padding: 10rpx;
+							}
+							.user-content {
+								.noIndex & {
+									background-color: #f8f8f8;
+									border-radius: 10rpx;
+									padding: 10rpx;
+								}
+								.content {
+									font-size: 28rpx;
+									overflow : hidden;
+									text-overflow: ellipsis;
+									display: -webkit-box;
+									-webkit-line-clamp: 3;
+									-webkit-box-orient: vertical;
+									color: #666;
+									line-height: 48rpx;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
-	.w-main {
-		border-radius: 20rpx 20rpx 0 0 ;
-		background-color: #001f33;
-		min-height: 1500rpx;
-		margin-top: 100rpx;
-		padding-top: 40rpx;
-	}
-	.user-header {
-		position: relative;
-		display: flex;
-		justify-content: flex-end;
-		height: 90rpx;
-		align-items: center;
-		padding: 0 20rpx;
-	}
-	.user-avatar {
-		position: absolute;
-		left: 20rpx;
-		width: 180rpx;
-		height: 180rpx;
-		border-radius: 50%;
-		border: 4rpx solid #001f33;
-		bottom: 0;
-		overflow: hidden;
+	
+	
+	.user-intro rich-text{
+		color: #ccc;
 	}
 	.user-avatar image {
 		width: 100%;
 		height: 100%;
 	}
-	.eye {
-		margin-left: 15rpx;
-	}
 	
-	.btn-item {
-		margin-left: 25rpx;
-	}
-	.btn-item.zf-btn {
-		background-color: transparent;
-		border: none;
-	}
+	
 	button::after {
 		border: none;
 	}

@@ -1,0 +1,13 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-rate": "/uview-ui/components/u-rate/u-rate",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-checkbox": "/uview-ui/components/u-checkbox/u-checkbox",
+    "q-a-user-profile": "/components/QAUserProfile/QAUserProfile"
+  }
+}

@@ -1,50 +1,126 @@
 <template>
-	<view>
-		<view class="personal-header" @click="handleShowRzBox">
-			<template v-if="infoAuthorize.auth_status != 2">
-				<open-data class="top-img" type="userAvatarUrl"></open-data>
-				<view class="per-h-item center">
-					
-					<open-data class="top-name" type="userNickName"></open-data>
-					<view class="per-info">
-						<view class="per-info-item per-label limit">
-							{{infoAuthorStatus}}
-						</view>
+	<view class="w">
+		<view class="personal-top">
+			<!-- <view class="status-v"></view> -->
+			<view class="personal-info">
+				<view class="personal-header">
+					<view class="home-page-btn" @click="gotoHomePage">
+						<!-- <u-icon name="eye"></u-icon> -->
+						<view class="btn-text">个人主页</view>
+						<u-icon name="arrow-right"></u-icon>
 					</view>
-					
+					<template v-if="infoAuthorize.auth_status != 2">
+						<!-- #ifdef MP-WEIXIN -->
+						<open-data class="top-img no-rz" type="userAvatarUrl"></open-data>
+						<!-- #endif -->
+						<!-- #ifndef MP-WEIXIN -->
+						<u-icon name="user1" custom-prefix="custom-icon" size="120" color="#f8f8f8"></u-icon>
+						<!-- #endif -->
+						<view class="per-h-item center">
+							<!-- #ifdef MP-WEIXIN -->
+							<open-data class="top-name" type="userNickName"></open-data>
+							<!-- #endif -->
+							<!-- #ifndef MP-WEIXIN -->
+							<template v-if="!phoneReg">
+								<view class="per-info">
+									<navigator url="/pagesPersonal/wxAuthorize/wxAuthorize?phone=1" class="per-info-item per-label limit">
+										点我登录
+									</navigator>
+								</view>
+							</template>
+							<template v-else>
+								<view class="top-name">18757127948</view>
+							</template>
+							<!-- #endif -->
+							<view class="per-info">
+								<view class="per-info-item per-label limit">
+									{{infoAuthorStatus}}
+								</view>
+							</view>
+							
+						</view>
+					</template>
+					<template v-else>
+						<view class="top-img">
+							<u-image
+								height="100%"
+								:src="infoAuthorize.pic"
+								shape="circle"
+							></u-image>
+						</view>
+						<view class="per-h-item center">
+							<view class="per-info">
+								<view class="per-info-item top-name">
+									{{infoAuthorize.name}}
+								</view>
+								<view class="per-info-item per-label ">
+									{{infoAuthorize.type | typeToLabel}}
+								</view>
+							</view>
+							<view class="per-info">
+								<view class="per-info-item per-sub">
+									{{infoAuthorize.type == 0 ? infoAuthorize.company : infoAuthorize.title}}
+								</view>
+							</view>
+						</view>
+					</template>
 				</view>
-			</template>
-			<template v-else>
-				<image class="top-img" :src="infoAuthorize.pic" />
-				<view class="per-h-item center">
-					<view class="top-name">
-						{{infoAuthorize.name}}
-					</view>
-					<view class="per-info">
-						<view class="per-info-item per-label ">
-							{{infoAuthorType}}
-						</view>
-						<view class="per-info-item per-sub">
-							{{infoAuthorize.type == 0 ? infoAuthorize.company : infoAuthorize.title}}
-						</view>
-					</view>
+			</view>
+			<view class="personal-info-data">
+				<view @click="handleToPage('follow', '?v=1')"  class="item-info-data">
+					<view class="info-data">{{info.follow_me? info.follow_me.length : 0}}</view>
+					<view class="label-data">粉丝</view>
 				</view>
-			</template>
+				<view @click="handleToPage('follow', '?v=0')" class="item-info-data">
+					<view class="info-data">{{info.my_follow ? info.my_follow.length : 0}}</view>
+					<view class="label-data">关注</view>
+				</view>
+				<template v-if="infoAuthorize.type == 0">
+					<view @click="handleToPage('cf')" class="item-info-data">
+						<view class="info-data">{{info.questions ? info.questions.length : 0}}</view>
+						<view class="label-data">采访</view>
+					</view>
+				</template>
+				<template v-else>
+					<view @click="handleToPage('jd')" class="item-info-data">
+						<view class="info-data">{{info.answer ? info.answer.length : 0}}</view>
+						<view class="label-data">解读</view>
+					</view>
+				</template>
+				
+				<view class="item-info-data">
+					<view class="info-data">{{scoreNum}}</view>
+					<view class="label-data">评分</view>
+				</view>
+			</view>
+			<view class="personal-group">
+				<view class="personal-card">
+					<u-grid :col="4" :border="false">
+						<u-grid-item @click="handleToPage('score')">
+							<u-icon name="integral-fill" size="40" color="#ffd608"></u-icon>
+							<view class="grid-text">积分</view>
+						</u-grid-item>
+						<u-grid-item @click="handleToPage('messageList')">
+							<u-icon name="bell-fill" size="40" color="#55aaff"></u-icon>
+							<view class="grid-text">消息</view>
+						</u-grid-item>
+						<u-grid-item @click="handleToPage('friendsList')">
+							<u-icon name="account-fill" size="40" color="#079cff"></u-icon>
+							<view class="grid-text">名片</view>
+						</u-grid-item>
+						<u-grid-item @click="handleToPage('data')">
+							<u-icon name="shuju" custom-prefix="custom-icon" size="40" color="#aa55ff"></u-icon>
+							<view class="grid-text">数据</view>
+						</u-grid-item>
+					</u-grid>
+				</view>
+			</view>
 		</view>
-		<template v-if="phoneRegFlag">
-			<view class="reg-btn">
-				<u-button type="warning" plain @click="gotoReg">普通用户注册</u-button>
-			</view>
-			<view class="msg">
-				温馨提示：手机注册成功后，即可开放所有“我的”后台功能。并且认证身份后可与行业专家在线互动、参与话题采访、发布个人观点、获取电商数据等。
-			</view>
-		</template>
-		<template v-else>
+		<view class="personal-cell-group">
 			<view class="personal-list">
 				<u-cell-group>
-					<u-cell-item  title="认证" hover-class="cell-hover-class" :value="infoAuthorStatus" @click="handleShowRzBox">
+					<u-cell-item  title="认证" hover-class="cell-hover-class" :value="infoAuthorStatus" @click="gotoHomePage">
 						<u-icon name="info-circle-fill" class="cell-icon" size="40" color="#007aff" slot="icon"></u-icon>
-						
 					</u-cell-item>
 					<template v-if="infoAuthorize.type == 0 && infoAuthorize.auth_status == 2">
 						<u-cell-item  title="采访" hover-class="cell-hover-class" @click="handleToPage('cf')">
@@ -56,41 +132,29 @@
 							<u-icon name="file-text-fill" class="cell-icon" size="40" color="#aa21ff" slot="icon"></u-icon>
 						</u-cell-item>
 					</template>
-					<u-cell-item  title="数据" hover-class="cell-hover-class" @click="handleToPage('data')">
-						<u-icon name="eye-fill" class="cell-icon" size="40" color="#007aff" slot="icon"></u-icon>
-					</u-cell-item>
 					
-					<u-cell-item  title="关注" hover-class="cell-hover-class" @click="handleToPage('follow')">
-						<u-icon name="eye-fill" class="cell-icon" size="40" color="#ff5500" slot="icon"></u-icon>
-					</u-cell-item>
 					<u-cell-item  title="动态" hover-class="cell-hover-class" @click="handleToPage('update')">
 						<u-icon name="heart-fill" class="cell-icon" size="40" color="#dd524d" slot="icon"></u-icon>
+					</u-cell-item>
+					<u-cell-item  title="关注" hover-class="cell-hover-class" @click="handleToPage('follow')">
+						<u-icon name="eye-fill" class="cell-icon" size="40" color="#aa21ff" slot="icon"></u-icon>
 					</u-cell-item>
 					<u-cell-item  title="收藏" hover-class="cell-hover-class" @click="handleToPage('collection')">
 						<u-icon name="star-fill" class="cell-icon" size="40" color="#f90" slot="icon"></u-icon>
 					</u-cell-item>
-					<u-cell-item  title="消息" hover-class="cell-hover-class" @click="handleToPage('messageList')">
-						<u-icon name="bell-fill" class="cell-icon" size="40" color="#079cff" slot="icon"></u-icon>
-					</u-cell-item>
-					<u-cell-item  title="名片" hover-class="cell-hover-class" @click="handleToPage('friendsList')">
-						<u-icon name="account-fill" class="cell-icon" size="40" color="#079cff" slot="icon"></u-icon>
-					</u-cell-item>
-					<u-cell-item  title="积分" hover-class="cell-hover-class" @click="handleToPage('score')">
-						<u-icon name="integral-fill" class="cell-icon" size="40" color="#ffd608" slot="icon"></u-icon>
-					</u-cell-item>
-					<u-cell-item  title="EDM" hover-class="cell-hover-class" @click="handleToPage('edm')">
-						<u-icon name="email-fill" class="cell-icon" size="40" color="#007aff" slot="icon"></u-icon>
-					</u-cell-item>
-					<!-- <u-cell-item  title="邀请好友" hover-class="cell-hover-class" :border-bottom="false" @click="handleToPage('invite')">
-						<u-icon name="plus-people-fill" class="cell-icon" size="40" color="#8215ff" slot="icon"></u-icon>
-					</u-cell-item> -->
+					<navigator url="/pages/webViewPath/webViewPath?url=https://www.100ec.cn/Index/Wjsproviders.html&title=产品服务">
+						<u-cell-item  title="产品" hover-class="cell-hover-class" >
+							<u-icon name="cp2" class="cell-icon" size="40" color="#007aff" slot="icon" custom-prefix="custom-icon"></u-icon>
+						</u-cell-item>
+					</navigator>
+					
 				</u-cell-group>
 			</view>
-		</template>
+		</view>
 		
 		<rz-select-modal
 			:show="rzModalShow"
-			@change-flag="handleShowRzBox"
+			@change-flag="handleChangeRzModalShow"
 		></rz-select-modal>
 		<tab-bar></tab-bar>
 	</view>
@@ -105,6 +169,7 @@
 		data() {
 			return {
 				rzModalShow: false,
+				info: {}
 			}
 		},
 		onShow() {
@@ -119,14 +184,6 @@
 		},
 		computed: {
 			...mapState(['infoAuthorize', 'phoneReg']),
-			phoneRegFlag() {
-				return !this.$store.state.phoneReg
-			},
-			infoAuthorType() {
-				if(this.infoAuthorize.type == 0) return '记者'
-				if(this.infoAuthorize.type == 1) return '专家'
-				if(this.infoAuthorize.type == 2) return '公关'
-			},
 			infoAuthorStatus() {
 				if(this.infoAuthorize.auth_status == 0 && this.infoAuthorize.auth_date) {
 					return '等待认证'
@@ -135,119 +192,215 @@
 				if(this.infoAuthorize.auth_status == 2) return '认证成功'
 				if(this.infoAuthorize.auth_status == 3) return '认证失败'
 				return '未认证'
+			},
+			scoreNum() {
+				
+				return Number((this.info.list && this.info.list.type == 0 ? this.info.questions_avg_score : this.info.answer_avg_score) || 0)
 			}
 			
 		},
+		onLoad() {
+			this.getUserData()
+		},
 		methods: {
-			handleShowRzBox() {
-				if(!this.phoneReg) return 
-				if(this.infoAuthorize.auth_status == 2) {
-					uni.navigateTo({
-						url: `/pages/homePage/homePage?id=${this.infoAuthorize.poster}`
-					})
-					return
-				}
+			gotoHomePage() {
+				if(!this.handleAnalysisAuth()) return
+				uni.navigateTo({
+					url: `/pages/homePage/homePage?id=${this.infoAuthorize.poster}`
+				})
+			},
+			handleChangeRzModalShow() {
 				this.rzModalShow = !this.rzModalShow
 			},
-			handleToPage(name) {
+			handleToPage(name, params='') {
+				if(name == 'follow' || name == 'collection' || name == 'score' || name == 'data') {
+					if(!this.isReg()) return
+				}else if(!this.handleAnalysisAuth()) return
 				uni.navigateTo({
-				    url: '/pages/'+name+'/'+name
+					url: `/pagesPersonal/${name}/${name}${params}`
 				});
+				
 			},
-			gotoReg() {
-				uni.navigateTo({
-					url: '/pages/wxAuthorize/wxAuthorize?phone=1'
-				})
+			handleAnalysisAuth() {
+				if(!this.isReg()) return false
+				if(this.infoAuthorize.auth_status != 2) {
+					this.handleChangeRzModalShow()
+					return false
+				}
+				return true
+			},
+			isReg() {
+				if(!this.phoneReg) {
+					uni.navigateTo({
+						url: '/pagesPersonal/wxAuthorize/wxAuthorize?phone=1'
+					})
+					return false
+				}
+				return true
+			},
+			async getUserData() {
+				let res = await this.$https.get(`/Home/Jzbxcx/user_auth_detail?id=${this.infoAuthorize.poster}`)
+				if(res.data.code == 1) {
+					this.info = res.data
+				}
 			}
 		}
 	}
+	
+	
+	
 </script>
 
 <style scoped lang="scss">
-	.msg {
-		padding: 0 30rpx;
-		color: #999;
-		line-height: 40rpx;
-	}
-	.reg-btn {
-		padding: 30rpx;
-	}
-	.text {
-		margin-left: 8rpx;
-	}
-	.bg {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
+	.w {
+		background-color: #fff;
 		height: 100%;
-		background-color: #fff;
-		z-index: 200;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 50rpx;
-		flex-direction: column;
+		.personal-top {
+			padding-top: 120rpx;
+			min-height: 500rpx;
+			background-size: 100%;
+			background-position: 0 0;
+			background-repeat: no-repeat;
+			background-color: #007aff;
+			background-image: url('https://www.100ec.cn/Public/home/images/homePageBg.jpg');
+			
+			// border-radius: 0 0 120rpx 120rpx;
+			.personal-info {
+				
+				.personal-header {
+					box-sizing: border-box;
+					// background-color: $jzb-theme-color;
+					width: 100%;
+					display: flex;
+					align-items: center;
+					padding: 20rpx;
+					position: relative;
+					
+					.home-page-btn {
+						color: #fff;
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						right: 0;
+						margin-top: auto;
+						margin-bottom: auto;
+						height: 60rpx;
+						display: flex;
+						align-items: center;
+						border-radius: 30rpx 0 0 30rpx;
+						padding: 10rpx 20rpx;
+						background-color: rgba(0,0,0,.15);
+						font-size: 26rpx;
+						
+						.btn-text {
+							padding: 0 10rpx;
+						}
+						
+						
+					}
+					.top-img {
+						flex: 0 0 140rpx;
+						width: 140rpx;
+						height: 140rpx;
+						&.no-rz {
+							overflow: hidden;
+							border-radius: 50%;
+						}
+					}
+					
+					.per-h-item {
+						margin-left: 30rpx;
+						&.center {
+							flex: 1
+						}
+						.top-name {
+							color: #fff;
+							font-size: 32rpx;
+						}
+						
+						.per-info {
+							display: flex;
+							padding: 10rpx 0rpx;
+							flex-wrap: wrap;
+							align-items: center;
+							
+							.per-info-item {
+								margin-right: 15rpx;
+								color: $jzb-sup-color;
+								white-space: nowrap;
+								&.top-name {
+									color: #fff;
+									font-size: 32rpx;
+									// font-weight: bold;
+								}
+								&.per-label {
+									background-color: $jzb-sup-color;
+									color: $jzb-theme-color;
+									font-size: 24rpx;
+									padding: 0rpx 16rpx;
+									border-radius: 5rpx;
+									&.limit {
+										background-color: rgba(0,0,0,.1);
+										color: #fff;
+									}
+								}
+								&.per-sub {
+									font-size: 22rpx;
+									padding: 8rpx 18rpx;
+									background-color: rgba(0, 0, 0, 0.15);
+									border-radius: 20rpx;
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			.personal-info-data {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 20rpx 30rpx;
+				color: #fff;
+				.item-info-data {
+					flex: 1;
+					text-align: center;
+					.info-data {
+						font-family: 'Trebuchet MS';
+						font-size: 36rpx;
+						margin-bottom: 10rpx;
+						min-height: 42rpx;
+					}
+					.label-data{}
+				}
+			}
+			
+			.personal-group {
+				padding: 20rpx;
+				.personal-card {
+					background-color: #fff;
+					border-radius: 20rpx;
+					padding: 10rpx 30rpx;
+					box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+					.grid-text {
+						margin-top: 10rpx;
+						color: #666;
+					}
+				}
+			}
+		}
+		
+		.personal-cell-group {
+			.personal-list {
+				padding: 20rpx;
+				.cell-icon {
+					width: 40rpx;
+					height: 40rpx;
+					margin-right: 20rpx;
+				}
+			}
+		}
 	}
-	.cell-icon {
-		width: 40rpx;
-		height: 40rpx;
-		margin-right: 20rpx;
-	}
-	.personal-list {
-		padding: 20rpx;
-	}
-	.personal-header {
-		box-sizing: border-box;
-		background-color: $jzb-theme-color;
-		width: 100%;
-		display: flex;
-		align-items: center;
-		padding: 20rpx;
-	}
-	.top-img {
-		flex: 0 0 120rpx;
-		width: 120rpx;
-		height: 120rpx;
-		border-radius: 15rpx;
-		background-image: url('@/static/img/icon-user.png');
-		background-repeat: no-repeat;
-		background-size: 100%; 
-		background-position: center 0;
-		background-color: #fff;
-		border: 4rpx solid $jzb-sup-color;
-		overflow: hidden;
-	}
-	.top-name {
-		color: #fff;
-		font-size: 36rpx;
-		font-weight: bold;
-	}
-	.per-h-item {
-		margin-left: 20rpx;
-	}
-	.per-h-item.center {
-		flex: 1
-	}
-	.per-info-item {
-		margin-right: 15rpx;
-		color: $jzb-sup-color;
-		white-space: nowrap;
-	}
-	.per-info {
-		display: flex;
-		padding: 10rpx 0rpx;
-		flex-wrap: wrap;
-	}
-	.per-label {
-		background-color: $jzb-sup-color;
-		color: $jzb-theme-color;
-		font-size: 24rpx;
-		padding: 0rpx 8rpx;
-		border-radius: 5rpx;
-	}
-	.per-label.limit {
-		background-color: #eee;
-		color: #666;
-	}
+	
+	
 </style>

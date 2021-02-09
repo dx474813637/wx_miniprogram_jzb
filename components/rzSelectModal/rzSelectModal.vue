@@ -10,7 +10,7 @@
 				<view class="rz-modal-header">认证您的身份</view>
 				<view class="rz-modal-content">
 					<view class="rz-modal-content-sub">
-						提示：电商圈是一个专业社区，部分功能需要身份认证成功后使用
+						提示：{{productName}}是一个专业社区，部分功能需要身份认证成功后使用
 					</view>
 					<view class="rz-modal-content-btn">
 						<view class="btn-item">
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		props: {
 			show: {
@@ -56,6 +57,9 @@
 				flag: false
 			};
 		},
+		computed: {
+			...mapState(['productName'])
+		},
 		created() {
 			this.flag = this.show
 		},
@@ -65,7 +69,7 @@
 			},
 			handleRz(type) {
 				uni.navigateTo({
-				    url: "/pages/rzApply/rzApply?type=" + type
+				    url: "/pagesPersonal/rzApply/rzApply?type=" + type
 				});
 			}
 		}

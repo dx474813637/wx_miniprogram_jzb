@@ -1,0 +1,18 @@
+{
+  "usingComponents": {
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "data-nav": "/pagesPersonal/components/dataNav/dataNav",
+    "data-list-trz": "/pagesPersonal/components/DataListTrz/DataListTrz",
+    "data-list-djs": "/pagesPersonal/components/DataListDjs/DataListDjs",
+    "data-list-bq": "/pagesPersonal/components/DataListBq/DataListBq",
+    "data-list-sw": "/pagesPersonal/components/DataListSw/DataListSw",
+    "data-list-cyy": "/pagesPersonal/components/DataListCyy/DataListCyy",
+    "data-list-qq": "/pagesPersonal/components/DataListQq/DataListQq",
+    "data-list-hy": "/pagesPersonal/components/DataListHy/DataListHy",
+    "data-list-cb": "/pagesPersonal/components/DataListCb/DataListCb",
+    "data-list-zsq": "/pagesPersonal/components/DataListZsq/DataListZsq",
+    "data-list-xsb": "/pagesPersonal/components/DataListXsb/DataListXsb",
+    "data-list-pj": "/pagesPersonal/components/DataListPj/DataListPj"
+  }
+}

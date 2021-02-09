@@ -11,7 +11,7 @@
 						:avatar="item.pic"
 						:name="item.name"
 						:label="item.type"
-						:sub="item.auth_title || item.company"
+						:sub="item.type != 0 ? (item.title || item.auth_title) : item.company"
 						:isFollow="item.follow"
 						:followBtn="isShowFollowBtn"
 						@follow-event="handleFollow"

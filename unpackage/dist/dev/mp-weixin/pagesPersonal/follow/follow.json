@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "q-a-user-profile": "/components/QAUserProfile/QAUserProfile"
+  }
+}

@@ -16,18 +16,17 @@
         ,{
             "path" : "pages/news/news"
         }
+        // ,{
+        //     "path" : "pages/data/data"
+        // }
         ,{
-            "path" : "pages/data/data"
-        }
-        ,{
-            "path" : "pages/personal/personal"
+            "path" : "pages/personal/personal",
+			"style": {
+				"navigationStyle": "custom"
+			}
         }
         ,{
             "path" : "pages/search/search",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/qFeed/qFeed",
             "style" : {}
         }
         ,{
@@ -35,82 +34,13 @@
             "style" : {}
         }
         ,{
-            "path" : "pages/homePage/homePage",
-            "style" : {}
+            "path" : "pages/homePage/homePage"
         }
         ,{
-            "path" : "pages/rzApply/rzApply",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/follow/follow",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/update/update",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/messageList/messageList",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/messageDetail/messageDetail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/exchangDetail/exchangDetail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/edm/edm",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/invite/invite",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/score/score",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/send/send",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/cf/cf",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/jd/jd",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/jdDetail/jdDetail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/wxAuthorize/wxAuthorize",
-            "style" : {
-				// "navigationStyle": "custom",
-				"disableScroll": true
-			}
-        }
-        ,{
-            "path" : "pages/dataItem/dataItem",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/dataNavCell/dataNavCell",
-            "style" : {}
+            "path" : "pages/send/send"
         }
         ,{
             "path" : "pages/newsDetail/newsDetail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/collection/collection",
             "style" : {}
         }
         ,{
@@ -118,41 +48,9 @@
             "style" : {}
         }
         ,{
-            "path" : "pages/hch-poster/hch-poster",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/friendsList/friendsList",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
             "path" : "pages/searchRes/searchRes",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/scoreRules/scoreRules",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/handbook/handbook",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             
@@ -161,7 +59,6 @@
             "path" : "pages/webViewPath/webViewPath",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             
@@ -170,8 +67,8 @@
             "path" : "pages/complain/complain",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"disableScroll": true
             }
             
         }
@@ -179,7 +76,6 @@
             "path" : "pages/complainDetail/complainDetail",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             
@@ -188,16 +84,118 @@
             "path" : "pages/scoreTop/scoreTop",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"navigationBarTitleText": "活跃排行榜"
             }
             
         }
         ,{
-            "path" : "pages/homePageInactive/homePageInactive"
+            "path" : "pages/homePageInactive/homePageInactive",
+			"style" : {
+				"onReachBottomDistance": 50
+			}
+            
+        }
+        ,{
+            "path" : "pages/newsSearch/newsSearch",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "资讯搜索",
+                "enablePullDownRefresh": false,
+				"onReachBottomDistance": 50
+            }
             
         }
     ],
+	"subPackages": [
+		{
+			"root": "pagesPersonal",
+			"pages": [
+				{
+				    "path" : "data/data"
+				}
+				,{
+					"path" : "dataItem/dataItem"
+				}
+				,{
+					"path" : "follow/follow"
+				}
+				,{
+					"path" : "collection/collection"
+				}
+				,{
+					"path" : "update/update"
+				}
+				,{
+				    "path" : "messageList/messageList"
+				}
+				,{
+				    "path" : "messageDetail/messageDetail"
+				}
+				,{
+				    "path" : "friendsList/friendsList"
+				}
+				,{
+					"path" : "scoreRules/scoreRules"
+				}
+				,{
+					"path" : "handbook/handbook"
+				}
+				,{
+				    "path" : "score/score"
+				}
+				,{
+				    "path" : "cf/cf"
+				}
+				,{
+				    "path" : "jd/jd"
+				}
+				,{
+				    "path" : "jdDetail/jdDetail"
+				}
+				,{
+				    "path" : "wxAuthorize/wxAuthorize",
+				    "style" : {
+						"disableScroll": true
+					}
+				}
+				,{
+					"path" : "rzApply/rzApply"
+				}
+				
+                ,{
+                    "path" : "dataComplainDetail/dataComplainDetail",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "userAgree/userAgree",
+                    "style" : {
+						"navigationBarTitleText": "用户协议"
+					}
+                
+                }
+                ,{
+                    "path" : "userHide/userHide",
+                    "style" : {
+						"navigationBarTitleText": "隐私政策"
+					}
+                
+                }
+            ]
+		}
+	],
+	"preloadRule": {
+		"pages/personal/personal": {
+			"network": "all",
+			"packages": ["pagesPersonal"]
+		}
+		
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "媒公宝",

@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="w">
 		<view class="header">
 			<skeleton
 			  :showAvatar="false"
@@ -29,11 +29,6 @@
 					<text selectable decode space="ensp" class="content">
 						{{info.remark2 | personalInfoFilter}}
 					</text>
-					<!-- <view class="share">
-						<view class="share-btn">
-							<u-icon name="zhuanfa" color="#fff" size="40"></u-icon>
-						</view>
-					</view> -->
 				</view>
 			</skeleton>
 			
@@ -178,112 +173,127 @@
 </script>
 
 <style scoped lang="scss">
-	.step-img {
-		position: absolute;
-		width: 80rpx;
-		height: 80rpx;
-		top: 20rpx;
-		left: 20rpx;
-		border-radius: 50%;
-		border: 10rpx solid #e7e7e7;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		color: #007AFF;
-		font-size: 40rpx;
-		.step-line {
-			position: absolute;
-			top: calc(100% + 10rpx);
-			left: 30rpx;
-			width: 4rpx;
-			height: 120rpx;
-			background-color: #e7e7e7;
-			&:before {
-				content: '';
-				position: absolute;
-				bottom: -5rpx;
-				left: -14rpx;
-				width: 0;
-				height: 0;
-				border-top: 0;
-				border-left: 16rpx solid transparent;
-				border-right: 16rpx solid transparent;
-				border-bottom: 16rpx solid #e7e7e7;
+	.w {
+		.header {
+			background-color: #fff;
+			margin-bottom: 10rpx;
+			padding: 20rpx;
+			.title {
+				font-size: 36rpx;
+				padding: 10rpx 0;
+			}
+			.title-sub {
+				display: flex;
+				align-items: center;
+				height: 90rpx;
+				justify-content: space-between;
+				color: #999;
+				.sub-item {
+					display: flex;
+					align-items: center;
+				}
+				.address {
+					padding: 0 20rpx 0 8rpx;
+				}
+			}
+			.content {
+				line-height: 55rpx;
+				font-size: 30rpx;
 			}
 		}
-		image {
-			width: 70%;
-			height: 70%;
+		.main-cell {
+			margin-bottom: 10rpx;
+		}
+		.info-step {
+			background-color: #fff;
+			margin-bottom: 10rpx;
+			.step-item {
+				position: relative;
+				padding: 20rpx 20rpx 40rpx 120rpx;
+				height: 200rpx;
+				.step-img {
+					position: absolute;
+					width: 80rpx;
+					height: 80rpx;
+					top: 20rpx;
+					left: 20rpx;
+					border-radius: 50%;
+					border: 10rpx solid #e7e7e7;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					color: #007AFF;
+					font-size: 40rpx;
+					.step-line {
+						position: absolute;
+						top: calc(100% + 10rpx);
+						left: 30rpx;
+						width: 4rpx;
+						height: 120rpx;
+						background-color: #e7e7e7;
+						&:before {
+							content: '';
+							position: absolute;
+							bottom: -5rpx;
+							left: -14rpx;
+							width: 0;
+							height: 0;
+							border-top: 0;
+							border-left: 16rpx solid transparent;
+							border-right: 16rpx solid transparent;
+							border-bottom: 16rpx solid #e7e7e7;
+						}
+					}
+					image {
+						width: 70%;
+						height: 70%;
+					}
+				}
+				.step-content {
+					color: #007AFF;
+					padding: 10rpx 0;
+				}
+				.step-time {
+					color: #999;
+				}
+			}
+		}
+		.news-bqsm {
+			padding: 20rpx;
+			font-size: 26rpx;
+			line-height: 50rpx;
+			color: #999;
+			background-color: #fff;
 		}
 	}
-	.info-step {
-		background-color: #fff;
-		margin-bottom: 10rpx;
-	}
-	.step-item {
-		position: relative;
-		padding: 20rpx 20rpx 40rpx 120rpx;
-		height: 200rpx;
-	}
-	.step-content {
-		color: #007AFF;
-		padding: 10rpx 0;
-	}
-	.step-time {
-		color: #999;
-	}
-	.share {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 40rpx;
-	}
-	.share-btn {
-		width: 80rpx;
-		height: 80rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		// border: 1rpx solid #007AFF;
-		background-color: #007AFF;
-		border-radius: 50%;
-	}
-	.title-sub {
-		display: flex;
-		align-items: center;
-		height: 90rpx;
-		justify-content: space-between;
-		color: #999;
-	}
-	.sub-item {
-		display: flex;
-		align-items: center;
-	}
-	.address {
-		padding: 0 20rpx 0 8rpx;
-	}
-	.header {
-		background-color: #fff;
-		margin-bottom: 10rpx;
-		padding: 20rpx;
-	}
-	.title {
-		font-size: 36rpx;
-		padding: 10rpx 0;
-	}
-	.content {
-		line-height: 55rpx;
-		font-size: 30rpx;
-	}
-	.main-cell {
-		margin-bottom: 10rpx;
-	}
 	
-	.news-bqsm {
-		padding: 20rpx;
-		font-size: 26rpx;
-		line-height: 50rpx;
-		color: #999;
-		background-color: #fff;
-	}
+	
+	
+	
+	
+	// .share {
+	// 	display: flex;
+	// 	align-items: center;
+	// 	justify-content: center;
+	// 	padding: 40rpx;
+	// }
+	// .share-btn {
+	// 	width: 80rpx;
+	// 	height: 80rpx;
+	// 	display: flex;
+	// 	justify-content: center;
+	// 	align-items: center;
+	// 	// border: 1rpx solid #007AFF;
+	// 	background-color: #007AFF;
+	// 	border-radius: 50%;
+	// }
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </style>

@@ -17,6 +17,11 @@
 		},
 		onLoad(val) {
 			this.url = decodeURIComponent(val.url);
+			const eventChannel = this.getOpenerEventChannel()
+			eventChannel.on('setParams', data => {
+			    this.url = decodeURIComponent(val.url) + data.params;
+			})
+			
 			// 设置当前的title 如果外链中有的话将被覆盖
 			if(this.isNotEmpty(val.title)){
 				this.setTitle(val.title);

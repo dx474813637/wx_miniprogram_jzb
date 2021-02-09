@@ -2,7 +2,7 @@ export const sharePage ={
     data(){
         return {
             sharePageOpt:{
-                title:'',  // 分享页面标题
+                title:'【媒公宝】微信小程序',  // 分享页面标题
                 path: '',  // 分享页面的路径
                 imageUrl:'',
                 desc:'',

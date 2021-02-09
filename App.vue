@@ -2,7 +2,9 @@
 	import {loginInit} from '@/static/js/common.js'
 	export default {
 		onLaunch: async function() {
+			//#ifdef MP-WEIXIN
 			await loginInit()
+			//#endif
 			
 		},
 		onShow: function() {

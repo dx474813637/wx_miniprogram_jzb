@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "资讯搜索",
+  "enablePullDownRefresh": false,
+  "onReachBottomDistance": 50,
+  "usingComponents": {
+    "u-sticky": "/uview-ui/components/u-sticky/u-sticky",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "news-list": "/components/newsList/newsList"
+  }
+}

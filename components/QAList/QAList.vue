@@ -213,7 +213,7 @@
 
 	}
 	.content {
-		font-size: 30rpx;
+		font-size: 28rpx;
 		overflow : hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
@@ -264,7 +264,7 @@
 	}
 	.title {
 		font-weight: bold;
-		font-size: 32rpx;
+		font-size: 30rpx;
 		// line-height: 50rpx;
 		margin-bottom: 15rpx;
 		overflow : hidden;

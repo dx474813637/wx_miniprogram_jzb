@@ -1,40 +1,76 @@
 const personal = [
 	{
-		path: '/pages/score/score',
+		path: '/pagesPersonal/score/score',
+		component: () => import(/* webpackChunkName: "score" */ '@/pagesPersonal/score/score.vue')
 	},
 	{
-		path: '/pages/scoreRules/scoreRules',
+		path: '/pagesPersonal/scoreRules/scoreRules',
+		component: () => import(/* webpackChunkName: "scoreRules" */ '@/pagesPersonal/scoreRules/scoreRules.vue')
 	},
 	{
-		path: '/pages/jd/jd',
+		path: '/pagesPersonal/jd/jd',
+		component: () => import(/* webpackChunkName: "jd" */ '@/pagesPersonal/jd/jd.vue')
 	},
 	{
-		path: '/pages/cf/cf',
+		path: '/pagesPersonal/cf/cf',
+		component: () => import(/* webpackChunkName: "cf" */ '@/pagesPersonal/cf/cf.vue')
 	},
 	{
-		path: '/pages/jdDetail/jdDetail',
+		path: '/pagesPersonal/jdDetail/jdDetail',
+		component: () => import(/* webpackChunkName: "jdDetail" */ '@/pagesPersonal/jdDetail/jdDetail.vue')
 	},
 	{
-		path: '/pages/rzApply/rzApply',
+		path: '/pagesPersonal/rzApply/rzApply',
+		component: () => import(/* webpackChunkName: "rzApply" */ '@/pagesPersonal/rzApply/rzApply.vue')
 	},
 	{
-		path: '/pages/messageList/messageList',
+		path: '/pagesPersonal/messageList/messageList',
+		component: () => import(/* webpackChunkName: "messageList" */ '@/pagesPersonal/messageList/messageList.vue')
 	},
 	{
-		path: '/pages/messageDetail/messageDetail',
+		path: '/pagesPersonal/messageDetail/messageDetail',
+		component: () => import(/* webpackChunkName: "messageDetail" */ '@/pagesPersonal/messageDetail/messageDetail.vue')
 	},
 	{
-		path: '/pages/friendsList/friendsList',
+		path: '/pagesPersonal/friendsList/friendsList',
+		component: () => import(/* webpackChunkName: "friendsList" */ '@/pagesPersonal/friendsList/friendsList.vue')
 	},
 	{
-		path: '/pages/follow/fllow',
+		path: '/pagesPersonal/follow/follow',
+		component: () => import(/* webpackChunkName: "follow" */ '@/pagesPersonal/follow/follow.vue')
 	},
 	{
-		path: '/pages/collection/collection',
+		path: '/pagesPersonal/collection/collection',
+		component: () => import(/* webpackChunkName: "collection" */ '@/pagesPersonal/collection/collection.vue')
 	},
 	{
-		path: '/pages/edm/edm',
+		path: '/pagesPersonal/update/update',
+		component: () => import(/* webpackChunkName: "update" */ '@/pagesPersonal/update/update.vue')
 	},
+	{
+		path: '/pagesPersonal/userHide/userHide',
+		component: () => import(/* webpackChunkName: "userHide" */ '@/pagesPersonal/userHide/userHide.vue')
+	},
+	{
+		path: '/pagesPersonal/userAgree/userAgree',
+		component: () => import(/* webpackChunkName: "userAgree" */ '@/pagesPersonal/userAgree/userAgree.vue')
+	}
+	,{
+		path: "/pagesPersonal/wxAuthorize/wxAuthorize",
+		component: () => import(/* webpackChunkName: "wxAuthorize" */ '@/pagesPersonal/wxAuthorize/wxAuthorize.vue')
+	}
+	,{
+		path : "/pagesPersonal/data/data",
+		component: () => import(/* webpackChunkName: "data" */ '@/pagesPersonal/data/data.vue')
+	}
+	,{
+		path : "/pagesPersonal/dataItem/dataItem",
+		component: () => import(/* webpackChunkName: "dataItem" */ '@/pagesPersonal/dataItem/dataItem.vue')
+	}
+	,{
+		path : "/pagesPersonal/handbook/handbook",
+		component: () => import(/* webpackChunkName: "handbook" */ '@/pagesPersonal/handbook/handbook.vue')
+	}
 	
 ]
 

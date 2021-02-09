@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
-		name: 'dx',
+		productName: '媒公宝',
 		authorize: false,
 		phone: '0',
 		phoneReg: false,
@@ -125,8 +125,8 @@ const store = new Vuex.Store({
 				}
 			],
 			midButton: true,
-			inactiveColor: '#007aff',
-			activeColor: '#aa00ff',
+			inactiveColor: '#ababac',
+			activeColor: '#007aff',
 		},
 	},
 	getters: {},

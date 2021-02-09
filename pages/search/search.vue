@@ -11,7 +11,7 @@
 		></u-search>
 		<view class="s-history">
 			<view class="s-h-title">
-				<view class="s-h-title">历史搜索记录</view>
+				<view class="s-h-title-t">历史搜索记录</view>
 				<view class="trash-btn" @click="handleTrash">
 					<u-icon name="trash"></u-icon>
 					<text class="btn-text">全部清除</text>
@@ -82,44 +82,49 @@
 <style scoped lang="scss">
 	.s {
 		background-color: #fff;
+		.s-history  {
+			padding: 20rpx;
+			border-top: 1rpx solid #f2f2f2;
+			.s-h-title {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 10rpx;
+				color: #999;
+				.trash-btn {
+					color: #999;
+					font-size: 24rpx;
+				}
+			}
+			.s-h-content {
+				display: flex;
+				flex-wrap: wrap;
+				padding: 10rpx 0 40rpx;
+				.key-item {
+					margin-right: 10rpx;
+					margin-bottom: 15rpx;
+					line-height: 50rpx;
+					border-radius: 25rpx;
+					background-color: #f8f8f8;
+					color: #606266;
+					padding: 0 20rpx;
+				}
+				.empty-res {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 24rpx;
+					width: 100%;
+					height: 160rpx;
+					border-radius: 20rpx;
+					// background-color: #f8f8f8;
+				}
+			}
+		}
 	}
-	.s-history  {
-		padding: 20rpx;
-		border-top: 1rpx solid #f2f2f2;
-	}
-	.s-h-title {
-		color: #666;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 10rpx;
-	}
-	.trash-btn {
-		color: #999;
-		font-size: 24rpx;
-	}
-	.s-h-content {
-		display: flex;
-		flex-wrap: wrap;
-		padding: 10rpx 0 40rpx;
-	}
-	.key-item {
-		margin-right: 10rpx;
-		margin-bottom: 15rpx;
-		line-height: 50rpx;
-		border-radius: 25rpx;
-		background-color: #f8f8f8;
-		color: #606266;
-		padding: 0 20rpx;
-	}
-	.empty-res {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 24rpx;
-		width: 100%;
-		height: 160rpx;
-		border-radius: 20rpx;
-		// background-color: #f8f8f8;
-	}
+	
+	
+	
+	
+	
+	
 </style>

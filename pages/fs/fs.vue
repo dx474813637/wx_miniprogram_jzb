@@ -78,49 +78,56 @@
 </script>
 
 <style scoped lang="scss">
-	.list-item {
-		padding: 30rpx;
-		border-bottom: 1rpx solid #f8f8f8;
-	}
-	.sub-date {
-		color: #999;
-	}
-	.item-title {
-		font-weight: bold;
-		font-size: 28rpx;
-		line-height: 50rpx;
-		margin-bottom: 5rpx;
-	}
 	.w {
 		background-color: #fff;
 		
+		.w-name {
+			font-size: 34rpx;
+			font-weight: bold;
+			padding: 20rpx;
+			border-bottom: 1rpx solid #f8f8f8;
+			display: flex;
+			justify-content: space-between;
+			text {
+				margin-left: 10rpx;
+				color: #333;
+			}
+		}
+		.w-list {
+			.list-item {
+				padding: 30rpx;
+				border-bottom: 1rpx solid #f8f8f8;
+				.item-title {
+					font-weight: bold;
+					font-size: 28rpx;
+					line-height: 50rpx;
+					margin-bottom: 5rpx;
+				}
+				.item-data {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					height: 60rpx;
+					color: #666;
+					.data-item {
+						flex: 0 0 25%;
+						display: flex;
+						// justify-content: center;
+						align-items: center;
+						text {
+							margin-left: 5rpx;
+						}
+					}
+				}
+			}
+		}
+		
 	}
-	.w-name {
-		font-size: 34rpx;
-		font-weight: bold;
-		padding: 20rpx;
-		border-bottom: 1rpx solid #f8f8f8;
-		display: flex;
-		justify-content: space-between;
+	
+	.sub-date {
+		color: #999;
 	}
-	.w-name text {
-		margin-left: 10rpx;
-		color: #333;
-	}
-	.item-data {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 60rpx;
-		color: #666;
-	}
-	.data-item {
-		flex: 0 0 25%;
-		display: flex;
-		// justify-content: center;
-		align-items: center;
-	}
-	.data-item text {
-		margin-left: 5rpx;
-	}
+	
+	
+	 
 </style>

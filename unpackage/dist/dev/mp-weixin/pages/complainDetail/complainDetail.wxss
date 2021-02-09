@@ -26,7 +26,56 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
-.step-img.data-v-187a0986 {
+.w .header.data-v-187a0986 {
+  background-color: #fff;
+  margin-bottom: 10rpx;
+  padding: 20rpx;
+}
+.w .header .title.data-v-187a0986 {
+  font-size: 36rpx;
+  padding: 10rpx 0;
+}
+.w .header .title-sub.data-v-187a0986 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  height: 90rpx;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  color: #999;
+}
+.w .header .title-sub .sub-item.data-v-187a0986 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.w .header .title-sub .address.data-v-187a0986 {
+  padding: 0 20rpx 0 8rpx;
+}
+.w .header .content.data-v-187a0986 {
+  line-height: 55rpx;
+  font-size: 30rpx;
+}
+.w .main-cell.data-v-187a0986 {
+  margin-bottom: 10rpx;
+}
+.w .info-step.data-v-187a0986 {
+  background-color: #fff;
+  margin-bottom: 10rpx;
+}
+.w .info-step .step-item.data-v-187a0986 {
+  position: relative;
+  padding: 20rpx 20rpx 40rpx 120rpx;
+  height: 200rpx;
+}
+.w .info-step .step-item .step-img.data-v-187a0986 {
   position: absolute;
   width: 80rpx;
   height: 80rpx;
@@ -46,7 +95,7 @@
   color: #007AFF;
   font-size: 40rpx;
 }
-.step-img .step-line.data-v-187a0986 {
+.w .info-step .step-item .step-img .step-line.data-v-187a0986 {
   position: absolute;
   top: calc(100% + 10rpx);
   left: 30rpx;
@@ -54,7 +103,7 @@
   height: 120rpx;
   background-color: #e7e7e7;
 }
-.step-img .step-line.data-v-187a0986:before {
+.w .info-step .step-item .step-img .step-line.data-v-187a0986:before {
   content: '';
   position: absolute;
   bottom: -5rpx;
@@ -66,94 +115,18 @@
   border-right: 16rpx solid transparent;
   border-bottom: 16rpx solid #e7e7e7;
 }
-.step-img image.data-v-187a0986 {
+.w .info-step .step-item .step-img image.data-v-187a0986 {
   width: 70%;
   height: 70%;
 }
-.info-step.data-v-187a0986 {
-  background-color: #fff;
-  margin-bottom: 10rpx;
-}
-.step-item.data-v-187a0986 {
-  position: relative;
-  padding: 20rpx 20rpx 40rpx 120rpx;
-  height: 200rpx;
-}
-.step-content.data-v-187a0986 {
+.w .info-step .step-item .step-content.data-v-187a0986 {
   color: #007AFF;
   padding: 10rpx 0;
 }
-.step-time.data-v-187a0986 {
+.w .info-step .step-item .step-time.data-v-187a0986 {
   color: #999;
 }
-.share.data-v-187a0986 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-          justify-content: center;
-  padding: 40rpx;
-}
-.share-btn.data-v-187a0986 {
-  width: 80rpx;
-  height: 80rpx;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-          justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  background-color: #007AFF;
-  border-radius: 50%;
-}
-.title-sub.data-v-187a0986 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  height: 90rpx;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
-  color: #999;
-}
-.sub-item.data-v-187a0986 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-.address.data-v-187a0986 {
-  padding: 0 20rpx 0 8rpx;
-}
-.header.data-v-187a0986 {
-  background-color: #fff;
-  margin-bottom: 10rpx;
-  padding: 20rpx;
-}
-.title.data-v-187a0986 {
-  font-size: 36rpx;
-  padding: 10rpx 0;
-}
-.content.data-v-187a0986 {
-  line-height: 55rpx;
-  font-size: 30rpx;
-}
-.main-cell.data-v-187a0986 {
-  margin-bottom: 10rpx;
-}
-.news-bqsm.data-v-187a0986 {
+.w .news-bqsm.data-v-187a0986 {
   padding: 20rpx;
   font-size: 26rpx;
   line-height: 50rpx;

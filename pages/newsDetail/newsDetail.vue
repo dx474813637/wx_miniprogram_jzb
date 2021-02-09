@@ -80,75 +80,85 @@
 </script>
 
 <style scoped lang="scss">
-	.share-btn {
-		position: fixed;
-		right: 20rpx;
-		bottom: 160rpx;
-		background-color: $jzb-theme-color;
-		border: 8rpx solid #fff;
-		color: #fff;
-		// font-weight: bold;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 130rpx;
-		height: 130rpx;
-		font-size: 30rpx;
-		border-radius: 50%;
-		box-sizing: border-box;
-		box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
-	}
-	.share-text {
-		font-size: 24rpx;
-		line-height: 40rpx;
-	}
-	.item-sub {
-		margin-right: 40rpx;
-	}
-	.news-sub {
-		display: flex;
-		flex-wrap: wrap;
-		color: #999;
-		padding: 20rpx 0 20rpx;
-		align-items: center;
-		// border-bottom: 8rpx double #55aaff;
-	}
+	
 	.news {
 		padding: 10rpx 20rpx 80rpx;
 		background-color: #fff;
-	}
-	.news-title {
-		font-size: 40rpx;
-		padding: 10rpx 0;
-	}
-	.news-content {
-		padding: 0rpx 0 30rpx;
-	}
-	.news-keywords {
-		display: flex;
-		flex-wrap: wrap;
-		padding-bottom: 40rpx;
-		// border-bottom: 8rpx double #55aaff;
-		// margin-bottom: 40rpx;
-	}
-	.kw-itme {
-		margin-right: 20rpx;
-		margin-bottom: 20rpx;
-		padding: 0rpx 20rpx;
-		line-height: 40rpx;
-		background-color: $jzb-sup-color;
-		border: 1rpx solid $jzb-theme-color;
-		color: $jzb-theme-color;
-		border-radius: 22rpx;
-		font-size: 24rpx;
 		
-	}
-	.news-bqsm {
-		// border: 8rpx dotted #55aaff;
-		// padding: 20rpx;
-		font-size: 26rpx;
-		line-height: 50rpx;
-		color: #999;
+		.news-title {
+			font-size: 40rpx;
+			padding: 10rpx 0;
+		}
+		
+		.news-sub {
+			display: flex;
+			flex-wrap: wrap;
+			color: #999;
+			padding: 20rpx 0 20rpx;
+			align-items: center;
+			// border-bottom: 8rpx double #55aaff;
+			
+			.item-sub {
+				margin-right: 40rpx;
+			}
+		}
+		
+		.news-content {
+			padding: 0rpx 0 30rpx;
+		}
+		
+		.news-keywords {
+			display: flex;
+			flex-wrap: wrap;
+			padding-bottom: 40rpx;
+			// border-bottom: 8rpx double #55aaff;
+			// margin-bottom: 40rpx;
+			
+			.kw-itme {
+				margin-right: 20rpx;
+				margin-bottom: 20rpx;
+				padding: 0rpx 20rpx;
+				line-height: 40rpx;
+				background-color: $jzb-sup-color;
+				// border: 1rpx solid $jzb-theme-color;
+				color: $jzb-theme-color;
+				border-radius: 22rpx;
+				font-size: 24rpx;
+				
+			}
+		}
+		
+		.news-bqsm {
+			// border: 8rpx dotted #55aaff;
+			// padding: 20rpx;
+			font-size: 26rpx;
+			line-height: 50rpx;
+			color: #999;
+		}
+		
+		.share-btn {
+			position: fixed;
+			right: 20rpx;
+			bottom: 160rpx;
+			background-color: $jzb-theme-color;
+			border: 8rpx solid #fff;
+			color: #fff;
+			// font-weight: bold;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 130rpx;
+			height: 130rpx;
+			font-size: 30rpx;
+			border-radius: 50%;
+			box-sizing: border-box;
+			box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+			
+			.share-text {
+				font-size: 24rpx;
+				line-height: 40rpx;
+			}
+		}
 	}
 </style>

@@ -1,4 +1,5 @@
 {
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -14,6 +15,31 @@
         {
           "name": "pages/homePageInactive/homePageInactive",
           "pathName": "pages/homePageInactive/homePageInactive",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "wxAuthorize",
+          "pathName": "pages/wxAuthorize/wxAuthorize",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "wxAuthorize",
+          "pathName": "pagesPersonal/wxAuthorize/wxAuthorize",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pagesPersonal/wxAuthorize/wxAuthorize",
+          "pathName": "pagesPersonal/wxAuthorize/wxAuthorize",
+          "query": "phone=1",
+          "scene": null
+        },
+        {
+          "name": "pagesPersonal/wxAuthorize/wxAuthorize",
+          "pathName": "pagesPersonal/wxAuthorize/wxAuthorize",
+          "query": "",
           "scene": null
         }
       ]

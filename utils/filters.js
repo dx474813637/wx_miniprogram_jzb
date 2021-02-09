@@ -6,6 +6,7 @@ const typeToLabel = v => {
 	else return '未认证'
 }
 
+
 //电诉宝state状态转化
 const dsbStatusToLabel = v => {
 	if(v == 1) return '未审核'
@@ -29,6 +30,17 @@ const dsbPjToLevel = v => {
 	else if(v == 'pleased') return '满意'
 	else if(v == 'perfect') return '非常满意'
 	else if(v == 'common') return '一般'
+}
+
+//不活跃用户简介内容过滤
+const inactiveUserInfo = v => {
+	return v.replace(/&lt;.+?&gt;/g, str => {
+		if(str.includes('/p')) {
+			return "\n"
+		}
+		return ""
+	})
+	.replace(/&amp;nbsp;/g, '')
 }
 
 //时间格式
@@ -76,5 +88,6 @@ module.exports = {
     timeFilter,
 	dsbStatusToLabel,
 	dsbPjToLevel,
-	personalInfoFilter
+	personalInfoFilter,
+	inactiveUserInfo
 }

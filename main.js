@@ -6,9 +6,6 @@ import store from '@/store/index.js'
 import { getSetting, getlogin, getuserauthinfo } from '@/static/js/common.js'
 import filters from '@/utils/filters.js'
 import router from '@/router/index.js';
-// console.log(router)
-// import { RouterMount } from 'uni-simple-router'
-// {RouterMount}  h5
 
 // Vue.mixin(share)
 Vue.config.productionTip = false
@@ -26,4 +23,11 @@ const app = new Vue({
     ...App
 	,store
 })
-app.$mount()
+// #ifdef H5
+	import { RouterMount } from 'uni-simple-router'
+	RouterMount(app,'#app');
+// #endif
+
+// #ifndef H5
+	app.$mount(); //为了兼容小程序及app端必须这样写才有效果
+// #endif

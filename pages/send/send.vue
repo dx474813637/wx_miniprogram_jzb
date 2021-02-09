@@ -137,7 +137,7 @@
 		methods: {
 			lookQuestion() {
 				uni.navigateTo({
-					url: `/pages/handbook/handbook`
+					url: `/pagesPersonal/handbook/handbook`
 				})
 			},
 			async getUidInfo() {
@@ -283,7 +283,7 @@
 						success: res => {
 							if(res.confirm) {
 								uni.navigateTo({
-									url: '/pages/cf/cf'
+									url: '/pagesPersonal/cf/cf'
 								})
 							}
 						}

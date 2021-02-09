@@ -1,0 +1,82 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/userList/userList",
+    "pages/news/news",
+    "pages/personal/personal",
+    "pages/search/search",
+    "pages/qaDetail/qaDetail",
+    "pages/homePage/homePage",
+    "pages/send/send",
+    "pages/newsDetail/newsDetail",
+    "pages/ideaFeed/ideaFeed",
+    "pages/searchRes/searchRes",
+    "pages/webViewPath/webViewPath",
+    "pages/complain/complain",
+    "pages/complainDetail/complainDetail",
+    "pages/scoreTop/scoreTop",
+    "pages/homePageInactive/homePageInactive",
+    "pages/newsSearch/newsSearch"
+  ],
+  "subPackages": [
+    {
+      "root": "pagesPersonal",
+      "pages": [
+        "data/data",
+        "dataItem/dataItem",
+        "follow/follow",
+        "collection/collection",
+        "update/update",
+        "messageList/messageList",
+        "messageDetail/messageDetail",
+        "friendsList/friendsList",
+        "scoreRules/scoreRules",
+        "handbook/handbook",
+        "score/score",
+        "cf/cf",
+        "jd/jd",
+        "jdDetail/jdDetail",
+        "wxAuthorize/wxAuthorize",
+        "rzApply/rzApply",
+        "dataComplainDetail/dataComplainDetail",
+        "userAgree/userAgree",
+        "userHide/userHide"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "媒公宝",
+    "navigationBarBackgroundColor": "#007aff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/news/news"
+      },
+      {
+        "pagePath": "pages/userList/userList"
+      },
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/complain/complain"
+      },
+      {
+        "pagePath": "pages/personal/personal"
+      }
+    ]
+  },
+  "preloadRule": {
+    "pages/personal/personal": {
+      "network": "all",
+      "packages": [
+        "pagesPersonal"
+      ]
+    }
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

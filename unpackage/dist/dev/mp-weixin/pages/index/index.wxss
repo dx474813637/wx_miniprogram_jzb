@@ -26,14 +26,21 @@
 /* 透明度 */
 /* 文章场景相关 */
 /* jzb颜色 */
-.list.data-v-57280228 {
-  height: 100%;
+.w .header.data-v-57280228 {
+  background-color: #fff;
+  padding: 16rpx 30rpx 30rpx;
+  margin-bottom: 30rpx;
 }
-.swiper-w.data-v-57280228 {
-  height: 100%;
-  width: 100%;
+.w .header .search-w.data-v-57280228 {
+  margin-bottom: 16rpx;
 }
-.add-btn.data-v-57280228 {
+.w .content.data-v-57280228 {
+  background-color: #fff;
+}
+.w .content .hide.data-v-57280228 {
+  display: none;
+}
+.w .add-btn.data-v-57280228 {
   position: fixed;
   right: 20rpx;
   bottom: 160rpx;
@@ -60,21 +67,7 @@
   box-sizing: border-box;
   box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.1);
 }
-.add-btn-text.data-v-57280228 {
+.w .add-btn .add-btn-text.data-v-57280228 {
   font-size: 24rpx;
-}
-.xx.data-v-57280228 {
-  color: #f68c22;
-}
-.header.data-v-57280228 {
-  background-color: #fff;
-  padding: 8px 15px 15px;
-  margin-bottom: 15px;
-}
-.search-w.data-v-57280228 {
-  margin-bottom: 8px;
-}
-.content.data-v-57280228 {
-  background-color: #fff;
 }
 

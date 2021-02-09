@@ -59,10 +59,11 @@
 		<template v-if="urlFlag">
 			<view class="qa-wrap">
 				<view class="qa-title">
-					<u-icon name="share" size="36"></u-icon><text class="qa-title-t">记者报道</text>
+					<u-icon name="share" size="36"></u-icon>
+					<text class="qa-title-t">记者报道</text>
 				</view>
-				<view class="qa-content" @click="setClipboard(qList.url)">
-					点击复制报道链接
+				<view class="qa-content">
+					<u-link :href="qList.url">报道链接</u-link>
 				</view>
 			</view>
 		</template> 
@@ -71,7 +72,8 @@
 		<template v-if="answerList && answerList.length > 0">
 			<view class="qa-wrap">
 				<view class="qa-title">
-					<u-icon name="chat-fill" size="36"></u-icon><text class="qa-title-t">特邀解读</text>
+					<u-icon name="chat-fill" size="36"></u-icon>
+					<text class="qa-title-t">特邀解读</text>
 				</view>
 				<q-a-detail-list
 					:isAnswer="true"
@@ -94,7 +96,8 @@
 		<!-- <template v-if="replyList && replyList.length > 0"> -->
 			<view class="qa-wrap">
 				<view class="qa-title">
-					<u-icon name="chat-fill" size="36"></u-icon><text class="qa-title-t">话题留言</text>
+					<u-icon name="chat-fill" size="36"></u-icon>
+					<text class="qa-title-t">话题留言</text>
 					<view class="qa-title-btn" @click="handleChangePx">
 						<u-icon name="list-dot" size="30"></u-icon>
 						<text class="qa-title-btn-text">{{pxList[pxIndex]}}</text>
@@ -298,12 +301,7 @@
 				
 			},
 			handleReplyBtn() {
-				if(!this.$store.state.phoneReg) {
-					uni.navigateTo({
-						url: '/pages/wxAuthorize/wxAuthorize?phone=1'
-					})
-					return
-				}
+				if(!this.analysisReg()) return false
 				if(this.$store.state.infoAuthorize.auth_status == '2') {
 					this.handleShowReply()
 				}else {
@@ -352,7 +350,17 @@
 					cate: this.type == 1? 2 : 1
 				}})
 			},
+			analysisReg() {
+				if(!this.$store.state.phoneReg) {
+					uni.navigateTo({
+						url: '/pagesPersonal/wxAuthorize/wxAuthorize?phone=1'
+					})
+					return false
+				}
+				return true
+			},
 			async handleCollection() {
+				if(!this.analysisReg()) return false
 				let api 
 				if(this.collection == 1) api = '/Home/Jzbxcx/cancel_collection'
 				else api = '/Home/Jzbxcx/add_collection'
@@ -368,6 +376,7 @@
 				}
 			},
 			handleReportBtn() {
+				if(!this.analysisReg()) return false
 				uni.navigateTo({
 					url: `/pages/ideaFeed/ideaFeed?cate=${Number(this.type)+1}&tid=${this.qList.id}`
 				})
@@ -407,102 +416,118 @@
 		
 	.qa-detail {
 		padding-bottom: 100rpx;
-	}
-	.qa-wrap {
-		margin-bottom: 30rpx;
-		padding: 20rpx 30rpx;
-		background-color: #fff;
-	}
-	.q-detail {
-		padding: 20rpx 30rpx;
-	}
-	.q-title {
-		font-weight: bold;
-		font-size: 36rpx;
-		line-height: 50rpx;
-		margin-bottom: 20rpx;
-	}
-	.qa-title {
-		display: flex;
-		align-items: center;
-		font-size: 30rpx;
-		font-weight: bold;
-		color: $jzb-theme-color;
-		height: 70rpx;
-		border-bottom: 2rpx solid #f8f8f8;
-		margin-bottom: 20rpx;
-		position: relative;
-	}
-	.qa-title-btn {
-		position: absolute;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		margin-top: auto;
-		margin-bottom: auto;
-		color: #999;
-		font-weight: normal;
-		display: flex;
-		align-items: center;
-	}
-	.qa-title-btn-text {
-		font-size: 24rpx;
-		margin-left: 5rpx;
-	}
-	.qa-title-t {
-		margin-left: 20rpx;
-	}
-	.qa-content {
-		padding: 10rpx 20rpx;
-		background-color: $jzb-bg-color;
-		color: #666;
-		border-radius: 10rpx;
-		line-height: 60rpx;
+		
+		.qa-wrap {
+			margin-bottom: 30rpx;
+			padding: 20rpx 30rpx;
+			background-color: #fff;
+			
+			&.q-detail {
+				padding: 20rpx 30rpx;
+			}
+			.q-header {
+				
+				.q-title {
+					font-weight: bold;
+					font-size: 36rpx;
+					line-height: 50rpx;
+					margin-bottom: 20rpx;
+				}
+				
+				.q-post-date {
+					color: #999;
+					// line-height: 50rpx;
+					margin-bottom: 20rpx;
+				}
+			}
+			
+			.q-user-card-wrap {
+				background-color: #f8f8f8;
+				border: 2rpx solid #eee;
+				border-radius: 10rpx;
+				margin-bottom: 20rpx;
+				padding: 20rpx;
+			}
+			
+			.q-content {
+				line-height: 55rpx;
+				font-size: 28rpx;
+				margin-bottom: 50rpx;
+				white-space: pre-wrap;
+			}
+		}
+		
+		.q-a-detail-footer {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100rpx;
+			background-color: #fff;
+			z-index: 200;
+			border-top: 2rpx solid #eee;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			color: $jzb-theme-color;
+			
+			.footer-item {
+				font-size: 28rpx;
+				&.report {
+					color: #dc0000;
+				}
+				.item-text {
+					margin-left: 5rpx;
+				}
+			}
+		}
+		
+		.a-btn {
+			padding: 20rpx 0px;
+		}
+		
+		.qa-title {
+			display: flex;
+			align-items: center;
+			font-size: 30rpx;
+			font-weight: bold;
+			color: $jzb-theme-color;
+			height: 70rpx;
+			border-bottom: 2rpx solid #f8f8f8;
+			margin-bottom: 20rpx;
+			position: relative;
+			
+			.qa-title-t {
+				margin-left: 20rpx;
+			}
+			
+			.qa-title-btn {
+				position: absolute;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin-top: auto;
+				margin-bottom: auto;
+				color: #999;
+				font-weight: normal;
+				display: flex;
+				align-items: center;
+				
+				.qa-title-btn-text {
+					font-size: 24rpx;
+					margin-left: 5rpx;
+				}
+			}
+		}
+		
+		.qa-content {
+			padding: 10rpx 20rpx;
+			background-color: $jzb-bg-color;
+			color: #666;
+			border-radius: 10rpx;
+			line-height: 60rpx;
+		}
 	}
 	
-	.q-post-date {
-		color: #999;
-		// line-height: 50rpx;
-		margin-bottom: 20rpx;
-	}
-	.q-user-card-wrap {
-		background-color: #f8f8f8;
-		border: 2rpx solid #eee;
-		border-radius: 10rpx;
-		margin-bottom: 20rpx;
-		padding: 20rpx;
-	}
 	
-	.q-content {
-		line-height: 55rpx;
-		font-size: 28rpx;
-		margin-bottom: 50rpx;
-		white-space: pre-wrap;
-	}
-	.a-btn {
-		padding: 20rpx 0px;
-	}
-	.q-a-detail-footer {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 100rpx;
-		background-color: #fff;
-		z-index: 200;
-		border-top: 2rpx solid #eee;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		color: $jzb-theme-color;
-	}
-	.footer-item {
-		font-size: 28rpx;
-	}
-	.footer-item.report {
-		color: #dc0000;
-	}
-	.footer-item .item-text {
-		margin-left: 5rpx;
-	}
 </style>

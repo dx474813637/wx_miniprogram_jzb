@@ -12,10 +12,10 @@ function getSetting () {
 				store.commit('checkAuthorize', true)
 			}else {
 				store.commit('checkAuthorize', false)
-				if(getCurrentPages()[0].$page.fullPath != '/pages/wxAuthorize/wxAuthorize') {
+				if(getCurrentPages()[0].$page.fullPath != '/pagesPersonal/wxAuthorize/wxAuthorize') {
 					getApp().globalData.prePagePath = getCurrentPages()[0].$page.fullPath
 					uni.navigateTo({
-						url: '/pages/wxAuthorize/wxAuthorize'
+						url: '/pagesPersonal/wxAuthorize/wxAuthorize'
 					})
 				}
 				

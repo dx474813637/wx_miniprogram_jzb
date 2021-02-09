@@ -70,12 +70,12 @@
 						:type="type=='question'? 0 : 1"
 					></q-a-list>
 				</template>
-				<template v-if="">
-					<view></view>
-				</template>
+				
 			</view>
 		</template>
-		
+		<template v-if="index != 0 && count != 0">
+			<u-loadmore :status="loadStatus" :load-text="loadText" margin-top="30" margin-bottom="60" />
+		</template>
 		
 	</view>
 	
@@ -117,11 +117,19 @@
 				default: function() {
 					return {list:[]}
 				}
+			},
+			loadStatus: {
+				type: String,
+				default: 'loadmore'
 			}
 		},
 		data() {
 			return {
-				
+				loadText: {
+					loadmore: '轻轻上拉加载下一页',
+					loading: '拼命加载中',
+					nomore: '我也是有底线的'
+				}
 			};
 		},
 		components: {
@@ -154,7 +162,7 @@
 					
 					return data.length > 0 ? data.slice(0, 3) : []
 				}
-				console.log(data)
+				// console.log(data)
 				return data
 			},
 			count() {
@@ -213,7 +221,7 @@
 	.list-item.user {
 		display: flex;
 		align-items: center;
-		flex-wrap: wrap;
+		// flex-wrap: wrap;
 	}
 	.user-item.avatar {
 		width: 60rpx;
@@ -224,6 +232,7 @@
 	}
 	.user-item.name {
 		margin-right: 20rpx;
+		white-space: nowrap;
 	}
 	.user-item.desc {
 		// margin-right: 20rpx;
@@ -232,5 +241,12 @@
 	.desc-item.position {
 		color: #f90;
 		font-size: 24rpx;
+	}
+	.next-btn {
+		display: none;
+		justify-content: center;
+	}
+	.next-btn.show {
+		display: flex;
 	}
 </style>

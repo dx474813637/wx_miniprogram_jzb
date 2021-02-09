@@ -3,43 +3,47 @@
     "pages/index/index",
     "pages/userList/userList",
     "pages/news/news",
-    "pages/data/data",
     "pages/personal/personal",
     "pages/search/search",
-    "pages/qFeed/qFeed",
     "pages/qaDetail/qaDetail",
     "pages/homePage/homePage",
-    "pages/rzApply/rzApply",
-    "pages/follow/follow",
-    "pages/update/update",
-    "pages/messageList/messageList",
-    "pages/messageDetail/messageDetail",
-    "pages/exchangDetail/exchangDetail",
-    "pages/edm/edm",
-    "pages/invite/invite",
-    "pages/score/score",
     "pages/send/send",
-    "pages/cf/cf",
-    "pages/jd/jd",
-    "pages/jdDetail/jdDetail",
-    "pages/wxAuthorize/wxAuthorize",
-    "pages/dataItem/dataItem",
-    "pages/dataNavCell/dataNavCell",
     "pages/newsDetail/newsDetail",
-    "pages/collection/collection",
     "pages/ideaFeed/ideaFeed",
-    "pages/hch-poster/hch-poster",
-    "pages/friendsList/friendsList",
     "pages/searchRes/searchRes",
-    "pages/scoreRules/scoreRules",
-    "pages/handbook/handbook",
     "pages/webViewPath/webViewPath",
     "pages/complain/complain",
     "pages/complainDetail/complainDetail",
     "pages/scoreTop/scoreTop",
-    "pages/homePageInactive/homePageInactive"
+    "pages/homePageInactive/homePageInactive",
+    "pages/newsSearch/newsSearch"
   ],
-  "subPackages": [],
+  "subPackages": [
+    {
+      "root": "pagesPersonal",
+      "pages": [
+        "data/data",
+        "dataItem/dataItem",
+        "follow/follow",
+        "collection/collection",
+        "update/update",
+        "messageList/messageList",
+        "messageDetail/messageDetail",
+        "friendsList/friendsList",
+        "scoreRules/scoreRules",
+        "handbook/handbook",
+        "score/score",
+        "cf/cf",
+        "jd/jd",
+        "jdDetail/jdDetail",
+        "wxAuthorize/wxAuthorize",
+        "rzApply/rzApply",
+        "dataComplainDetail/dataComplainDetail",
+        "userAgree/userAgree",
+        "userHide/userHide"
+      ]
+    }
+  ],
   "window": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "媒公宝",
@@ -65,6 +69,13 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap23.json"
+  "preloadRule": {
+    "pages/personal/personal": {
+      "network": "all",
+      "packages": [
+        "pagesPersonal"
+      ]
+    }
+  },
+  "usingComponents": {}
 }
